@@ -16,8 +16,8 @@ class Alignment(enum.Enum):
     """Enum for alignment types"""
 
     LEFT = 0
-    RIGHT = 1
-    CENTER = 2
+    CENTER = 1
+    RIGHT = 2
 
 
 class TableToAscii:
