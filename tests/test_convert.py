@@ -107,3 +107,60 @@ def test_footer():
         "╚═════╩═══════════════════════╝\n"
     )
     assert text == expected
+
+
+def test_header_footer_unequal():
+    with pytest.raises(ValueError):
+        t2a(
+            header=["H", "R", "S"],
+            footer=["SUM", "130", "140", "135", "130"],
+        )
+
+
+def test_header_body_unequal():
+    with pytest.raises(ValueError):
+        t2a(
+            header=["#", "G", "H", "R", "S"],
+            body=[
+                ["0", "45", "30", "32", "28"],
+                ["1", "30", "40", "35", "30", "36"],
+                ["2", "30", "40", "35", "30"],
+            ],
+        )
+
+
+def test_footer_body_unequal():
+    with pytest.raises(ValueError):
+        t2a(
+            body=[
+                ["0", "45", "30", "32", "28"],
+                ["1", "30", "40", "35", "30"],
+                ["2", "30", "40", "35", "30"],
+            ],
+            footer=["SUM", "130", "140", "135", "130", "36"],
+        )
+
+
+def test_empty_header():
+    text = t2a(
+        header=[],
+        body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
+    )
+    expected = (
+        "╔═══╦═══════════════════╗\n"
+        "║ 1 ║ 30   40   35   30 ║\n"
+        "║ 2 ║ 30   40   35   30 ║\n"
+        "╚═══╩═══════════════════╝\n"
+    )
+    assert text == expected
+
+
+def test_empty_body():
+    text = t2a(header=["#", "G", "H", "R", "S"], body=[])
+    expected = (
+        "╔═══╦═══════════════╗\n"
+        "║ # ║ G   H   R   S ║\n"
+        "╟───╫───────────────╢\n"
+        "╚═══╩═══════════════╝\n"
+    )
+    assert text == expected
