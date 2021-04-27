@@ -69,6 +69,12 @@ class TableToAscii:
 
         self.__alignments = alignments or [Alignment.CENTER] * self.__columns
 
+        # check if alignments specified have a different number of columns
+        if alignments and len(alignments) != self.__columns:
+            raise ValueError(
+                "Length of `alignments` list must equal the number of columns"
+            )
+
         """
         ╔═════╦═══════════════════════╗   ABBBBBCBBBBBDBBBBBDBBBBBDBBBBBE
         ║  #  ║  G     H     R     S  ║   F     G     H     H     H     F
