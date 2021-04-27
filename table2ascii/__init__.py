@@ -4,53 +4,74 @@ from math import ceil, floor
 from typing import List, Optional, Union
 
 
-@dataclass
-class Options:
-    """Class for storing options that the user sets"""
-
-    first_col_heading: bool = False
-    last_col_heading: bool = False
-
-
 class Alignment(enum.Enum):
     """Enum for alignment types"""
 
     LEFT = 0
-    RIGHT = 1
-    CENTER = 2
+    CENTER = 1
+    RIGHT = 2
+
+
+@dataclass
+class Options:
+    """Class for storing options that the user sets"""
+
+    header: Optional[List] = None
+    body: Optional[List[List]] = None
+    footer: Optional[List] = None
+    first_col_heading: bool = False
+    last_col_heading: bool = False
+    column_widths: Optional[List[int]] = None
+    alignments: Optional[List[Alignment]] = None
 
 
 class TableToAscii:
     """Class used to convert a 2D Python table to ASCII text"""
 
-    def __init__(
-        self,
-        header: Optional[List],
-        body: Optional[List[List]],
-        footer: Optional[List],
-        options: Options,
-    ):
+    def __init__(self, options: Options):
         """Validate arguments and initialize fields"""
-        # check if columns in header are different from footer
-        if header and footer and len(header) != len(footer):
-            raise ValueError("Header row and footer row must have the same length")
-        # check if columns in header are different from body
-        if header and body and len(body) > 0 and len(header) != len(body[0]):
-            raise ValueError("Header row and body rows must have the same length")
-        # check if columns in header are different from body
-        if footer and body and len(body) > 0 and len(footer) != len(body[0]):
-            raise ValueError("Footer row and body rows must have the same length")
-        # check if any rows in body have a different number of columns
-        if body and len(body) and tuple(filter(lambda r: len(r) != len(body[0]), body)):
-            raise ValueError("All rows in body must have the same length")
-
         # initialize fields
-        self.__header = header
-        self.__body = body
-        self.__footer = footer
-        self.__options = options
+        self.__header = options.header
+        self.__body = options.body
+        self.__footer = options.footer
+        self.__first_col_heading = options.first_col_heading
+        self.__last_col_heading = options.last_col_heading
+
+        # calculate number of columns
         self.__columns = self.__count_columns()
-        self.__cell_widths = self.__get_column_widths()
+
+        # check if footer has a different number of columns
+        if options.footer and len(options.footer) != self.__columns:
+            raise ValueError(
+                "Footer must have the same number of columns as the other rows"
+            )
+        # check if any rows in body have a different number of columns
+        if options.body and any(len(row) != self.__columns for row in options.body):
+            raise ValueError(
+                "All rows in body must have the same number of columns as the other rows"
+            )
+
+        # calculate or use given column widths
+        self.__column_widths = options.column_widths or self.__auto_column_widths()
+
+        # check if column widths specified have a different number of columns
+        if options.column_widths and len(options.column_widths) != self.__columns:
+            raise ValueError(
+                "Length of `column_widths` list must equal the number of columns"
+            )
+        # check if column widths are not all at least 2
+        if options.column_widths and min(options.column_widths) < 2:
+            raise ValueError(
+                "All values in `column_widths` must be greater than or equal to 2"
+            )
+
+        self.__alignments = options.alignments or [Alignment.CENTER] * self.__columns
+
+        # check if alignments specified have a different number of columns
+        if options.alignments and len(options.alignments) != self.__columns:
+            raise ValueError(
+                "Length of `alignments` list must equal the number of columns"
+            )
 
         """
         ╔═════╦═══════════════════════╗   ABBBBBCBBBBBDBBBBBDBBBBBDBBBBBE
@@ -99,11 +120,11 @@ class TableToAscii:
             return len(self.__body[0])
         return 0
 
-    def __get_column_widths(self) -> List[int]:
+    def __auto_column_widths(self) -> List[int]:
         """Get the minimum number of characters needed for the values
         in each column in the table with 1 space of padding on each side.
         """
-        col_counts = []
+        column_widths = []
         for i in range(self.__columns):
             # number of characters in column of i of header, each body row, and footer
             header_size = len(self.__header[i]) if self.__header else 0
@@ -112,10 +133,10 @@ class TableToAscii:
             )
             footer_size = len(self.__footer[i]) if self.__footer else 0
             # get the max and add 2 for padding each side with a space
-            col_counts.append(max(header_size, *body_size, footer_size) + 2)
-        return col_counts
+            column_widths.append(max(header_size, *body_size, footer_size) + 2)
+        return column_widths
 
-    def __pad(self, text: str, width: int, alignment: Alignment = Alignment.CENTER):
+    def __pad(self, text: str, width: int, alignment: Alignment):
         """Pad a string of text to a given width with specified alignment"""
         if alignment == Alignment.LEFT:
             # pad with spaces on the end
@@ -139,8 +160,6 @@ class TableToAscii:
         filler: Union[str, List],
     ) -> str:
         """Assembles a row of the ascii table"""
-        first_heading = self.__options.first_col_heading
-        last_heading = self.__options.last_col_heading
         # left edge of the row
         output = left_edge
         # add columns
@@ -148,15 +167,20 @@ class TableToAscii:
             # content between separators
             output += (
                 # edge or row separator if filler is a specific character
-                filler * self.__cell_widths[i]
+                filler * self.__column_widths[i]
                 if isinstance(filler, str)
                 # otherwise, use the column content
-                else self.__pad(str(filler[i]), self.__cell_widths[i])
+                else self.__pad(
+                    str(filler[i]), self.__column_widths[i], self.__alignments[i]
+                )
             )
             # column seperator
             sep = column_seperator
-            if (i == 0 and first_heading) or (i == self.__columns - 2 and last_heading):
-                # use column heading if option is specified
+            if i == 0 and self.__first_col_heading:
+                # use column heading if first column option is specified
+                sep = heading_col_sep
+            elif i == self.__columns - 2 and self.__last_col_heading:
+                # use column heading if last column option is specified
                 sep = heading_col_sep
             elif i == self.__columns - 1:
                 # replace last seperator with symbol for edge of the row
@@ -225,16 +249,16 @@ class TableToAscii:
         )
 
     def __body_to_ascii(self) -> str:
-        output: str = ""
-        for row in self.__body:
-            output += self.__row_to_ascii(
+        return "".join(
+            self.__row_to_ascii(
                 left_edge=self.__parts["left_and_right_edge"],
                 heading_col_sep=self.__parts["heading_col_sep"],
                 column_seperator=self.__parts["middle_edge"],
                 right_edge=self.__parts["left_and_right_edge"],
                 filler=row,
             )
-        return output
+            for row in self.__body
+        )
 
     def to_ascii(self) -> str:
         # top row of table
@@ -256,17 +280,16 @@ class TableToAscii:
         return table
 
 
-def table2ascii(
-    header: Optional[List] = None,
-    body: Optional[List[List]] = None,
-    footer: Optional[List] = None,
-    **options,
-) -> str:
+def table2ascii(**options) -> str:
     """Convert a 2D Python table to ASCII text
 
     ### Arguments
     :param header: :class:`Optional[List]` List of column values in the table's header row
     :param body: :class:`Optional[List[List]]` 2-dimensional list of values in the table's body
     :param footer: :class:`Optional[List]` List of column values in the table's footer row
+    :param column_widths: :class:`Optional[List[int]]` List of widths in characters for each column (defaults to auto-sizing)
+    :param alignments: :class:`Optional[List[Alignment]]` List of alignments (ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`)
+    :param first_col_heading: :class:`Optional[bool]` Whether to add a header column separator after the first column
+    :param last_col_heading: :class:`Optional[bool]` Whether to add a header column separator before the last column
     """
-    return TableToAscii(header, body, footer, Options(**options)).to_ascii()
+    return TableToAscii(Options(**options)).to_ascii()

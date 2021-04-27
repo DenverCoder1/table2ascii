@@ -65,14 +65,44 @@ print(output)
 """
 ```
 
+```py
+from table2ascii import table2ascii, Alignment
+
+output = table2ascii(
+    header=["#", "G", "H", "R", "S"],
+    body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
+    first_col_heading=True,
+    column_widths=[5] * 5,  # [5, 5, 5, 5, 5]
+    alignments=[Alignment.LEFT] + [Alignment.RIGHT] * 4, # First is left, remaining 4 are right
+)
+
+print(output)
+
+"""
+╔═════╦═══════════════════════╗
+║ #   ║   G     H     R     S ║
+╟─────╫───────────────────────╢
+║ 1   ║  30    40    35    30 ║
+║ 2   ║  30    40    35    30 ║
+╚═════╩═══════════════════════╝
+"""
+```
+
 ## ⚙️ Options
+
+All parameters are optional.
 
 Soon table2ascii will support more options for customization.
 
-|       Option        |  Type  | Default |                           Description                            |
-| :-----------------: | :----: | :-----: | :--------------------------------------------------------------: |
-| `first_col_heading` | `bool` | `False` | Whether to add a heading column seperator after the first column |
-| `last_col_heading`  | `bool` | `False` | Whether to add a heading column seperator before the last column |
+|       Option        |   Type    |   Default    |                                      Description                                       |
+| :-----------------: | :-------: | :----------: | :------------------------------------------------------------------------------------: |
+|      `header`       |  `List`   |    `None`    |                  First row of table seperated by header row seperator                  |
+|       `body`        | `2D List` |    `None`    |                     List of rows for the main section of the table                     |
+|      `footer`       |  `List`   |    `None`    |                  Last row of table seperated by header row seperator                   |
+|   `column_widths`   |  `List`   |  automatic   |                  List of column widths in characters for each column                   |
+|    `alignments`     |  `List`   | all centered | Alignments for each column (ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`) |
+| `first_col_heading` |  `bool`   |   `False`    |            Whether to add a heading column seperator after the first column            |
+| `last_col_heading`  |  `bool`   |   `False`    |            Whether to add a heading column seperator before the last column            |
 
 ## 👨‍🎨 Use cases
 
