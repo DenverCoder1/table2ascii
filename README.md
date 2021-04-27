@@ -1,5 +1,10 @@
 # table2ascii
 
+[![build](https://img.shields.io/github/workflow/status/DenverCoder1/table2ascii/Python%20application/main)](https://github.com/DenverCoder1/table2ascii/actions/workflows/python-app.yml)
+[![version](https://img.shields.io/pypi/v/table2ascii)](https://pypi.org/project/table2ascii/)
+[![license](https://img.shields.io/pypi/l/table2ascii)](https://github.com/DenverCoder1/table2ascii/blob/main/LICENSE)
+[![Discord](https://img.shields.io/discord/819650821314052106?color=7289DA&logo=discord&logoColor=white "Dev Pro Tips Discussion & Support Server")](https://discord.gg/fPrdqh3Zfu)
+
 Module for converting 2D Python lists to a fancy ASCII/Unicode tables
 
 - [table2ascii](#table2ascii)
@@ -46,16 +51,16 @@ print(output)
 from table2ascii import table2ascii
 
 output = table2ascii(
-    body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]]
+    body=[["Assignment", "30", "40", "35", "30"], ["Bonus", "10", "20", "5", "10"]]
 )
 
 print(output)
 
 """
-╔═════╦═══════════════════════╗
-║  1  ║  30    40    35    30 ║
-║  2  ║  30    40    35    30 ║
-╚═════╩═══════════════════════╝
+╔════════════╦═══════════════════╗
+║ Assignment ║ 30   40   35   30 ║
+║    Bonus   ║ 10   20    5   10 ║
+╚════════════╩═══════════════════╝
 """
 ```
 
