@@ -107,8 +107,8 @@ class TableToAscii:
             return f" {text} " + (" " * (width - len(text) - 2))
         if alignment == ALIGN_CENTER:
             # pad with spaces, half on each side
-            before = " " * ceil((width - len(text) - 2) / 2)
-            after = " " * floor((width - len(text) - 2) / 2)
+            before = " " * floor((width - len(text) - 2) / 2)
+            after = " " * ceil((width - len(text) - 2) / 2)
             return before + f" {text} " + after
         if alignment == ALIGN_RIGHT:
             # pad with spaces at the beginning
