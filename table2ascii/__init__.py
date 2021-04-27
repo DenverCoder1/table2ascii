@@ -1,9 +1,20 @@
-from typing import List, Optional, Union
-from math import floor, ceil
 import enum
+from dataclasses import dataclass
+from math import ceil, floor
+from typing import List, Optional, Union
 
 
-class Align(enum.Enum):
+@dataclass
+class Options:
+    """Class for storing options that the user sets"""
+
+    first_col_heading: bool = False
+    last_col_heading: bool = False
+
+
+class Alignment(enum.Enum):
+    """Enum for alignment types"""
+
     LEFT = 0
     RIGHT = 1
     CENTER = 2
@@ -17,6 +28,7 @@ class TableToAscii:
         header: Optional[List],
         body: Optional[List[List]],
         footer: Optional[List],
+        options: Options,
     ):
         """Validate arguments and initialize fields"""
         # check if columns in header are different from footer
@@ -36,6 +48,7 @@ class TableToAscii:
         self.__header = header
         self.__body = body
         self.__footer = footer
+        self.__options = options
         self.__columns = self.__count_columns()
         self.__cell_widths = self.__get_column_widths()
 
@@ -52,24 +65,24 @@ class TableToAscii:
         self.__parts = {
             "top_left_corner": "╔",  # A
             "top_and_bottom_edge": "═",  # B
-            "first_col_top_tee": "╦",  # C
+            "heading_col_top_tee": "╦",  # C
             "top_tee": "═",  # D
             "top_right_corner": "╗",  # E
             "left_and_right_edge": "║",  # F
-            "first_col_sep": "║",  # G
+            "heading_col_sep": "║",  # G
             "middle_edge": " ",  # H
             "header_left_tee": "╟",  # I
             "header_row_sep": "─",  # J
-            "first_col_header_cross": "╫",  # K
+            "heading_col_header_cross": "╫",  # K
             "header_row_cross": "─",  # L
             "header_right_tee": "╢",  # M
             "footer_left_tee": "╟",  # N
             "footer_row_sep": "─",  # O
-            "first_col_footer_cross": "╫",  # P
+            "heading_col_footer_cross": "╫",  # P
             "footer_row_cross": "─",  # Q
             "footer_right_tee": "╢",  # R
             "bottom_left_corner": "╚",  # S
-            "first_col_bottom_tee": "╩",  # T
+            "heading_col_bottom_tee": "╩",  # T
             "bottom_tee": "═",  # U
             "bottom_right_corner": "╝",  # V
         }
@@ -102,17 +115,17 @@ class TableToAscii:
             col_counts.append(max(header_size, *body_size, footer_size) + 2)
         return col_counts
 
-    def __pad(self, text: str, width: int, alignment: Align = Align.CENTER):
+    def __pad(self, text: str, width: int, alignment: Alignment = Alignment.CENTER):
         """Pad a string of text to a given width with specified alignment"""
-        if alignment == Align.LEFT:
+        if alignment == Alignment.LEFT:
             # pad with spaces on the end
             return f" {text} " + (" " * (width - len(text) - 2))
-        if alignment == Align.CENTER:
+        if alignment == Alignment.CENTER:
             # pad with spaces, half on each side
             before = " " * floor((width - len(text) - 2) / 2)
             after = " " * ceil((width - len(text) - 2) / 2)
             return before + f" {text} " + after
-        if alignment == Align.RIGHT:
+        if alignment == Alignment.RIGHT:
             # pad with spaces at the beginning
             return (" " * (width - len(text) - 2)) + f" {text} "
         raise ValueError(f"The value '{alignment}' is not valid for alignment.")
@@ -120,26 +133,18 @@ class TableToAscii:
     def __row_to_ascii(
         self,
         left_edge: str,
-        first_col_sep: str,
+        heading_col_sep: str,
         column_seperator: str,
         right_edge: str,
         filler: Union[str, List],
     ) -> str:
         """Assembles a row of the ascii table"""
+        first_heading = self.__options.first_col_heading
+        last_heading = self.__options.last_col_heading
         # left edge of the row
         output = left_edge
-        # content across the first column
-        output += (
-            # edge or row separator if filler is a specific character
-            filler * self.__cell_widths[0]
-            if isinstance(filler, str)
-            # otherwise, use the first column's content
-            else self.__pad(str(filler[0]), self.__cell_widths[0])
-        )
-        # separation of first column from the rest of the table
-        output += first_col_sep
-        # add remaining columns
-        for i in range(1, self.__columns):
+        # add columns
+        for i in range(self.__columns):
             # content between separators
             output += (
                 # edge or row separator if filler is a specific character
@@ -148,17 +153,22 @@ class TableToAscii:
                 # otherwise, use the column content
                 else self.__pad(str(filler[i]), self.__cell_widths[i])
             )
-            # add a separator
-            output += column_seperator
-        # replace last seperator with symbol for edge of the row
-        output = output[0:-1] + right_edge
+            # column seperator
+            sep = column_seperator
+            if (i == 0 and first_heading) or (i == self.__columns - 2 and last_heading):
+                # use column heading if option is specified
+                sep = heading_col_sep
+            elif i == self.__columns - 1:
+                # replace last seperator with symbol for edge of the row
+                sep = right_edge
+            output += sep
         return output + "\n"
 
     def __top_edge_to_ascii(self) -> str:
         """Assembles the top edge of the ascii table"""
         return self.__row_to_ascii(
             left_edge=self.__parts["top_left_corner"],
-            first_col_sep=self.__parts["first_col_top_tee"],
+            heading_col_sep=self.__parts["heading_col_top_tee"],
             column_seperator=self.__parts["top_tee"],
             right_edge=self.__parts["top_right_corner"],
             filler=self.__parts["top_and_bottom_edge"],
@@ -168,7 +178,7 @@ class TableToAscii:
         """Assembles the top edge of the ascii table"""
         return self.__row_to_ascii(
             left_edge=self.__parts["bottom_left_corner"],
-            first_col_sep=self.__parts["first_col_bottom_tee"],
+            heading_col_sep=self.__parts["heading_col_bottom_tee"],
             column_seperator=self.__parts["bottom_tee"],
             right_edge=self.__parts["bottom_right_corner"],
             filler=self.__parts["top_and_bottom_edge"],
@@ -178,7 +188,7 @@ class TableToAscii:
         """Assembles the header row line of the ascii table"""
         return self.__row_to_ascii(
             left_edge=self.__parts["left_and_right_edge"],
-            first_col_sep=self.__parts["first_col_sep"],
+            heading_col_sep=self.__parts["heading_col_sep"],
             column_seperator=self.__parts["middle_edge"],
             right_edge=self.__parts["left_and_right_edge"],
             filler=self.__header,
@@ -188,7 +198,7 @@ class TableToAscii:
         """Assembles the header row line of the ascii table"""
         return self.__row_to_ascii(
             left_edge=self.__parts["left_and_right_edge"],
-            first_col_sep=self.__parts["first_col_sep"],
+            heading_col_sep=self.__parts["heading_col_sep"],
             column_seperator=self.__parts["middle_edge"],
             right_edge=self.__parts["left_and_right_edge"],
             filler=self.__footer,
@@ -198,7 +208,7 @@ class TableToAscii:
         """Assembles the seperator below the header of the ascii table"""
         return self.__row_to_ascii(
             left_edge=self.__parts["header_left_tee"],
-            first_col_sep=self.__parts["first_col_header_cross"],
+            heading_col_sep=self.__parts["heading_col_header_cross"],
             column_seperator=self.__parts["header_row_cross"],
             right_edge=self.__parts["header_right_tee"],
             filler=self.__parts["header_row_sep"],
@@ -208,7 +218,7 @@ class TableToAscii:
         """Assembles the seperator below the header of the ascii table"""
         return self.__row_to_ascii(
             left_edge=self.__parts["footer_left_tee"],
-            first_col_sep=self.__parts["first_col_footer_cross"],
+            heading_col_sep=self.__parts["heading_col_footer_cross"],
             column_seperator=self.__parts["footer_row_cross"],
             right_edge=self.__parts["footer_right_tee"],
             filler=self.__parts["footer_row_sep"],
@@ -219,7 +229,7 @@ class TableToAscii:
         for row in self.__body:
             output += self.__row_to_ascii(
                 left_edge=self.__parts["left_and_right_edge"],
-                first_col_sep=self.__parts["first_col_sep"],
+                heading_col_sep=self.__parts["heading_col_sep"],
                 column_seperator=self.__parts["middle_edge"],
                 right_edge=self.__parts["left_and_right_edge"],
                 filler=row,
@@ -250,6 +260,7 @@ def table2ascii(
     header: Optional[List] = None,
     body: Optional[List[List]] = None,
     footer: Optional[List] = None,
+    **options,
 ) -> str:
     """Convert a 2D Python table to ASCII text
 
@@ -258,4 +269,4 @@ def table2ascii(
     :param body: :class:`Optional[List[List]]` 2-dimensional list of values in the table's body
     :param footer: :class:`Optional[List]` List of column values in the table's footer row
     """
-    return TableToAscii(header, body, footer).to_ascii()
+    return TableToAscii(header, body, footer, Options(**options)).to_ascii()
