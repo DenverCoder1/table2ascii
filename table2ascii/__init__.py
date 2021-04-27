@@ -11,6 +11,17 @@ class TableToAscii:
     """Class used to convert a 2D Python table to ASCII text"""
 
     def __init__(self, header_row: List, body: List[List], footer_row: List):
+        """Validate arguments and initialize fields"""
+        # check that values are valid
+        if len(header_row) != len(footer_row):
+            raise ValueError("header row and footer row must have the same length")
+        if len(header_row) != len(body[0]):
+            raise ValueError("header row and body rows must have the same length")
+        for row in body[1:]:
+            if len(body[0]) != len(row):
+                raise ValueError("all rows in body must have the same length")
+
+        # initialize fields
         self.__header_row = header_row
         self.__body = body
         self.__footer_row = footer_row
