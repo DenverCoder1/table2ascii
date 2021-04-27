@@ -1,10 +1,12 @@
 from typing import List, Optional, Union
 from math import floor, ceil
+import enum
 
-# constants
-ALIGN_LEFT = 0
-ALIGN_CENTER = 1
-ALIGN_RIGHT = 2
+
+class Align(enum.Enum):
+    LEFT = 0
+    RIGHT = 1
+    CENTER = 2
 
 
 class TableToAscii:
@@ -100,17 +102,17 @@ class TableToAscii:
             col_counts.append(max(header_size, *body_size, footer_size) + 2)
         return col_counts
 
-    def __pad(self, text: str, width: int, alignment: int = ALIGN_CENTER):
+    def __pad(self, text: str, width: int, alignment: Align = Align.CENTER):
         """Pad a string of text to a given width with specified alignment"""
-        if alignment == ALIGN_LEFT:
+        if alignment == Align.LEFT:
             # pad with spaces on the end
             return f" {text} " + (" " * (width - len(text) - 2))
-        if alignment == ALIGN_CENTER:
+        if alignment == Align.CENTER:
             # pad with spaces, half on each side
             before = " " * floor((width - len(text) - 2) / 2)
             after = " " * ceil((width - len(text) - 2) / 2)
             return before + f" {text} " + after
-        if alignment == ALIGN_RIGHT:
+        if alignment == Align.RIGHT:
             # pad with spaces at the beginning
             return (" " * (width - len(text) - 2)) + f" {text} "
         raise ValueError(f"The value '{alignment}' is not valid for alignment.")
