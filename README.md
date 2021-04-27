@@ -3,15 +3,16 @@
 Module for converting 2D Python lists to a fancy ASCII/Unicode tables
 
 - [table2ascii](#table2ascii)
+  - [📥 Installation](#-installation)
   - [🧑‍💻 Usage](#-usage)
   - [⚙️ Options](#️-options)
   - [🧰 Development](#-development)
 
-<!-- 
+
 ## 📥 Installation
 
 ``pip install table2ascii`` 
--->
+
 
 ## 🧑‍💻 Usage
 
