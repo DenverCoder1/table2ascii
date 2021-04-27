@@ -66,7 +66,7 @@ print(output)
 ```
 
 ```py
-from table2ascii import table2ascii
+from table2ascii import table2ascii, Alignment
 
 output = table2ascii(
     header=["#", "G", "H", "R", "S"],
