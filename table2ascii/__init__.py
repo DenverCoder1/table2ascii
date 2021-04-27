@@ -28,29 +28,41 @@ class TableToAscii:
         header: Optional[List],
         body: Optional[List[List]],
         footer: Optional[List],
+        column_widths: Optional[List[int]],
         options: Options,
     ):
         """Validate arguments and initialize fields"""
-        # check if columns in header are different from footer
-        if header and footer and len(header) != len(footer):
-            raise ValueError("Header row and footer row must have the same length")
-        # check if columns in header are different from body
-        if header and body and len(body) > 0 and len(header) != len(body[0]):
-            raise ValueError("Header row and body rows must have the same length")
-        # check if columns in header are different from body
-        if footer and body and len(body) > 0 and len(footer) != len(body[0]):
-            raise ValueError("Footer row and body rows must have the same length")
-        # check if any rows in body have a different number of columns
-        if body and len(body) and tuple(filter(lambda r: len(r) != len(body[0]), body)):
-            raise ValueError("All rows in body must have the same length")
-
         # initialize fields
         self.__header = header
         self.__body = body
         self.__footer = footer
         self.__options = options
         self.__columns = self.__count_columns()
-        self.__cell_widths = self.__get_column_widths()
+
+        # check if footer has a different number of columns
+        if footer and len(footer) != self.__columns:
+            raise ValueError(
+                "Footer must have the same number of columns as the other rows"
+            )
+        # check if any rows in body have a different number of columns
+        if body and tuple(filter(lambda r: len(r) != self.__columns, body)):
+            raise ValueError(
+                "All rows in body must have the same number of columns as the other rows"
+            )
+
+        # calculate column widths
+        self.__column_widths = column_widths or self.__auto_column_widths()
+
+        # check if column widths specified have a different number of columns
+        if column_widths and len(column_widths) != self.__columns:
+            raise ValueError(
+                "Length of `column_widths` list must equal the number of columns"
+            )
+        # check if column widths are not all at least 2
+        if column_widths and min(column_widths) < 2:
+            raise ValueError(
+                "All values in `column_widths` must be greater than or equal to 2"
+            )
 
         """
         ╔═════╦═══════════════════════╗   ABBBBBCBBBBBDBBBBBDBBBBBDBBBBBE
@@ -99,11 +111,11 @@ class TableToAscii:
             return len(self.__body[0])
         return 0
 
-    def __get_column_widths(self) -> List[int]:
+    def __auto_column_widths(self) -> List[int]:
         """Get the minimum number of characters needed for the values
         in each column in the table with 1 space of padding on each side.
         """
-        col_counts = []
+        column_widths = []
         for i in range(self.__columns):
             # number of characters in column of i of header, each body row, and footer
             header_size = len(self.__header[i]) if self.__header else 0
@@ -112,8 +124,8 @@ class TableToAscii:
             )
             footer_size = len(self.__footer[i]) if self.__footer else 0
             # get the max and add 2 for padding each side with a space
-            col_counts.append(max(header_size, *body_size, footer_size) + 2)
-        return col_counts
+            column_widths.append(max(header_size, *body_size, footer_size) + 2)
+        return column_widths
 
     def __pad(self, text: str, width: int, alignment: Alignment = Alignment.CENTER):
         """Pad a string of text to a given width with specified alignment"""
@@ -148,10 +160,10 @@ class TableToAscii:
             # content between separators
             output += (
                 # edge or row separator if filler is a specific character
-                filler * self.__cell_widths[i]
+                filler * self.__column_widths[i]
                 if isinstance(filler, str)
                 # otherwise, use the column content
-                else self.__pad(str(filler[i]), self.__cell_widths[i])
+                else self.__pad(str(filler[i]), self.__column_widths[i])
             )
             # column seperator
             sep = column_seperator
@@ -260,6 +272,7 @@ def table2ascii(
     header: Optional[List] = None,
     body: Optional[List[List]] = None,
     footer: Optional[List] = None,
+    column_widths: Optional[List[int]] = None,
     **options,
 ) -> str:
     """Convert a 2D Python table to ASCII text
@@ -268,5 +281,9 @@ def table2ascii(
     :param header: :class:`Optional[List]` List of column values in the table's header row
     :param body: :class:`Optional[List[List]]` 2-dimensional list of values in the table's body
     :param footer: :class:`Optional[List]` List of column values in the table's footer row
+    :param column_widths: :class:`Optional[List[int]]` List of widths in characters for each column (defaults to auto-sizing)
+    :param footer: :class:`Optional[List]` List of column values in the table's footer row
     """
-    return TableToAscii(header, body, footer, Options(**options)).to_ascii()
+    return TableToAscii(
+        header, body, footer, column_widths, Options(**options)
+    ).to_ascii()

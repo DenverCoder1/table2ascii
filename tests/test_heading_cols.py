@@ -1,7 +1,5 @@
 from table2ascii import table2ascii as t2a
 
-import pytest
-
 
 def test_first_column_heading():
     text = t2a(
