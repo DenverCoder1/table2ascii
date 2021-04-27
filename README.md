@@ -21,9 +21,9 @@ Convert Python lists to ASCII tables
 from table2ascii import table2ascii
 
 output = table2ascii(
-    header_row=["#", "G", "H", "R", "S"],
+    header=["#", "G", "H", "R", "S"],
     body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
-    footer_row=["SUM", "130", "140", "135", "130"],
+    footer=["SUM", "130", "140", "135", "130"],
 )
 
 print(output)

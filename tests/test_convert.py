@@ -1,11 +1,13 @@
 from table2ascii import table2ascii as t2a
 
+import pytest
+
 
 def test_header_body_footer():
     text = t2a(
-        header_row=["#", "G", "H", "R", "S"],
+        header=["#", "G", "H", "R", "S"],
         body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
-        footer_row=["SUM", "130", "140", "135", "130"],
+        footer=["SUM", "130", "140", "135", "130"],
     )
     expected = (
         "╔═════╦═══════════════════════╗\n"
@@ -23,7 +25,7 @@ def test_header_body_footer():
 def test_body_footer():
     text = t2a(
         body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
-        footer_row=["SUM", "130", "140", "135", "130"],
+        footer=["SUM", "130", "140", "135", "130"],
     )
     expected = (
         "╔═════╦═══════════════════════╗\n"
@@ -38,7 +40,7 @@ def test_body_footer():
 
 def test_header_body():
     text = t2a(
-        header_row=["#", "G", "H", "R", "S"],
+        header=["#", "G", "H", "R", "S"],
         body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
     )
     expected = (
@@ -54,8 +56,8 @@ def test_header_body():
 
 def test_header_footer():
     text = t2a(
-        header_row=["#", "G", "H", "R", "S"],
-        footer_row=["SUM", "130", "140", "135", "130"],
+        header=["#", "G", "H", "R", "S"],
+        footer=["SUM", "130", "140", "135", "130"],
     )
     expected = (
         "╔═════╦═══════════════════════╗\n"
@@ -70,7 +72,7 @@ def test_header_footer():
 
 def test_header():
     text = t2a(
-        header_row=["#", "G", "H", "R", "S"],
+        header=["#", "G", "H", "R", "S"],
     )
     expected = (
         "╔═══╦═══════════════╗\n"
@@ -96,7 +98,7 @@ def test_body():
 
 def test_footer():
     text = t2a(
-        footer_row=["SUM", "130", "140", "135", "130"],
+        footer=["SUM", "130", "140", "135", "130"],
     )
     expected = (
         "╔═════╦═══════════════════════╗\n"

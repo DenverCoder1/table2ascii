@@ -12,27 +12,30 @@ class TableToAscii:
 
     def __init__(
         self,
-        header_row: Optional[List],
+        header: Optional[List],
         body: Optional[List[List]],
-        footer_row: Optional[List],
+        footer: Optional[List],
     ):
         """Validate arguments and initialize fields"""
         # check if columns in header are different from footer
-        if header_row and footer_row and len(header_row) != len(footer_row):
+        if header and footer and len(header) != len(footer):
             raise ValueError("Header row and footer row must have the same length")
         # check if columns in header are different from body
-        if header_row and body and len(body) > 0 and len(header_row) != len(body[0]):
+        if header and body and len(body) > 0 and len(header) != len(body[0]):
             raise ValueError("Header row and body rows must have the same length")
+        # check if columns in header are different from body
+        if footer and body and len(body) > 0 and len(footer) != len(body[0]):
+            raise ValueError("Footer row and body rows must have the same length")
         # check if any rows in body have a different number of columns
         if body and len(body) and tuple(filter(lambda r: len(r) != len(body[0]), body)):
             raise ValueError("All rows in body must have the same length")
 
         # initialize fields
-        self.__header_row = header_row
+        self.__header = header
         self.__body = body
-        self.__footer_row = footer_row
-        self.__columns = self.count_columns()
-        self.__cell_widths = self.get_column_widths()
+        self.__footer = footer
+        self.__columns = self.__count_columns()
+        self.__cell_widths = self.__get_column_widths()
 
         """
         ╔═════╦═══════════════════════╗   ABBBBBCBBBBBDBBBBBDBBBBBDBBBBBE
@@ -69,30 +72,30 @@ class TableToAscii:
             "bottom_right_corner": "╝",  # V
         }
 
-    def count_columns(self) -> int:
+    def __count_columns(self) -> int:
         """Get the number of columns in the table
         based on the provided header, footer, and body lists.
         """
-        if self.__header_row:
-            return len(self.__header_row)
-        if self.__footer_row:
-            return len(self.__footer_row)
+        if self.__header:
+            return len(self.__header)
+        if self.__footer:
+            return len(self.__footer)
         if self.__body and len(self.__body) > 0:
             return len(self.__body[0])
         return 0
 
-    def get_column_widths(self) -> List[int]:
+    def __get_column_widths(self) -> List[int]:
         """Get the minimum number of characters needed for the values
         in each column in the table with 1 space of padding on each side.
         """
         col_counts = []
         for i in range(self.__columns):
             # number of characters in column of i of header, each body row, and footer
-            header_size = len(self.__header_row[i]) if self.__header_row else 0
+            header_size = len(self.__header[i]) if self.__header else 0
             body_size = (
                 map(lambda row, i=i: len(row[i]), self.__body) if self.__body else [0]
             )
-            footer_size = len(self.__footer_row[i]) if self.__footer_row else 0
+            footer_size = len(self.__footer[i]) if self.__footer else 0
             # get the max and add 2 for padding each side with a space
             col_counts.append(max(header_size, *body_size, footer_size) + 2)
         return col_counts
@@ -176,7 +179,7 @@ class TableToAscii:
             first_col_sep=self.__parts["first_col_sep"],
             column_seperator=self.__parts["middle_edge"],
             right_edge=self.__parts["left_and_right_edge"],
-            filler=self.__header_row,
+            filler=self.__header,
         )
 
     def __footer_row_to_ascii(self) -> str:
@@ -186,7 +189,7 @@ class TableToAscii:
             first_col_sep=self.__parts["first_col_sep"],
             column_seperator=self.__parts["middle_edge"],
             right_edge=self.__parts["left_and_right_edge"],
-            filler=self.__footer_row,
+            filler=self.__footer,
         )
 
     def __header_sep_to_ascii(self) -> str:
@@ -225,14 +228,14 @@ class TableToAscii:
         # top row of table
         table = self.__top_edge_to_ascii()
         # add table header
-        if self.__header_row:
+        if self.__header:
             table += self.__header_row_to_ascii()
             table += self.__header_sep_to_ascii()
         # add table body
         if self.__body:
             table += self.__body_to_ascii()
         # add table footer
-        if self.__footer_row:
+        if self.__footer:
             table += self.__footer_sep_to_ascii()
             table += self.__footer_row_to_ascii()
         # bottom row of table
@@ -242,15 +245,15 @@ class TableToAscii:
 
 
 def table2ascii(
-    header_row: Optional[List] = None,
+    header: Optional[List] = None,
     body: Optional[List[List]] = None,
-    footer_row: Optional[List] = None,
+    footer: Optional[List] = None,
 ) -> str:
     """Convert a 2D Python table to ASCII text
 
     ### Arguments
-    :param header_row: :class:`Optional[List]` List of column values in the table's header row
+    :param header: :class:`Optional[List]` List of column values in the table's header row
     :param body: :class:`Optional[List[List]]` 2-dimensional list of values in the table's body
-    :param footer_row: :class:`Optional[List]` List of column values in the table's footer row
+    :param footer: :class:`Optional[List]` List of column values in the table's footer row
     """
-    return TableToAscii(header_row, body, footer_row).to_ascii()
+    return TableToAscii(header, body, footer).to_ascii()
