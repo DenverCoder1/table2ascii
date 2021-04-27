@@ -21,29 +21,38 @@ class TableToAscii:
         ╟─────╫───────────────────────╢
         ║ SUM ║ 130   140   135   130 ║
         ╚═════╩═══════════════════════╝
+
+        0111112111113111113111113111114
+        5     6     7     7     7     5
+        899999a99999b99999b99999b99999c
+        5     6     7     7     7     5
+        5     6     7     7     7     5
+        deeeeefeeeeegeeeeegeeeeegeeeeeh
+        5     6     7     7     7     5
+        i11111j11111k11111k11111k11111l
         """
         self.parts = {
-            "top_left_corner": "╔",
-            "top_right_corner": "╗",
-            "top_edge": "═",
-            "first_col_top_tee": "╦",
-            "top_tee": "═",
-            "left_edge": "║",
-            "header_row_sep": "─",
-            "footer_row_sep": "─",
-            "first_col_sep": "║",
-            "left_tee": "╟",
-            "middle_edge": " ",
-            "header_row_cross": "─",
-            "footer_row_cross": "─",
-            "first_col_cross": "╫",
-            "right_edge": "║",
-            "right_tee": "╢",
-            "bottom_left_corner": "╚",
-            "bottom_right_corner": "╝",
-            "bottom_edge": "═",
-            "first_col_bottom_tee": "╩",
-            "bottom_tee": "═",
+            "top_left_corner": "╔",        # 0
+            "top_bottom_edge": "═",        # 1
+            "first_col_top_tee": "╦",      # 2
+            "top_tee": "═",                # 3
+            "top_right_corner": "╗",       # 4
+            "left_right_edge": "║",        # 5
+            "first_col_sep": "║",          # 6
+            "middle_edge": " ",            # 7
+            "header_left_tee": "╟",        # 8
+            "header_row_sep": "─",         # 9
+            "first_col_header_cross": "╫", # a
+            "header_row_cross": "─",       # b
+            "right_tee": "╢",              # c
+            "footer_left_tee": "╟",        # d
+            "footer_row_sep": "─",         # e
+            "first_col_footer_cross": "╫", # f
+            "footer_row_cross": "─",       # g
+            "bottom_left_corner": "╚",     # i
+            "first_col_bottom_tee": "╩",   # j
+            "bottom_tee": "═",             # k
+            "bottom_right_corner": "╝",  #   l  
         }
 
     def to_ascii(self) -> str:
@@ -53,16 +62,16 @@ class TableToAscii:
             # ╔
             self.parts["top_left_corner"]
             # ═════╦
-            + self.parts["top_edge"] * self.cell_width + self.parts["first_col_top_tee"]
+            + self.parts["top_bottom_edge"] * self.cell_width + self.parts["first_col_top_tee"]
             #
             + (
-                (self.parts["top_edge"] * self.cell_width + self.parts["top_tee"])
+                (self.parts["top_bottom_edge"] * self.cell_width + self.parts["top_tee"])
                 * (cols - 1)
             )[0:-1]
             # ╗
             + self.parts["top_right_corner"],
             # ║
-            self.parts["left_edge"]
+            self.parts["left_right_edge"]
             #  #  ║
             + f"  {self.header_row[0]}  " + self.parts["first_col_sep"]
             #    G     H     R     S
@@ -70,13 +79,13 @@ class TableToAscii:
                 "  " + val + "  " for val in self.header_row[1:]
             )
             # ║
-            + self.parts["right_edge"],
+            + self.parts["left_right_edge"],
             # ╟
-            self.parts["left_tee"]
+            self.parts["header_left_tee"]
             # ─────╫
             + (
                 self.parts["header_row_sep"] * self.cell_width
-                + self.parts["first_col_cross"]
+                + self.parts["first_col_header_cross"]
             )
             # ───────────────────────
             + (
@@ -94,7 +103,7 @@ class TableToAscii:
             # add table row
             table += [
                 # ║
-                self.parts["left_edge"]
+                self.parts["left_right_edge"]
                 +
                 #  1  ║
                 f"  {p[0]}  "
@@ -104,16 +113,16 @@ class TableToAscii:
                     f"{p[i].rjust(4)} " for i in range(1, cols)
                 )
                 # ║
-                + self.parts["right_edge"]
+                + self.parts["left_right_edge"]
             ]
         # footer row
         table += [
             # ╟
-            self.parts["left_tee"]
+            self.parts["footer_left_tee"]
             # ─────╫
             + (
                 self.parts["footer_row_sep"] * self.cell_width
-                + self.parts["first_col_cross"]
+                + self.parts["first_col_footer_cross"]
             )
             # ───────────────────────
             + (
@@ -126,7 +135,7 @@ class TableToAscii:
             # ╢
             + self.parts["right_tee"],
             # ║
-            self.parts["left_edge"]
+            self.parts["left_right_edge"]
             #  SUM ║
             + f"{self.footer_row[0].rjust(4)} " + self.parts["first_col_sep"]
             #  120 ║ 120 ║ 120 ║ 120 ║
@@ -134,15 +143,15 @@ class TableToAscii:
                 f"{self.footer_row[i].rjust(4)} " for i in range(1, cols)
             )
             # ║
-            + self.parts["right_edge"],
+            + self.parts["left_right_edge"],
             # ╚
             self.parts["bottom_left_corner"]
             # ═════╩
-            + self.parts["bottom_edge"] * self.cell_width
+            + self.parts["top_bottom_edge"] * self.cell_width
             + self.parts["first_col_bottom_tee"]
             # ════════════════════════
             + (
-                (self.parts["bottom_edge"] * self.cell_width + self.parts["bottom_tee"])
+                (self.parts["top_bottom_edge"] * self.cell_width + self.parts["bottom_tee"])
                 * (cols - 1)
             )[0:-1]
             # ╗
