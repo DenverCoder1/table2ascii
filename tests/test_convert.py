@@ -8,6 +8,7 @@ def test_header_body_footer():
         header=["#", "G", "H", "R", "S"],
         body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
         footer=["SUM", "130", "140", "135", "130"],
+        first_col_heading=True,
     )
     expected = (
         "╔═════╦═══════════════════════╗\n"
@@ -26,6 +27,7 @@ def test_body_footer():
     text = t2a(
         body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
         footer=["SUM", "130", "140", "135", "130"],
+        first_col_heading=True,
     )
     expected = (
         "╔═════╦═══════════════════════╗\n"
@@ -42,6 +44,7 @@ def test_header_body():
     text = t2a(
         header=["#", "G", "H", "R", "S"],
         body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
+        first_col_heading=True,
     )
     expected = (
         "╔═══╦═══════════════════╗\n"
@@ -58,6 +61,7 @@ def test_header_footer():
     text = t2a(
         header=["#", "G", "H", "R", "S"],
         footer=["SUM", "130", "140", "135", "130"],
+        first_col_heading=True,
     )
     expected = (
         "╔═════╦═══════════════════════╗\n"
@@ -73,6 +77,7 @@ def test_header_footer():
 def test_header():
     text = t2a(
         header=["#", "G", "H", "R", "S"],
+        first_col_heading=True,
     )
     expected = (
         "╔═══╦═══════════════╗\n"
@@ -86,6 +91,7 @@ def test_header():
 def test_body():
     text = t2a(
         body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
+        first_col_heading=True,
     )
     expected = (
         "╔═══╦═══════════════════╗\n"
@@ -99,6 +105,7 @@ def test_body():
 def test_footer():
     text = t2a(
         footer=["SUM", "130", "140", "135", "130"],
+        first_col_heading=True,
     )
     expected = (
         "╔═════╦═══════════════════════╗\n"
@@ -114,6 +121,7 @@ def test_header_footer_unequal():
         t2a(
             header=["H", "R", "S"],
             footer=["SUM", "130", "140", "135", "130"],
+            first_col_heading=True,
         )
 
 
@@ -126,6 +134,7 @@ def test_header_body_unequal():
                 ["1", "30", "40", "35", "30", "36"],
                 ["2", "30", "40", "35", "30"],
             ],
+            first_col_heading=True,
         )
 
 
@@ -138,6 +147,7 @@ def test_footer_body_unequal():
                 ["2", "30", "40", "35", "30"],
             ],
             footer=["SUM", "130", "140", "135", "130", "36"],
+            first_col_heading=True,
         )
 
 
@@ -145,6 +155,7 @@ def test_empty_header():
     text = t2a(
         header=[],
         body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
+        first_col_heading=True,
     )
     expected = (
         "╔═══╦═══════════════════╗\n"
@@ -156,7 +167,11 @@ def test_empty_header():
 
 
 def test_empty_body():
-    text = t2a(header=["#", "G", "H", "R", "S"], body=[])
+    text = t2a(
+        header=["#", "G", "H", "R", "S"],
+        body=[],
+        first_col_heading=True,
+    )
     expected = (
         "╔═══╦═══════════════╗\n"
         "║ # ║ G   H   R   S ║\n"
