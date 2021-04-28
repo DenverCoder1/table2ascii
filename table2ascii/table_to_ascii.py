@@ -154,44 +154,24 @@ class TableToAscii:
             filler=self.__style.top_and_bottom_edge,
         )
 
-    def __header_row_to_ascii(self) -> str:
-        """Assembles the header row line of the ascii table"""
+    def __heading_row_to_ascii(self, row: List) -> str:
+        """Assembles the header or footer row line of the ascii table"""
         return self.__row_to_ascii(
             left_edge=self.__style.left_and_right_edge,
             heading_col_sep=self.__style.heading_col_sep,
             column_seperator=self.__style.middle_edge,
             right_edge=self.__style.left_and_right_edge,
-            filler=self.__header,
+            filler=row,
         )
 
-    def __footer_row_to_ascii(self) -> str:
-        """Assembles the header row line of the ascii table"""
+    def __heading_sep_to_ascii(self) -> str:
+        """Assembles the seperator below the header or above footer of the ascii table"""
         return self.__row_to_ascii(
-            left_edge=self.__style.left_and_right_edge,
-            heading_col_sep=self.__style.heading_col_sep,
-            column_seperator=self.__style.middle_edge,
-            right_edge=self.__style.left_and_right_edge,
-            filler=self.__footer,
-        )
-
-    def __header_sep_to_ascii(self) -> str:
-        """Assembles the seperator below the header of the ascii table"""
-        return self.__row_to_ascii(
-            left_edge=self.__style.header_left_tee,
-            heading_col_sep=self.__style.heading_col_header_cross,
-            column_seperator=self.__style.header_row_cross,
-            right_edge=self.__style.header_right_tee,
-            filler=self.__style.header_row_sep,
-        )
-
-    def __footer_sep_to_ascii(self) -> str:
-        """Assembles the seperator below the header of the ascii table"""
-        return self.__row_to_ascii(
-            left_edge=self.__style.footer_left_tee,
-            heading_col_sep=self.__style.heading_col_footer_cross,
-            column_seperator=self.__style.footer_row_cross,
-            right_edge=self.__style.footer_right_tee,
-            filler=self.__style.footer_row_sep,
+            left_edge=self.__style.heading_row_left_tee,
+            heading_col_sep=self.__style.heading_col_row_cross,
+            column_seperator=self.__style.heading_row_cross,
+            right_edge=self.__style.heading_row_right_tee,
+            filler=self.__style.heading_row_sep,
         )
 
     def __body_to_ascii(self) -> str:
@@ -211,15 +191,15 @@ class TableToAscii:
         table = self.__top_edge_to_ascii()
         # add table header
         if self.__header:
-            table += self.__header_row_to_ascii()
-            table += self.__header_sep_to_ascii()
+            table += self.__heading_row_to_ascii(self.__header)
+            table += self.__heading_sep_to_ascii()
         # add table body
         if self.__body:
             table += self.__body_to_ascii()
         # add table footer
         if self.__footer:
-            table += self.__footer_sep_to_ascii()
-            table += self.__footer_row_to_ascii()
+            table += self.__heading_sep_to_ascii()
+            table += self.__heading_row_to_ascii(self.__footer)
         # bottom row of table
         table += self.__bottom_edge_to_ascii()
         # reurn ascii table
