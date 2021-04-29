@@ -22,7 +22,7 @@ class Styles:
     double_thin_compact = TableStyle.from_string("╔═╦═╗║║ ╟─╫─╢     ╚╩═╝")
     minimalist = TableStyle.from_string(" ───  │  ━━━  ───  ── ")
     borderless = TableStyle.from_string("      ┃  ━            ")
-    simple = TableStyle.from_string(" ═    │  ═            ")
+    simple = TableStyle.from_string(" ═    ║  ═            ")
     ascii = TableStyle.from_string("+-+-+|| +-+-++-+-+++-+")
     ascii_box = TableStyle.from_string("+-+++|||+-++++-+++++++")
     ascii_compact = TableStyle.from_string("+-+-+|| +-+-+     ++-+")
