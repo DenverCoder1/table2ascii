@@ -10,6 +10,11 @@ Module for converting 2D Python lists to a fancy ASCII/Unicode tables
 - [table2ascii](#table2ascii)
   - [📥 Installation](#-installation)
   - [🧑‍💻 Usage](#-usage)
+    - [Convert lists to ASCII tables](#convert-lists-to-ascii-tables)
+    - [Set first or last column headings](#set-first-or-last-column-headings)
+    - [Set column widths and alignments](#set-column-widths-and-alignments)
+    - [Use a preset style](#use-a-preset-style)
+    - [Define a custom style](#define-a-custom-style)
   - [🎨 Preset styles](#-preset-styles)
   - [⚙️ Options](#️-options)
   - [👨‍🎨 Use cases](#-use-cases)
@@ -25,7 +30,7 @@ Module for converting 2D Python lists to a fancy ASCII/Unicode tables
 
 ## 🧑‍💻 Usage
 
-Convert Python lists to ASCII tables
+### Convert lists to ASCII tables
 
 ```py
 from table2ascii import table2ascii
@@ -50,6 +55,8 @@ print(output)
 """
 ```
 
+### Set first or last column headings
+
 ```py
 from table2ascii import table2ascii
 
@@ -67,6 +74,8 @@ print(output)
 ╚════════════╩═══════════════════╝
 """
 ```
+
+### Set column widths and alignments
 
 ```py
 from table2ascii import table2ascii, Alignment
@@ -91,6 +100,8 @@ print(output)
 """
 ```
 
+### Use a preset style
+
 ```py
 from table2ascii import table2ascii, PresetStyle
 
@@ -111,6 +122,34 @@ print(output)
 +----------+----------+----------+----------+
 |    20    |    10    |    20    |    5     |
 +----------+----------+----------+----------+
+"""
+```
+
+### Define a custom style
+
+Check [`TableStyle`](https://github.com/DenverCoder1/table2ascii/blob/main/table2ascii/table_style.py) for more info and [`PresetStyle`](https://github.com/DenverCoder1/table2ascii/blob/main/table2ascii/preset_style.py) for examples.
+
+```py
+from table2ascii import table2ascii, TableStyle
+
+my_style = TableStyle.from_string("*-..*||:+-+:+     *''*")
+
+output = table2ascii(
+    header=["First", "Second", "Third"],
+    body=[["10", "30", "40"], ["20", "10", "20"], ["30", "20", "30"]],
+    style=my_style
+)
+
+print(output)
+
+"""
+*-------.--------.-------*
+| First : Second : Third |
++-------:--------:-------+
+|  10   :   30   :  40   |
+|  20   :   10   :  20   |
+|  30   :   20   :  30   |
+*-------'--------'-------*
 """
 ```
 
