@@ -1,4 +1,4 @@
-from table2ascii import table2ascii as t2a, Styles
+from table2ascii import table2ascii as t2a, PresetStyle
 
 
 def test_thin():
@@ -8,7 +8,7 @@ def test_thin():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.thin,
+        style=PresetStyle.thin,
     )
     expected = (
         "┌─────┬───────────────────────┐\n"
@@ -31,7 +31,7 @@ def test_thin_box():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.thin_box,
+        style=PresetStyle.thin_box,
     )
     expected = (
         "┌─────┬─────┬─────┬─────┬─────┐\n"
@@ -54,7 +54,7 @@ def test_thin_rounded():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.thin_rounded,
+        style=PresetStyle.thin_rounded,
     )
     expected = (
         "╭─────┬───────────────────────╮\n"
@@ -77,7 +77,7 @@ def test_thin_compact():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.thin_compact,
+        style=PresetStyle.thin_compact,
     )
     expected = (
         "┌─────┬───────────────────────┐\n"
@@ -99,7 +99,7 @@ def test_thin_compact_rounded():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.thin_compact_rounded,
+        style=PresetStyle.thin_compact_rounded,
     )
     expected = (
         "╭─────┬───────────────────────╮\n"
@@ -121,7 +121,7 @@ def test_thin_thick():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.thin_thick,
+        style=PresetStyle.thin_thick,
     )
     expected = (
         "┌─────┬───────────────────────┐\n"
@@ -144,7 +144,7 @@ def test_thin_thick_rounded():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.thin_thick_rounded,
+        style=PresetStyle.thin_thick_rounded,
     )
     expected = (
         "╭─────┬───────────────────────╮\n"
@@ -167,7 +167,7 @@ def test_thin_double():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.thin_double,
+        style=PresetStyle.thin_double,
     )
     expected = (
         "┌─────┬───────────────────────┐\n"
@@ -190,7 +190,7 @@ def test_thin_double_rounded():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.thin_double_rounded,
+        style=PresetStyle.thin_double_rounded,
     )
     expected = (
         "╭─────┬───────────────────────╮\n"
@@ -213,7 +213,7 @@ def test_thick():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.thick,
+        style=PresetStyle.thick,
     )
     expected = (
         "┏━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━┓\n"
@@ -236,7 +236,7 @@ def test_thick_box():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.thick_box,
+        style=PresetStyle.thick_box,
     )
     expected = (
         "┏━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┓\n"
@@ -259,7 +259,7 @@ def test_thick_compact():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.thick_compact,
+        style=PresetStyle.thick_compact,
     )
     expected = (
         "┏━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━┓\n"
@@ -281,7 +281,7 @@ def test_double():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.double,
+        style=PresetStyle.double,
     )
     expected = (
         "╔═════╦═══════════════════════╗\n"
@@ -304,7 +304,7 @@ def test_double_box():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.double_box,
+        style=PresetStyle.double_box,
     )
     expected = (
         "╔═════╦═════╦═════╦═════╦═════╗\n"
@@ -327,7 +327,7 @@ def test_double_compact():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.double_compact,
+        style=PresetStyle.double_compact,
     )
     expected = (
         "╔═════╦═══════════════════════╗\n"
@@ -349,7 +349,7 @@ def test_double_thin_compact():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.double_thin_compact,
+        style=PresetStyle.double_thin_compact,
     )
     expected = (
         "╔═════╦═══════════════════════╗\n"
@@ -371,7 +371,7 @@ def test_minimalist():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.minimalist,
+        style=PresetStyle.minimalist,
     )
     expected = (
         " ───────────────────────────── \n"
@@ -394,7 +394,7 @@ def test_borderless():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.borderless,
+        style=PresetStyle.borderless,
     )
     expected = (
         "   #  ┃  G     H     R     S   \n"
@@ -414,7 +414,7 @@ def test_simple():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.simple,
+        style=PresetStyle.simple,
     )
     expected = (
         " ═════ ═════ ═════ ═════ ═════ \n"
@@ -436,7 +436,7 @@ def test_ascii():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.ascii,
+        style=PresetStyle.ascii,
     )
     expected = (
         "+-----+-----------------------+\n"
@@ -459,7 +459,7 @@ def test_ascii_box():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.ascii_box,
+        style=PresetStyle.ascii_box,
     )
     expected = (
         "+-----+-----+-----+-----+-----+\n"
@@ -482,7 +482,7 @@ def test_ascii_compact():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.ascii_compact,
+        style=PresetStyle.ascii_compact,
     )
     expected = (
         "+-----+-----------------------+\n"
@@ -504,7 +504,7 @@ def test_ascii_double():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.ascii_double,
+        style=PresetStyle.ascii_double,
     )
     expected = (
         "+-----+-----------------------+\n"
@@ -527,7 +527,7 @@ def test_ascii_minimalist():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.ascii_minimalist,
+        style=PresetStyle.ascii_minimalist,
     )
     expected = (
         " ----------------------------- \n"
@@ -550,7 +550,7 @@ def test_ascii_borderless():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.ascii_borderless,
+        style=PresetStyle.ascii_borderless,
     )
     expected = (
         "   #  |  G     H     R     S   \n"
@@ -570,7 +570,7 @@ def test_ascii_simple():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.ascii_simple,
+        style=PresetStyle.ascii_simple,
     )
     expected = (
         " ===== ===== ===== ===== ===== \n"
@@ -592,7 +592,7 @@ def test_markdown():
         footer=["SUM", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=False,
-        style=Styles.markdown,
+        style=PresetStyle.markdown,
     )
     expected = (
         "|  #  |  G  |  H  |  R  |  S  |\n"

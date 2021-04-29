@@ -10,7 +10,7 @@ Module for converting 2D Python lists to a fancy ASCII/Unicode tables
 - [table2ascii](#table2ascii)
   - [📥 Installation](#-installation)
   - [🧑‍💻 Usage](#-usage)
-  - [🎨 Styles](#-styles)
+  - [🎨 Preset styles](#-preset-styles)
   - [⚙️ Options](#️-options)
   - [👨‍🎨 Use cases](#-use-cases)
     - [Discord messages and embeds](#discord-messages-and-embeds)
@@ -92,13 +92,13 @@ print(output)
 ```
 
 ```py
-from table2ascii import table2ascii, Styles
+from table2ascii import table2ascii, PresetStyle
 
 output = table2ascii(
     header=["First", "Second", "Third", "Fourth"],
     body=[["10", "30", "40", "35"], ["20", "10", "20", "5"]],
     column_widths=[10] * 4,
-    style=Styles.ascii_box
+    style=PresetStyle.ascii_box
 )
 
 print(output)
@@ -114,7 +114,7 @@ print(output)
 """
 ```
 
-## 🎨 Styles
+## 🎨 Preset styles
 
 See a list of all preset styles [here](/style_list).
 

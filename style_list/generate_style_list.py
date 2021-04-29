@@ -1,39 +1,19 @@
 import os
-from table2ascii import Styles
+from table2ascii import PresetStyle
 from table2ascii.table_to_ascii import table2ascii
 
 # generate README.md containing all themes with previews
 if __name__ == "__main__":
-    styles = {
-        "thin": Styles.thin,
-        "thin_box": Styles.thin_box,
-        "thin_rounded": Styles.thin_rounded,
-        "thin_compact": Styles.thin_compact,
-        "thin_compact_rounded": Styles.thin_compact_rounded,
-        "thin_thick": Styles.thin_thick,
-        "thin_thick_rounded": Styles.thin_thick_rounded,
-        "thin_double": Styles.thin_double,
-        "thin_double_rounded": Styles.thin_double_rounded,
-        "thick": Styles.thick,
-        "thick_box": Styles.thick_box,
-        "thick_compact": Styles.thick_compact,
-        "double": Styles.double,
-        "double_box": Styles.double_box,
-        "double_compact": Styles.double_compact,
-        "double_thin_compact": Styles.double_thin_compact,
-        "minimalist": Styles.minimalist,
-        "borderless": Styles.borderless,
-        "simple": Styles.simple,
-        "ascii": Styles.ascii,
-        "ascii_box": Styles.ascii_box,
-        "ascii_compact": Styles.ascii_compact,
-        "ascii_double": Styles.ascii_double,
-        "ascii_minimalist": Styles.ascii_minimalist,
-        "ascii_borderless": Styles.ascii_borderless,
-        "ascii_simple": Styles.ascii_simple,
-        "markdown": Styles.markdown,
-    }
-    output = "## Preset styles\n\n"
+    # get attributes in PresetStyle
+    attribute_names = [attr for attr in dir(PresetStyle) if not attr.startswith("__")]
+    attributes = [getattr(PresetStyle, attr) for attr in attribute_names]
+    # make a dict mapping style names to TableStyles
+    styles = dict(zip(attribute_names, attributes))
+    # README output variables
+    heading = "## Preset styles"
+    table_of_contents = "- [Preset styles](#preset-styles)\n"
+    style_list = ""
+    # generate tables for each style
     for style in list(styles.keys()):
         full = table2ascii(
             header=["#", "G", "H", "R", "S"],
@@ -49,8 +29,12 @@ if __name__ == "__main__":
             last_col_heading=False,
             style=styles[style],
         )
-        output += f"### `{style}`\n\n```\n{full}\n\n{body_only}\n```\n"
+        table_of_contents += f"  - [`{style}`](#{style})\n"
+        style_list += f"### `{style}`\n\n```\n{full}\n\n{body_only}\n```\n"
+    # put it all together
+    output = f"{heading}\n\n{table_of_contents}\n{style_list}"
 
+    # overwrite `style_list/README.md` with the changes
     f = open(os.path.join("style_list", "README.md"), "w")
     f.write(output)
     f.close()

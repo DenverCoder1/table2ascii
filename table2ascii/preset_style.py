@@ -1,7 +1,7 @@
 from .table_style import TableStyle
 
 
-class Styles:
+class PresetStyle:
     """Importable preset styles for more easily selecting a table style"""
 
     thin = TableStyle.from_string("┌─┬─┐││ ├─┼─┤├─┼─┤└┴─┘")

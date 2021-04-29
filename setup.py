@@ -59,7 +59,7 @@ with open("requirements.txt") as fh:
 
 setup(
     name="table2ascii",
-    version="0.1.0",
+    version="0.1.1",
     author="Jonah Lawrence",
     author_email="jonah@freshidea.com",
     description="Convert 2D Python lists into Unicode/Ascii tables",
