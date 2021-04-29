@@ -33,18 +33,22 @@ class TableToAscii:
             )
 
         # calculate or use given column widths
-        self.__column_widths = options.column_widths or self.__auto_column_widths()
-
-        # check if column widths specified have a different number of columns
-        if options.column_widths and len(options.column_widths) != self.__columns:
-            raise ValueError(
-                "Length of `column_widths` list must equal the number of columns"
-            )
-        # check if column widths are not all at least 2
-        if options.column_widths and min(options.column_widths) < 2:
-            raise ValueError(
-                "All values in `column_widths` must be greater than or equal to 2"
-            )
+        self.__column_widths = self.__auto_column_widths()
+        if options.column_widths:
+            # check that the right number of columns were specified
+            if len(options.column_widths) != self.__columns:
+                raise ValueError(
+                    "Length of `column_widths` list must equal the number of columns"
+                )
+            # check that each column is at least as large as the minimum size
+            for i in range(len(options.column_widths)):
+                option = options.column_widths[i]
+                minimum = self.__column_widths[i]
+                if option < minimum:
+                    raise ValueError(
+                        f"The value at index {i} of `column_widths` is {option} which is less than the minimum {minimum}."
+                    )
+            self.__column_widths = options.column_widths
 
         self.__alignments = options.alignments or [Alignment.CENTER] * self.__columns
 
