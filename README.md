@@ -126,15 +126,15 @@ All parameters are optional.
 
 Soon table2ascii will support more options for customization.
 
-|       Option        |   Type    |   Default    |                                        Description                                         |
-| :-----------------: | :-------: | :----------: | :----------------------------------------------------------------------------------------: |
-|      `header`       |  `List`   |    `None`    |                    First row of table seperated by header row seperator                    |
-|       `body`        | `2D List` |    `None`    |                       List of rows for the main section of the table                       |
-|      `footer`       |  `List`   |    `None`    |                    Last row of table seperated by header row seperator                     |
-|   `column_widths`   |  `List`   |  automatic   |                    List of column widths in characters for each column                     |
-|    `alignments`     |  `List`   | all centered | Alignments for each column<br/>(ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`) |
-| `first_col_heading` |  `bool`   |   `False`    |              Whether to add a heading column seperator after the first column              |
-| `last_col_heading`  |  `bool`   |   `False`    |              Whether to add a heading column seperator before the last column              |
+|       Option        |       Type        |   Default    |                                        Description                                         |
+| :-----------------: | :---------------: | :----------: | :----------------------------------------------------------------------------------------: |
+|      `header`       |    `List[str]`    |    `None`    |                    First row of table seperated by header row seperator                    |
+|       `body`        | `List[List[str]]` |    `None`    |                                           `None`                                           | List of rows for the main section of the table |
+|      `footer`       |    `List[str]`    |    `None`    |                    Last row of table seperated by header row seperator                     |
+|   `column_widths`   |    `List[int]`    |  automatic   |                    List of column widths in characters for each column                     |
+|    `alignments`     |    `List[int]`    | all centered | Alignments for each column<br/>(ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`) |
+| `first_col_heading` |      `bool`       |   `False`    |              Whether to add a heading column seperator after the first column              |
+| `last_col_heading`  |      `bool`       |   `False`    |              Whether to add a heading column seperator before the last column              |
 
 ## 👨‍🎨 Use cases
 
