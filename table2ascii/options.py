@@ -17,4 +17,4 @@ class Options:
     last_col_heading: bool = False
     column_widths: Optional[List[int]] = None
     alignments: Optional[List[Alignment]] = None
-    style: TableStyle = styles.double_thin
+    style: TableStyle = styles.double_thin_compact
