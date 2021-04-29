@@ -166,7 +166,7 @@ Soon table2ascii will support more options for customization.
 |       Option        |       Type        |   Default    |                                        Description                                         |
 | :-----------------: | :---------------: | :----------: | :----------------------------------------------------------------------------------------: |
 |      `header`       |    `List[str]`    |    `None`    |                    First row of table seperated by header row seperator                    |
-|       `body`        | `List[List[str]]` |    `None`    |                                           `None`                                           | List of rows for the main section of the table |
+|       `body`        | `List[List[str]]` |    `None`    |                       List of rows for the main section of the table                       |
 |      `footer`       |    `List[str]`    |    `None`    |                    Last row of table seperated by header row seperator                     |
 |   `column_widths`   |    `List[int]`    |  automatic   |                    List of column widths in characters for each column                     |
 |    `alignments`     |    `List[int]`    | all centered | Alignments for each column<br/>(ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`) |
