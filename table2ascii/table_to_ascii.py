@@ -132,6 +132,10 @@ class TableToAscii:
                 # replace last seperator with symbol for edge of the row
                 sep = right_edge
             output += sep
+        # don't use separation row if it's only space
+        if output.strip() == "":
+            return ""
+        # otherwise, return the row followed by newline
         return output + "\n"
 
     def __top_edge_to_ascii(self) -> str:
@@ -182,9 +186,6 @@ class TableToAscii:
             right_edge=self.__style.row_right_tee,
             filler=self.__style.row_sep,
         )
-        # don't use separation row if it's only space
-        if separation_row.strip() == "":
-            separation_row = ""
         return separation_row.join(
             self.__row_to_ascii(
                 left_edge=self.__style.left_and_right_edge,
@@ -213,7 +214,7 @@ class TableToAscii:
         # bottom row of table
         table += self.__bottom_edge_to_ascii()
         # reurn ascii table
-        return table
+        return table.strip("\n")
 
 
 def table2ascii(**options) -> str:
