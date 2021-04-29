@@ -43,16 +43,16 @@ class TableStyle:
     top_right_corner: str  # E
     left_and_right_edge: str  # F
     heading_col_sep: str  # G
-    middle_edge: str  # H
+    col_sep: str  # H
     heading_row_left_tee: str  # I
     heading_row_sep: str  # J
-    heading_col_row_cross: str  # K
+    heading_col_heading_row_cross: str  # K
     heading_row_cross: str  # L
     heading_row_right_tee: str  # M
     row_left_tee: str  # N
-    normalrow_sep: str  # O
-    col_row_cross: str  # P
-    row_cross: str  # Q
+    row_sep: str  # O
+    heading_col_row_cross: str  # P
+    col_row_cross: str  # Q
     row_right_tee: str  # R
     bottom_left_corner: str  # S
     heading_col_bottom_tee: str  # T

@@ -159,7 +159,7 @@ class TableToAscii:
         return self.__row_to_ascii(
             left_edge=self.__style.left_and_right_edge,
             heading_col_sep=self.__style.heading_col_sep,
-            column_seperator=self.__style.middle_edge,
+            column_seperator=self.__style.col_sep,
             right_edge=self.__style.left_and_right_edge,
             filler=row,
         )
@@ -168,18 +168,28 @@ class TableToAscii:
         """Assembles the seperator below the header or above footer of the ascii table"""
         return self.__row_to_ascii(
             left_edge=self.__style.heading_row_left_tee,
-            heading_col_sep=self.__style.heading_col_row_cross,
+            heading_col_sep=self.__style.heading_col_heading_row_cross,
             column_seperator=self.__style.heading_row_cross,
             right_edge=self.__style.heading_row_right_tee,
             filler=self.__style.heading_row_sep,
         )
 
     def __body_to_ascii(self) -> str:
-        return "".join(
+        separation_row = self.__row_to_ascii(
+            left_edge=self.__style.row_left_tee,
+            heading_col_sep=self.__style.heading_col_row_cross,
+            column_seperator=self.__style.col_row_cross,
+            right_edge=self.__style.row_right_tee,
+            filler=self.__style.row_sep,
+        )
+        # don't use separation row if it's only space
+        if separation_row.strip() == "":
+            separation_row = ""
+        return separation_row.join(
             self.__row_to_ascii(
                 left_edge=self.__style.left_and_right_edge,
                 heading_col_sep=self.__style.heading_col_sep,
-                column_seperator=self.__style.middle_edge,
+                column_seperator=self.__style.col_sep,
                 right_edge=self.__style.left_and_right_edge,
                 filler=row,
             )
