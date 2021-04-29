@@ -8,12 +8,12 @@ from .options import Options
 class TableToAscii:
     """Class used to convert a 2D Python table to ASCII text"""
 
-    def __init__(self, options: Options):
+    def __init__(self, header: List, body: List[List], footer: List, options: Options):
         """Validate arguments and initialize fields"""
         # initialize fields
-        self.__header = options.header
-        self.__body = options.body
-        self.__footer = options.footer
+        self.__header = header
+        self.__body = body
+        self.__footer = footer
         self.__style = options.style
         self.__first_col_heading = options.first_col_heading
         self.__last_col_heading = options.last_col_heading
@@ -217,16 +217,21 @@ class TableToAscii:
         return table.strip("\n")
 
 
-def table2ascii(**options) -> str:
+def table2ascii(
+    header: List = None, body: List[List] = None, footer: List = None, **options
+) -> str:
     """Convert a 2D Python table to ASCII text
 
     ### Arguments
     :param header: :class:`Optional[List]` List of column values in the table's header row
     :param body: :class:`Optional[List[List]]` 2-dimensional list of values in the table's body
     :param footer: :class:`Optional[List]` List of column values in the table's footer row
+
+    ### Keyword required
+    :param style: :class:`Optional[TableStyle]` Table style to use for styling (preset styles can be imported)
     :param column_widths: :class:`Optional[List[int]]` List of widths in characters for each column (defaults to auto-sizing)
     :param alignments: :class:`Optional[List[Alignment]]` List of alignments (ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`)
     :param first_col_heading: :class:`Optional[bool]` Whether to add a header column separator after the first column
     :param last_col_heading: :class:`Optional[bool]` Whether to add a header column separator before the last column
     """
-    return TableToAscii(Options(**options)).to_ascii()
+    return TableToAscii(header, body, footer, Options(**options)).to_ascii()
