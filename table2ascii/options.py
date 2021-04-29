@@ -10,9 +10,6 @@ from .table_style import TableStyle
 class Options:
     """Class for storing options that the user sets"""
 
-    header: Optional[List] = None
-    body: Optional[List[List]] = None
-    footer: Optional[List] = None
     first_col_heading: bool = False
     last_col_heading: bool = False
     column_widths: Optional[List[int]] = None
