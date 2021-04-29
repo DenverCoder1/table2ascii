@@ -47,3 +47,15 @@ def test_negative_column_widths():
             last_col_heading=True,
             column_widths=[7, 5, 5, 5, -1],
         )
+
+
+def test_column_width_less_than_size():
+    with pytest.raises(ValueError):
+        t2a(
+            header=["Wide Column", "Another Wide Column", "H", "R", "S"],
+            body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
+            footer=["TOTL", "130", "140", "135", "130"],
+            first_col_heading=True,
+            last_col_heading=True,
+            column_widths=[5, 3, 3, 3, 3],
+        )
