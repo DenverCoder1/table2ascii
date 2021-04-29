@@ -10,8 +10,16 @@ Module for converting 2D Python lists to a fancy ASCII/Unicode tables
 - [table2ascii](#table2ascii)
   - [📥 Installation](#-installation)
   - [🧑‍💻 Usage](#-usage)
+    - [Convert lists to ASCII tables](#convert-lists-to-ascii-tables)
+    - [Set first or last column headings](#set-first-or-last-column-headings)
+    - [Set column widths and alignments](#set-column-widths-and-alignments)
+    - [Use a preset style](#use-a-preset-style)
+    - [Define a custom style](#define-a-custom-style)
+  - [🎨 Preset styles](#-preset-styles)
   - [⚙️ Options](#️-options)
   - [👨‍🎨 Use cases](#-use-cases)
+    - [Discord messages and embeds](#discord-messages-and-embeds)
+    - [Terminal outputs](#terminal-outputs)
   - [🧰 Development](#-development)
 
 
@@ -22,7 +30,7 @@ Module for converting 2D Python lists to a fancy ASCII/Unicode tables
 
 ## 🧑‍💻 Usage
 
-Convert Python lists to ASCII tables
+### Convert lists to ASCII tables
 
 ```py
 from table2ascii import table2ascii
@@ -47,6 +55,8 @@ print(output)
 """
 ```
 
+### Set first or last column headings
+
 ```py
 from table2ascii import table2ascii
 
@@ -64,6 +74,8 @@ print(output)
 ╚════════════╩═══════════════════╝
 """
 ```
+
+### Set column widths and alignments
 
 ```py
 from table2ascii import table2ascii, Alignment
@@ -88,21 +100,78 @@ print(output)
 """
 ```
 
+### Use a preset style
+
+```py
+from table2ascii import table2ascii, PresetStyle
+
+output = table2ascii(
+    header=["First", "Second", "Third", "Fourth"],
+    body=[["10", "30", "40", "35"], ["20", "10", "20", "5"]],
+    column_widths=[10] * 4,
+    style=PresetStyle.ascii_box
+)
+
+print(output)
+
+"""
++----------+----------+----------+----------+
+|  First   |  Second  |  Third   |  Fourth  |
++----------+----------+----------+----------+
+|    10    |    30    |    40    |    35    |
++----------+----------+----------+----------+
+|    20    |    10    |    20    |    5     |
++----------+----------+----------+----------+
+"""
+```
+
+### Define a custom style
+
+Check [`TableStyle`](https://github.com/DenverCoder1/table2ascii/blob/main/table2ascii/table_style.py) for more info and [`PresetStyle`](https://github.com/DenverCoder1/table2ascii/blob/main/table2ascii/preset_style.py) for examples.
+
+```py
+from table2ascii import table2ascii, TableStyle
+
+my_style = TableStyle.from_string("*-..*||:+-+:+     *''*")
+
+output = table2ascii(
+    header=["First", "Second", "Third"],
+    body=[["10", "30", "40"], ["20", "10", "20"], ["30", "20", "30"]],
+    style=my_style
+)
+
+print(output)
+
+"""
+*-------.--------.-------*
+| First : Second : Third |
++-------:--------:-------+
+|  10   :   30   :  40   |
+|  20   :   10   :  20   |
+|  30   :   20   :  30   |
+*-------'--------'-------*
+"""
+```
+
+## 🎨 Preset styles
+
+See a list of all preset styles [here](/style_list).
+
 ## ⚙️ Options
 
 All parameters are optional.
 
 Soon table2ascii will support more options for customization.
 
-|       Option        |   Type    |   Default    |                                      Description                                       |
-| :-----------------: | :-------: | :----------: | :------------------------------------------------------------------------------------: |
-|      `header`       |  `List`   |    `None`    |                  First row of table seperated by header row seperator                  |
-|       `body`        | `2D List` |    `None`    |                     List of rows for the main section of the table                     |
-|      `footer`       |  `List`   |    `None`    |                  Last row of table seperated by header row seperator                   |
-|   `column_widths`   |  `List`   |  automatic   |                  List of column widths in characters for each column                   |
-|    `alignments`     |  `List`   | all centered | Alignments for each column (ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`) |
-| `first_col_heading` |  `bool`   |   `False`    |            Whether to add a heading column seperator after the first column            |
-| `last_col_heading`  |  `bool`   |   `False`    |            Whether to add a heading column seperator before the last column            |
+|       Option        |       Type        |   Default    |                                        Description                                         |
+| :-----------------: | :---------------: | :----------: | :----------------------------------------------------------------------------------------: |
+|      `header`       |    `List[str]`    |    `None`    |                    First row of table seperated by header row seperator                    |
+|       `body`        | `List[List[str]]` |    `None`    |                       List of rows for the main section of the table                       |
+|      `footer`       |    `List[str]`    |    `None`    |                    Last row of table seperated by header row seperator                     |
+|   `column_widths`   |    `List[int]`    |  automatic   |                    List of column widths in characters for each column                     |
+|    `alignments`     |    `List[int]`    | all centered | Alignments for each column<br/>(ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`) |
+| `first_col_heading` |      `bool`       |   `False`    |              Whether to add a heading column seperator after the first column              |
+| `last_col_heading`  |      `bool`       |   `False`    |              Whether to add a heading column seperator before the last column              |
 
 ## 👨‍🎨 Use cases
 
