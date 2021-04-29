@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List, Optional
 
-from . import styles
+from .styles import Styles
 from .alignment import Alignment
 from .table_style import TableStyle
 
@@ -17,4 +17,4 @@ class Options:
     last_col_heading: bool = False
     column_widths: Optional[List[int]] = None
     alignments: Optional[List[Alignment]] = None
-    style: TableStyle = styles.double_thin_compact
+    style: TableStyle = Styles.double_thin_compact

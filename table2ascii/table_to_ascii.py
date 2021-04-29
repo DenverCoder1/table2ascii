@@ -22,12 +22,12 @@ class TableToAscii:
         self.__columns = self.__count_columns()
 
         # check if footer has a different number of columns
-        if options.footer and len(options.footer) != self.__columns:
+        if footer and len(footer) != self.__columns:
             raise ValueError(
                 "Footer must have the same number of columns as the other rows"
             )
         # check if any rows in body have a different number of columns
-        if options.body and any(len(row) != self.__columns for row in options.body):
+        if body and any(len(row) != self.__columns for row in body):
             raise ValueError(
                 "All rows in body must have the same number of columns as the other rows"
             )

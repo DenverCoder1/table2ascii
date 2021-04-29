@@ -1,4 +1,3 @@
-import enum
 from dataclasses import dataclass
 
 
@@ -36,6 +35,7 @@ class TableStyle:
     ```
     """
 
+    # parts of the table
     top_left_corner: str  # A
     top_and_bottom_edge: str  # B
     heading_col_top_tee: str  # C
@@ -59,6 +59,7 @@ class TableStyle:
     bottom_tee: str  # U
     bottom_right_corner: str  # V
 
+    # method for splitting string into argument list
     @classmethod
     def from_string(cls, string: str) -> "TableStyle":
         return cls(*string)
