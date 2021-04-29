@@ -10,6 +10,7 @@ Module for converting 2D Python lists to a fancy ASCII/Unicode tables
 - [table2ascii](#table2ascii)
   - [📥 Installation](#-installation)
   - [🧑‍💻 Usage](#-usage)
+  - [🎨 Styles](#-styles)
   - [⚙️ Options](#️-options)
   - [👨‍🎨 Use cases](#-use-cases)
     - [Discord messages and embeds](#discord-messages-and-embeds)
@@ -89,6 +90,35 @@ print(output)
 ╚═════╩═══════════════════════╝
 """
 ```
+
+```py
+from table2ascii import table2ascii, Styles
+
+output = table2ascii(
+    header=["#", "G", "H", "R", "S"],
+    body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
+    footer=["SUM", "130", "140", "135", "130"],
+    style=Styles.ascii_box,
+)
+
+print(output)
+
+"""
++-----+-----+-----+-----+-----+
+|  #  |  G  |  H  |  R  |  S  |
++-----+-----+-----+-----+-----+
+|  1  | 30  | 40  | 35  | 30  |
++-----+-----+-----+-----+-----+
+|  2  | 30  | 40  | 35  | 30  |
++-----+-----+-----+-----+-----+
+| SUM | 130 | 140 | 135 | 130 |
++-----+-----+-----+-----+-----+
+"""
+```
+
+## 🎨 Styles
+
+See a list of all preset styles [here](/style_list).
 
 ## ⚙️ Options
 
