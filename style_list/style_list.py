@@ -1,7 +1,8 @@
+import os
 from table2ascii import styles
 from table2ascii.table_to_ascii import table2ascii
 
-# prints all themes with previews
+# generate README.md containing all themes with previews
 if __name__ == "__main__":
     styles = {
         "thin": styles.thin,
@@ -32,6 +33,7 @@ if __name__ == "__main__":
         "ascii_simple": styles.ascii_simple,
         "markdown": styles.markdown,
     }
+    output = "## Preset styles\n\n"
     for style in list(styles.keys()):
         full = table2ascii(
             header=["#", "G", "H", "R", "S"],
@@ -47,4 +49,8 @@ if __name__ == "__main__":
             last_col_heading=False,
             style=styles[style],
         )
-        print(f"### `{style}`\n\n```\n{full}\n\n{body_only}\n```\n")
+        output += f"### `{style}`\n\n```\n{full}\n\n{body_only}\n```\n"
+
+    f = open(os.path.join("style_list", "README.md"), "w")
+    f.write(output)
+    f.close()

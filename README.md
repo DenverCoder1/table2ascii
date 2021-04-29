@@ -12,6 +12,8 @@ Module for converting 2D Python lists to a fancy ASCII/Unicode tables
   - [🧑‍💻 Usage](#-usage)
   - [⚙️ Options](#️-options)
   - [👨‍🎨 Use cases](#-use-cases)
+    - [Discord messages and embeds](#discord-messages-and-embeds)
+    - [Terminal outputs](#terminal-outputs)
   - [🧰 Development](#-development)
 
 
