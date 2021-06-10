@@ -2,6 +2,7 @@
 
 [![build](https://img.shields.io/github/workflow/status/DenverCoder1/table2ascii/Python%20application/main)](https://github.com/DenverCoder1/table2ascii/actions/workflows/python-app.yml)
 [![version](https://img.shields.io/pypi/v/table2ascii)](https://pypi.org/project/table2ascii/)
+[![downloads](https://static.pepy.tech/personalized-badge/table2ascii?period=total&units=none&left_color=grey&right_color=orange&left_text=downloads)](https://pepy.tech/project/table2ascii)
 [![license](https://img.shields.io/pypi/l/table2ascii)](https://github.com/DenverCoder1/table2ascii/blob/main/LICENSE)
 [![Discord](https://img.shields.io/discord/819650821314052106?color=5865F2&logo=discord&logoColor=white "Dev Pro Tips Discussion & Support Server")](https://discord.gg/fPrdqh3Zfu)
 
