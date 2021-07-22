@@ -6,7 +6,7 @@
 [![license](https://img.shields.io/pypi/l/table2ascii)](https://github.com/DenverCoder1/table2ascii/blob/main/LICENSE)
 [![Discord](https://img.shields.io/discord/819650821314052106?color=5865F2&logo=discord&logoColor=white "Dev Pro Tips Discussion & Support Server")](https://discord.gg/fPrdqh3Zfu)
 
-Module for converting 2D Python lists to a fancy ASCII/Unicode tables
+Module for converting 2D Python lists to fancy ASCII/Unicode tables
 
 - [table2ascii](#table2ascii)
   - [📥 Installation](#-installation)
