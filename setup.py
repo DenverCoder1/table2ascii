@@ -51,19 +51,29 @@ class LintCommand(Command):
         raise SystemExit(report.total_errors > 0)
 
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+def long_description():
+    # check if README.md exists
+    if not os.path.exists("README.md"):
+        return ""
+    with open("README.md", "r") as fh:
+        return fh.read()
 
-with open("requirements.txt") as fh:
-    requirements = fh.read().split("\n")
+
+def requirements():
+    # check if requirements.txt exists
+    if not os.path.exists("requirements.txt"):
+        return []
+    with open("requirements.txt") as f:
+        return f.read().splitlines()
+
 
 setup(
     name="table2ascii",
-    version="0.1.1",
+    version="0.1.2",
     author="Jonah Lawrence",
     author_email="jonah@freshidea.com",
     description="Convert 2D Python lists into Unicode/Ascii tables",
-    long_description=long_description,
+    long_description=long_description(),
     long_description_content_type="text/markdown",
     url="https://github.com/DenverCoder1/table2ascii",
     project_urls={
@@ -78,7 +88,7 @@ setup(
         "Topic :: Utilities",
     ],
     python_requires=">=3.6",
-    install_requires=[requirements],
+    install_requires=[requirements()],
     setup_requires=[
         "flake8>=3.8,<4",
     ],
