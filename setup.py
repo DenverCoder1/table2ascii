@@ -4,19 +4,6 @@ from setuptools import setup
 from setuptools.command.test import test as TestCommand, Command
 
 
-class PyTest(TestCommand):
-    def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = ["tests", "-s"]
-        self.test_suite = True
-
-    def run_tests(self):
-        import pytest
-
-        errno = pytest.main(self.test_args)
-        raise SystemExit(errno)
-
-
 class LintCommand(Command):
     """
     A copy of flake8's Flake8Command
@@ -96,7 +83,6 @@ setup(
         "pytest>=6.2,<7",
     ],
     cmdclass={
-        "test": PyTest,
         "lint": LintCommand,
     },
 )
