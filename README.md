@@ -195,7 +195,7 @@ All parameters are optional.
 
 To run tests (pytest)
 
-``python setup.py test``
+``tox``
 
 To lint (flake8):
 
