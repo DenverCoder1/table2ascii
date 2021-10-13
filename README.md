@@ -4,32 +4,17 @@
 [![version](https://img.shields.io/pypi/v/table2ascii)](https://pypi.org/project/table2ascii/)
 [![downloads](https://static.pepy.tech/personalized-badge/table2ascii?period=total&units=none&left_color=grey&right_color=orange&left_text=downloads)](https://pepy.tech/project/table2ascii)
 [![license](https://img.shields.io/pypi/l/table2ascii)](https://github.com/DenverCoder1/table2ascii/blob/main/LICENSE)
-[![Discord](https://img.shields.io/discord/819650821314052106?color=5865F2&logo=discord&logoColor=white "Dev Pro Tips Discussion & Support Server")](https://discord.gg/fPrdqh3Zfu)
+[![discord](https://img.shields.io/discord/819650821314052106?color=5865F2&logo=discord&logoColor=white "Dev Pro Tips Discussion & Support Server")](https://discord.gg/fPrdqh3Zfu)
 
-Module for converting 2D Python lists to fancy ASCII/Unicode tables
+Library for converting 2D Python lists to fancy ASCII/Unicode tables
 
-- [table2ascii](#table2ascii)
-  - [📥 Installation](#-installation)
-  - [🧑‍💻 Usage](#-usage)
-    - [Convert lists to ASCII tables](#convert-lists-to-ascii-tables)
-    - [Set first or last column headings](#set-first-or-last-column-headings)
-    - [Set column widths and alignments](#set-column-widths-and-alignments)
-    - [Use a preset style](#use-a-preset-style)
-    - [Define a custom style](#define-a-custom-style)
-  - [🎨 Preset styles](#-preset-styles)
-  - [⚙️ Options](#️-options)
-  - [👨‍🎨 Use cases](#-use-cases)
-    - [Discord messages and embeds](#discord-messages-and-embeds)
-    - [Terminal outputs](#terminal-outputs)
-  - [🧰 Development](#-development)
+Documentation and examples are available at [table2ascii.rtfd.io](https://table2ascii.readthedocs.io/)
 
 ## 📥 Installation
 
-``pip install table2ascii`` 
+``pip install -U table2ascii`` 
 
 **Requirements:** `Python 3.7+`
-
-(For Python 3.6, installing `dataclasses` is required)
 
 ## 🧑‍💻 Usage
 
@@ -158,7 +143,7 @@ print(output)
 
 ## 🎨 Preset styles
 
-See a list of all preset styles [here](https://github.com/DenverCoder1/table2ascii/tree/main/style_list).
+See a list of all preset styles [here](https://table2ascii.readthedocs.io/en/latest/styles.html).
 
 ## ⚙️ Options
 
@@ -193,10 +178,16 @@ All parameters are optional.
 
 ## 🧰 Development
 
-To run tests (pytest)
+### Running tests
 
-``tox``
+1. Install `tox` with the command ``pip install -U tox``
 
-To lint (flake8):
+2. Run tests with the command ``tox``
+
+### Linting
+
+Run the following command to lint with flake8
 
 ``python setup.py lint``
+
+(Note: The exact command may vary depending on your Python version and environment)

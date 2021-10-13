@@ -1,17 +1,22 @@
 import os
-from table2ascii import PresetStyle
-from table2ascii.table_to_ascii import table2ascii
+from table2ascii import PresetStyle, table2ascii
 
-# generate README.md containing all themes with previews
-if __name__ == "__main__":
+
+def indent_all_lines(text, number_of_spaces=3):
+    """Indent all lines in a string by a certain number of spaces"""
+    return "\n".join(number_of_spaces * " " + line for line in text.split("\n"))
+
+
+def generate_style_list():
+    """Generate README.rst the style list"""
     # get attributes in PresetStyle
     attribute_names = [attr for attr in dir(PresetStyle) if not attr.startswith("__")]
     attributes = [getattr(PresetStyle, attr) for attr in attribute_names]
     # make a dict mapping style names to TableStyles
     styles = dict(zip(attribute_names, attributes))
     # README output variables
-    heading = "## Preset styles"
-    table_of_contents = "- [Preset styles](#preset-styles)\n"
+    heading = ".. _styles:\n\nPreset styles\n-------------"
+    table_of_contents = ".. contents::\n"
     style_list = ""
     # generate tables for each style
     for style in list(styles.keys()):
@@ -29,12 +34,19 @@ if __name__ == "__main__":
             last_col_heading=False,
             style=styles[style],
         )
-        table_of_contents += f"  - [`{style}`](#{style})\n"
-        style_list += f"### `{style}`\n\n```\n{full}\n\n{body_only}\n```\n"
+        style_heading = f"`{style}`\n" + "~" * len(f"`{style}`")
+        output_example = indent_all_lines(full + "\n\n" + body_only)
+        style_list += f"{style_heading}\n\n::\n\n{output_example}\n\n"
     # put it all together
-    output = f"{heading}\n\n{table_of_contents}\n{style_list}"
+    return f"{heading}\n\n{table_of_contents}\n{style_list}"
 
-    # overwrite `style_list/README.md` with the changes
-    f = open(os.path.join("style_list", "README.md"), "w")
-    f.write(output)
-    f.close()
+
+def write_to_file(filename, content):
+    """Write content to filename"""
+    with open(filename, "w") as f:
+        f.write(content)
+
+
+if __name__ == "__main__":
+    content = generate_style_list()
+    write_to_file(os.path.join("docs", "source", "styles.rst"), content)

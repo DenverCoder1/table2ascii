@@ -1,7 +1,8 @@
 # /usr/bin/env python
 import os
+import re
 from setuptools import setup
-from setuptools.command.test import test as TestCommand, Command
+from setuptools.command.test import test as Command
 
 
 class LintCommand(Command):
@@ -38,6 +39,17 @@ class LintCommand(Command):
         raise SystemExit(report.total_errors > 0)
 
 
+def version():
+    version = ""
+    with open("table2ascii/__init__.py") as f:
+        version = re.search(
+            r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE
+        ).group(1)
+    if not version:
+        raise RuntimeError("version is not set")
+    return version
+
+
 def long_description():
     # check if README.md exists
     if not os.path.exists("README.md"):
@@ -54,9 +66,19 @@ def requirements():
         return f.read().splitlines()
 
 
+extras_require = {
+    "docs": [
+        "sphinx==4.2.0",
+        "enum-tools==0.6.4",
+        "sphinx-toolbox==2.15.0",
+        "sphinxcontrib_trio==1.1.2",
+        "sphinx-rtd-theme==1.0.0",
+    ],
+}
+
 setup(
     name="table2ascii",
-    version="0.1.2",
+    version=version(),
     author="Jonah Lawrence",
     author_email="jonah@freshidea.com",
     description="Convert 2D Python lists into Unicode/Ascii tables",
@@ -76,6 +98,7 @@ setup(
     ],
     python_requires=">=3.6",
     install_requires=[requirements()],
+    extras_require=extras_require,
     setup_requires=[
         "flake8>=3.8,<4",
     ],

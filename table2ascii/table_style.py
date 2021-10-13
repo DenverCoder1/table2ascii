@@ -5,34 +5,34 @@ from dataclasses import dataclass
 class TableStyle:
     """Class for storing information about a table style
 
-    **Parts of the table labeled alphabetically**
+    Parts of the table labeled alphabetically:
 
-    ```text
-    ABBBBBCBBBBBDBBBBBDBBBBBDBBBBBE
-    F     G     H     H     H     F
-    IJJJJJKJJJJJLJJJJJLJJJJJLJJJJJM
-    F     G     H     H     H     F
-    NOOOOOPOOOOOQOOOOOQOOOOOQOOOOOR
-    F     G     H     H     H     F
-    IJJJJJKJJJJJLJJJJJLJJJJJLJJJJJM
-    F     G     H     H     H     F
-    SBBBBBTBBBBBUBBBBBUBBBBBUBBBBBV
-    ```
+    .. code-block::
 
-    **How the theme is displayed with double thickness for
-    heading rows and columns and thin for normal rows and columns**
+        ABBBBBCBBBBBDBBBBBDBBBBBDBBBBBE
+        F     G     H     H     H     F
+        IJJJJJKJJJJJLJJJJJLJJJJJLJJJJJM
+        F     G     H     H     H     F
+        NOOOOOPOOOOOQOOOOOQOOOOOQOOOOOR
+        F     G     H     H     H     F
+        IJJJJJKJJJJJLJJJJJLJJJJJLJJJJJM
+        F     G     H     H     H     F
+        SBBBBBTBBBBBUBBBBBUBBBBBUBBBBBV
 
-    ```text
-    ╔═════╦═════╦═════╦═════╦═════╗
-    ║  #  ║  G  │  H  │  R  │  S  ║
-    ╠═════╬═════╪═════╪═════╪═════╣
-    ║  1  ║ 30  │ 40  │ 35  │ 30  ║
-    ╟─────╫─────┼─────┼─────┼─────╢
-    ║  2  ║ 30  │ 40  │ 35  │ 30  ║
-    ╠═════╬═════╪═════╪═════╪═════╣
-    ║ SUM ║ 130 │ 140 │ 135 │ 130 ║
-    ╚═════╩═════╩═════╩═════╩═════╝
-    ```
+    How the theme is displayed with double thickness for
+    heading rows and columns and thin for normal rows and columns:
+
+    .. code-block::
+
+        ╔═════╦═════╦═════╦═════╦═════╗
+        ║  #  ║  G  │  H  │  R  │  S  ║
+        ╠═════╬═════╪═════╪═════╪═════╣
+        ║  1  ║ 30  │ 40  │ 35  │ 30  ║
+        ╟─────╫─────┼─────┼─────┼─────╢
+        ║  2  ║ 30  │ 40  │ 35  │ 30  ║
+        ╠═════╬═════╪═════╪═════╪═════╣
+        ║ SUM ║ 130 │ 140 │ 135 │ 130 ║
+        ╚═════╩═════╩═════╩═════╩═════╝
     """
 
     # parts of the table
@@ -59,7 +59,19 @@ class TableStyle:
     bottom_tee: str  # U
     bottom_right_corner: str  # V
 
-    # method for splitting string into argument list
     @classmethod
     def from_string(cls, string: str) -> "TableStyle":
+        """
+        Create a TableStyle from a string
+
+        Args:
+            string: The string to create the TableStyle from
+
+        Returns:
+            TableStyle: A TableStyle object
+
+        Example::
+
+            TableStyle.from_string("╔═╦═╗║║ ╟─╫─╢     ╚╩═╝")
+        """
         return cls(*string)

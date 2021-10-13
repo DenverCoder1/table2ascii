@@ -2,7 +2,20 @@ from .table_style import TableStyle
 
 
 class PresetStyle:
-    """Importable preset styles for more easily selecting a table style"""
+    """
+    Importable preset styles for more easily selecting a :ref:`TableStyle`.
+
+    See the :ref:`Preset Styles<styles>` for more information on the available styles.
+
+    Example::
+
+        from table2ascii import PresetStyle
+
+        output = table2ascii(
+            ...
+            style=PresetStyle.ascii_box
+        )
+    """
 
     thin = TableStyle.from_string("┌─┬─┐││ ├─┼─┤├─┼─┤└┴─┘")
     thin_box = TableStyle.from_string("┌─┬┬┐│││├─┼┼┤├─┼┼┤└┴┴┘")
