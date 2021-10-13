@@ -176,10 +176,16 @@ All parameters are optional.
 
 ## 🧰 Development
 
-To run tests (pytest)
+### Running tests
+
+Install `tox`:
+
+``pip install tox``
+
+Run tests:
 
 ``tox``
 
-To lint (flake8):
+### Linting with `flake8`
 
 ``python setup.py lint``
