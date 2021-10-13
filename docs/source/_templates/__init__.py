@@ -1,7 +1,8 @@
 """
-Sphinx Read the Docs theme.
+This theme template is nearly entirely based on the Sphinx Read the Docs theme
+from https://github.com/ryan-roemer/sphinx-bootstrap-theme.
 
-From https://github.com/ryan-roemer/sphinx-bootstrap-theme.
+Some minor modifications have been made to the template by Jonah Lawrence.
 """
 
 from os import path

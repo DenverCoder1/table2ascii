@@ -95,10 +95,11 @@
     {%- endfor %}
     {%- endif %}
     <script src="{{ pathto('_static/js/theme.js', 1) }}"></script>
+    <!-- DarkReader - automatic dark mode -->
     <script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.39/darkreader.min.js"></script>
-    <script>
-      DarkReader.auto();
-    </script>
+    <script>DarkReader.auto();</script>
+    <!-- GitHub Buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
 
     {#- OPENSEARCH #}
     {%- if use_opensearch %}
