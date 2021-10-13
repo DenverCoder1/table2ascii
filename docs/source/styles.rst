@@ -1,3 +1,5 @@
+.. _styles:
+
 Preset styles
 -------------
 

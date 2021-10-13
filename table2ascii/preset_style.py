@@ -5,8 +5,7 @@ class PresetStyle:
     """
     Importable preset styles for more easily selecting a table style
 
-    See the `Style List <https://github.com/DenverCoder1/table2ascii/blob/main/style_list/README.md>`_
-    for more information on the available styles.
+    See the :ref:`styles` for more information on the available styles.
     """
 
     thin = TableStyle.from_string("┌─┬─┐││ ├─┼─┤├─┼─┤└┴─┘")
