@@ -69,7 +69,7 @@ def requirements():
 extras_require = {
     "docs": [
         "sphinx==4.2.0",
-        "enum-tools==0.6.4==1.5.0",
+        "enum-tools==0.6.4",
         "sphinx-toolbox==2.15.0",
         "sphinx-rtd-theme==1.0.0",
     ],
