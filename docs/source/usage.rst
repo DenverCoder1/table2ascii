@@ -104,9 +104,9 @@ Define a custom style
 ~~~~~~~~~~~~~~~~~~~~~
 
 Check
-```TableStyle`` <https://github.com/DenverCoder1/table2ascii/blob/main/table2ascii/table_style.py>`__
+`TableStyle <https://github.com/DenverCoder1/table2ascii/blob/main/table2ascii/table_style.py>`_
 for more info and
-```PresetStyle`` <https://github.com/DenverCoder1/table2ascii/blob/main/table2ascii/preset_style.py>`__
+`PresetStyle <https://github.com/DenverCoder1/table2ascii/blob/main/table2ascii/preset_style.py>`_
 for examples.
 
 .. code:: py
