@@ -4,13 +4,15 @@
 [![version](https://img.shields.io/pypi/v/table2ascii)](https://pypi.org/project/table2ascii/)
 [![downloads](https://static.pepy.tech/personalized-badge/table2ascii?period=total&units=none&left_color=grey&right_color=orange&left_text=downloads)](https://pepy.tech/project/table2ascii)
 [![license](https://img.shields.io/pypi/l/table2ascii)](https://github.com/DenverCoder1/table2ascii/blob/main/LICENSE)
-[![Discord](https://img.shields.io/discord/819650821314052106?color=5865F2&logo=discord&logoColor=white "Dev Pro Tips Discussion & Support Server")](https://discord.gg/fPrdqh3Zfu)
+[![discord](https://img.shields.io/discord/819650821314052106?color=5865F2&logo=discord&logoColor=white "Dev Pro Tips Discussion & Support Server")](https://discord.gg/fPrdqh3Zfu)
 
 Library for converting 2D Python lists to fancy ASCII/Unicode tables
 
+Documentation and examples are available at [table2ascii.rtfd.io](https://table2ascii.readthedocs.io/)
+
 ## 📥 Installation
 
-``pip install table2ascii`` 
+``pip install -U table2ascii`` 
 
 **Requirements:** `Python 3.7+`
 
@@ -141,7 +143,7 @@ print(output)
 
 ## 🎨 Preset styles
 
-See a list of all preset styles [here](https://github.com/DenverCoder1/table2ascii/tree/main/style_list).
+See a list of all preset styles [here](https://table2ascii.readthedocs.io/en/latest/styles.html).
 
 ## ⚙️ Options
 
@@ -178,11 +180,11 @@ All parameters are optional.
 
 ### Running tests
 
-Install `tox`:
+**Install requirements**
 
-``pip install tox``
+``pip install -U tox``
 
-Run tests:
+**Run tests**
 
 ``tox``
 
