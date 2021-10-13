@@ -158,7 +158,7 @@ print(output)
 
 ## 🎨 Preset styles
 
-See a list of all preset styles [here](/style_list).
+See a list of all preset styles [here](https://github.com/DenverCoder1/table2ascii/tree/main/style_list).
 
 ## ⚙️ Options
 
