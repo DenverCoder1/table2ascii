@@ -1,7 +1,3 @@
-a.icon.icon-home:visited {
-    color: unset;
-}
-
 .wy-side-nav-search > a {
     font-size: 160%;
 }
@@ -10,4 +6,13 @@ a.icon.icon-home:visited {
     padding: 10px 15px;
     font-size: 100%;
     border-radius: 10px;
+}
+
+.section a:visited,
+footer a:visited {
+    color: #2980b9;
+}
+
+a.icon.icon-home:visited {
+    color: unset;
 }
