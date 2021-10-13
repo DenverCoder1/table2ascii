@@ -66,6 +66,15 @@ def requirements():
         return f.read().splitlines()
 
 
+extras_require = {
+    "docs": [
+        "sphinx==4.2.0",
+        "enum-tools==0.6.4==1.5.0",
+        "sphinx-toolbox==2.15.0",
+        "sphinx-rtd-theme==1.0.0",
+    ],
+}
+
 setup(
     name="table2ascii",
     version=version(),
@@ -88,6 +97,7 @@ setup(
     ],
     python_requires=">=3.6",
     install_requires=[requirements()],
+    extras_require=extras_require,
     setup_requires=[
         "flake8>=3.8,<4",
     ],
