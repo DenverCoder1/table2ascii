@@ -110,7 +110,7 @@ class TableToAscii:
             text (str): The text to pad
             width (int): The width in characters to pad to
             alignment (Alignment): The alignment to use
-        
+
         Returns:
             str: The padded text
         """
@@ -137,7 +137,7 @@ class TableToAscii:
     ) -> str:
         """
         Assembles a line of text in the ascii table
-        
+
         Returns:
             str: The line in the ascii table
         """
@@ -290,7 +290,8 @@ def table2ascii(
     footer: Optional[List] = None,
     **options,
 ) -> str:
-    """Convert a 2D Python table to ASCII text
+    """
+    Convert a 2D Python table to ASCII text
 
     Args:
         header (:class:`Optional[List]`): List of column values in the table's header row
