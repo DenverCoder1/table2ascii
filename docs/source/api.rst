@@ -1,39 +1,28 @@
-API
-===
+.. currentmodule:: table2ascii
 
-.. autosummary::
-   :toctree: generated
+API Reference
+=============
 
-   table2ascii
-
-TableToAscii
-~~~~~~~~~~~~~
-
-.. attributetable:: TableToAscii
-
-.. autoclass:: TableToAscii
-    :members:
-
-Alignment
-~~~~~~~~~~
-
-.. attributetable:: Alignment
-
-.. autoclass:: Alignment
-    :members:
-
-TableStyle
+table2ascii
 ~~~~~~~~~~~
 
-.. attributetable:: TableStyle
+.. autofunction:: table2ascii
 
-.. autoclass:: TableStyle
+
+Alignment
+~~~~~~~~~
+
+.. autoenum:: Alignment
     :members:
 
 PresetStyle
-~~~~~~~~~~~~
-
-.. attributetable:: PresetStyle
+~~~~~~~~~~~
 
 .. autoclass:: PresetStyle
+    :members:
+
+TableStyle
+~~~~~~~~~~
+
+.. autoclass:: TableStyle
     :members:

@@ -229,12 +229,11 @@ def table2ascii(
 ) -> str:
     """Convert a 2D Python table to ASCII text
 
-    ### Arguments
+    Arguments
+    ---------
     :param header: :class:`Optional[List]` List of column values in the table's header row
     :param body: :class:`Optional[List[List]]` 2-dimensional list of values in the table's body
     :param footer: :class:`Optional[List]` List of column values in the table's footer row
-
-    ### Keyword required
     :param style: :class:`TableStyle` Table style to use for styling (preset styles can be imported)
     :param column_widths: :class:`List[int]` List of widths in characters for each column (defaults to auto-sizing)
     :param alignments: :class:`List[Alignment]` List of alignments (ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`)

@@ -2,7 +2,12 @@ from .table_style import TableStyle
 
 
 class PresetStyle:
-    """Importable preset styles for more easily selecting a table style"""
+    """
+    Importable preset styles for more easily selecting a table style
+
+    See the `Style List <https://github.com/DenverCoder1/table2ascii/blob/main/style_list/README.md>`_
+    for more information on the available styles.
+    """
 
     thin = TableStyle.from_string("┌─┬─┐││ ├─┼─┤├─┼─┤└┴─┘")
     thin_box = TableStyle.from_string("┌─┬┬┐│││├─┼┼┤├─┼┼┤└┴┴┘")

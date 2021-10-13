@@ -21,6 +21,7 @@ Contents
 
    usage
    api
+   styles
 
 
 .. |build| image:: https://img.shields.io/github/workflow/status/DenverCoder1/table2ascii/Python%20application/main

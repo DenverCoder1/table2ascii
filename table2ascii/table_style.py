@@ -7,32 +7,32 @@ class TableStyle:
 
     Parts of the table labeled alphabetically:
 
-    ```
-    ABBBBBCBBBBBDBBBBBDBBBBBDBBBBBE
-    F     G     H     H     H     F
-    IJJJJJKJJJJJLJJJJJLJJJJJLJJJJJM
-    F     G     H     H     H     F
-    NOOOOOPOOOOOQOOOOOQOOOOOQOOOOOR
-    F     G     H     H     H     F
-    IJJJJJKJJJJJLJJJJJLJJJJJLJJJJJM
-    F     G     H     H     H     F
-    SBBBBBTBBBBBUBBBBBUBBBBBUBBBBBV
-    ```
+    .. code-block::
+
+        ABBBBBCBBBBBDBBBBBDBBBBBDBBBBBE
+        F     G     H     H     H     F
+        IJJJJJKJJJJJLJJJJJLJJJJJLJJJJJM
+        F     G     H     H     H     F
+        NOOOOOPOOOOOQOOOOOQOOOOOQOOOOOR
+        F     G     H     H     H     F
+        IJJJJJKJJJJJLJJJJJLJJJJJLJJJJJM
+        F     G     H     H     H     F
+        SBBBBBTBBBBBUBBBBBUBBBBBUBBBBBV
 
     How the theme is displayed with double thickness for
     heading rows and columns and thin for normal rows and columns:
 
-    ```
-    ╔═════╦═════╦═════╦═════╦═════╗
-    ║  #  ║  G  │  H  │  R  │  S  ║
-    ╠═════╬═════╪═════╪═════╪═════╣
-    ║  1  ║ 30  │ 40  │ 35  │ 30  ║
-    ╟─────╫─────┼─────┼─────┼─────╢
-    ║  2  ║ 30  │ 40  │ 35  │ 30  ║
-    ╠═════╬═════╪═════╪═════╪═════╣
-    ║ SUM ║ 130 │ 140 │ 135 │ 130 ║
-    ╚═════╩═════╩═════╩═════╩═════╝
-    ```
+    .. code-block::
+
+        ╔═════╦═════╦═════╦═════╦═════╗
+        ║  #  ║  G  │  H  │  R  │  S  ║
+        ╠═════╬═════╪═════╪═════╪═════╣
+        ║  1  ║ 30  │ 40  │ 35  │ 30  ║
+        ╟─────╫─────┼─────┼─────┼─────╢
+        ║  2  ║ 30  │ 40  │ 35  │ 30  ║
+        ╠═════╬═════╪═════╪═════╪═════╣
+        ║ SUM ║ 130 │ 140 │ 135 │ 130 ║
+        ╚═════╩═════╩═════╩═════╩═════╝
     """
 
     # parts of the table
@@ -61,5 +61,11 @@ class TableStyle:
 
     @classmethod
     def from_string(cls, string: str) -> "TableStyle":
-        """Create a TableStyle from a string"""
+        """
+        Create a TableStyle from a string
+        
+        Example::
+
+            TableStyle.from_string("╔═╦═╗║║ ╟─╫─╢     ╚╩═╝")
+        """
         return cls(*string)
