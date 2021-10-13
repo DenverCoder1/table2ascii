@@ -5,12 +5,22 @@ table2ascii
 
 Module for converting 2D Python lists to fancy ASCII/Unicode tables
 
+Check out the :doc:`usage` section for further information
+
 Installation
 --------------
 
 ``pip install -U table2ascii``
 
 **Requirements:** ``Python 3.7+``
+
+Contents
+--------
+
+.. toctree::
+
+   usage
+   api
 
 
 .. |build| image:: https://img.shields.io/github/workflow/status/DenverCoder1/table2ascii/Python%20application/main
