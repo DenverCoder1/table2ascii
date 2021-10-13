@@ -1,7 +1,8 @@
 # /usr/bin/env python
 import os
+import re
 from setuptools import setup
-from setuptools.command.test import test as TestCommand, Command
+from setuptools.command.test import test as Command
 
 
 class LintCommand(Command):
@@ -38,6 +39,17 @@ class LintCommand(Command):
         raise SystemExit(report.total_errors > 0)
 
 
+def version():
+    version = ""
+    with open("table2ascii/__init__.py") as f:
+        version = re.search(
+            r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE
+        ).group(1)
+    if not version:
+        raise RuntimeError("version is not set")
+    return version
+
+
 def long_description():
     # check if README.md exists
     if not os.path.exists("README.md"):
@@ -56,7 +68,7 @@ def requirements():
 
 setup(
     name="table2ascii",
-    version="0.1.2",
+    version=version(),
     author="Jonah Lawrence",
     author_email="jonah@freshidea.com",
     description="Convert 2D Python lists into Unicode/Ascii tables",

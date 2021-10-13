@@ -4,3 +4,8 @@ requires = [
     "wheel"
 ]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "table2ascii"
+authors = [{name = "Jonah Lawrence", email = "jonah@freshidea.com"}]
+dynamic = ["version", "description"]

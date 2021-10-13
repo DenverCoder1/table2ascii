@@ -3,7 +3,7 @@ table2ascii
 
 |build| |version| |downloads| |license| |Discord|
 
-Module for converting 2D Python lists to fancy ASCII/Unicode tables
+Library for converting 2D Python lists to fancy ASCII/Unicode tables
 
 Check out the :doc:`usage` section for further information
 
