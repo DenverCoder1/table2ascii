@@ -1,5 +1,5 @@
 from math import ceil, floor
-from typing import List, Union
+from typing import List, Optional, Union
 
 from .alignment import Alignment
 from .options import Options
@@ -222,7 +222,10 @@ class TableToAscii:
 
 
 def table2ascii(
-    header: List = None, body: List[List] = None, footer: List = None, **options
+    header: Optional[List] = None,
+    body: Optional[List[List]] = None,
+    footer: Optional[List] = None,
+    **options,
 ) -> str:
     """Convert a 2D Python table to ASCII text
 
@@ -232,10 +235,10 @@ def table2ascii(
     :param footer: :class:`Optional[List]` List of column values in the table's footer row
 
     ### Keyword required
-    :param style: :class:`Optional[TableStyle]` Table style to use for styling (preset styles can be imported)
-    :param column_widths: :class:`Optional[List[int]]` List of widths in characters for each column (defaults to auto-sizing)
-    :param alignments: :class:`Optional[List[Alignment]]` List of alignments (ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`)
-    :param first_col_heading: :class:`Optional[bool]` Whether to add a header column separator after the first column
-    :param last_col_heading: :class:`Optional[bool]` Whether to add a header column separator before the last column
+    :param style: :class:`TableStyle` Table style to use for styling (preset styles can be imported)
+    :param column_widths: :class:`List[int]` List of widths in characters for each column (defaults to auto-sizing)
+    :param alignments: :class:`List[Alignment]` List of alignments (ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`)
+    :param first_col_heading: :class:`bool` Whether to add a header column separator after the first column
+    :param last_col_heading: :class:`bool` Whether to add a header column separator before the last column
     """
     return TableToAscii(header, body, footer, Options(**options)).to_ascii()

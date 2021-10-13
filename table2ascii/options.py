@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from typing import List, Optional
 
-from .preset_style import PresetStyle
 from .alignment import Alignment
+from .preset_style import PresetStyle
 from .table_style import TableStyle
 
 
