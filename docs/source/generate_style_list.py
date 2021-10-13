@@ -15,7 +15,7 @@ def generate_style_list():
     # make a dict mapping style names to TableStyles
     styles = dict(zip(attribute_names, attributes))
     # README output variables
-    heading = "Preset styles\n-------------"
+    heading = ".. _styles:\n\nPreset styles\n-------------"
     table_of_contents = ".. contents::\n"
     style_list = ""
     # generate tables for each style

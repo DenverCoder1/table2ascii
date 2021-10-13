@@ -103,11 +103,7 @@ Use a preset style
 Define a custom style
 ~~~~~~~~~~~~~~~~~~~~~
 
-Check
-`TableStyle <https://github.com/DenverCoder1/table2ascii/blob/main/table2ascii/table_style.py>`_
-for more info and
-`PresetStyle <https://github.com/DenverCoder1/table2ascii/blob/main/table2ascii/preset_style.py>`_
-for examples.
+Check :ref:`TableStyle` for more info.
 
 .. code:: py
 

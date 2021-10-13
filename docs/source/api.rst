@@ -21,6 +21,8 @@ PresetStyle
 .. autoclass:: PresetStyle
     :members:
 
+.. _TableStyle:
+
 TableStyle
 ~~~~~~~~~~
 
