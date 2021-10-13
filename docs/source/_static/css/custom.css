@@ -1,18 +1,29 @@
+/* Make the title bigger */
 .wy-side-nav-search > a {
     font-size: 160%;
 }
 
+/* Search box adjustments */
 .wy-side-nav-search input[type="text"] {
     padding: 10px 15px;
     font-size: 100%;
     border-radius: 10px;
 }
 
+/* Set visited links to blue */
 .section a:visited,
 footer a:visited {
     color: #2980b9;
 }
 
+/* Make home icon black instead of purple */
 a.icon.icon-home:visited {
     color: unset;
+}
+
+/* Change code highlight background on dark mode */
+@media (prefers-color-scheme: dark) {
+    .rst-content .highlight {
+       background: #26292b;
+    }
 }
