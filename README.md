@@ -14,8 +14,6 @@ Module for converting 2D Python lists to fancy ASCII/Unicode tables
 
 **Requirements:** `Python 3.7+`
 
-(For Python 3.6, installing `dataclasses` is required)
-
 ## 🧑‍💻 Usage
 
 ### Convert lists to ASCII tables
