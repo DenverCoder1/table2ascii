@@ -180,14 +180,14 @@ All parameters are optional.
 
 ### Running tests
 
-**Install requirements**
+1. Install `tox` with the command ``pip install -U tox``
 
-``pip install -U tox``
+2. Run tests with the command ``tox``
 
-**Run tests**
+### Linting
 
-``tox``
-
-### Linting with `flake8`
+Run the following command to lint with flake8
 
 ``python setup.py lint``
+
+(Note: The exact command may vary depending on your Python version and environment)
