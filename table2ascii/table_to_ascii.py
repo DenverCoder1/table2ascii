@@ -9,7 +9,15 @@ class TableToAscii:
     """Class used to convert a 2D Python table to ASCII text"""
 
     def __init__(self, header: List, body: List[List], footer: List, options: Options):
-        """Validate arguments and initialize fields"""
+        """
+        Validate arguments and initialize fields
+
+        Args:
+            header (List): The values in the header of the table
+            body (List[List]): The rows of values in the body of the table
+            footer (List): The values in the footer of the table
+            options (Options): The options for the table
+        """
         # initialize fields
         self.__header = header
         self.__body = body
@@ -59,8 +67,12 @@ class TableToAscii:
             )
 
     def __count_columns(self) -> int:
-        """Get the number of columns in the table
-        based on the provided header, footer, and body lists.
+        """
+        Get the number of columns in the table based on the
+        provided header, footer, and body lists.
+
+        Returns:
+            int: The number of columns in the table
         """
         if self.__header:
             return len(self.__header)
@@ -71,8 +83,12 @@ class TableToAscii:
         return 0
 
     def __auto_column_widths(self) -> List[int]:
-        """Get the minimum number of characters needed for the values
-        in each column in the table with 1 space of padding on each side.
+        """
+        Get the minimum number of characters needed for the values in
+        each column in the table with 1 space of padding on each side.
+
+        Returns:
+            List[int]: The minimum number of characters needed for each column
         """
         column_widths = []
         for i in range(self.__columns):
@@ -86,8 +102,18 @@ class TableToAscii:
             column_widths.append(max(header_size, *body_size, footer_size) + 2)
         return column_widths
 
-    def __pad(self, text: str, width: int, alignment: Alignment):
-        """Pad a string of text to a given width with specified alignment"""
+    def __pad(self, text: str, width: int, alignment: Alignment) -> str:
+        """
+        Pad a string of text to a given width with specified alignment
+
+        Args:
+            text (str): The text to pad
+            width (int): The width in characters to pad to
+            alignment (Alignment): The alignment to use
+        
+        Returns:
+            str: The padded text
+        """
         if alignment == Alignment.LEFT:
             # pad with spaces on the end
             return f" {text} " + (" " * (width - len(text) - 2))
@@ -109,7 +135,12 @@ class TableToAscii:
         right_edge: str,
         filler: Union[str, List],
     ) -> str:
-        """Assembles a row of the ascii table"""
+        """
+        Assembles a line of text in the ascii table
+        
+        Returns:
+            str: The line in the ascii table
+        """
         # left edge of the row
         output = left_edge
         # add columns
@@ -143,7 +174,12 @@ class TableToAscii:
         return output + "\n"
 
     def __top_edge_to_ascii(self) -> str:
-        """Assembles the top edge of the ascii table"""
+        """
+        Assembles the top edge of the ascii table
+
+        Returns:
+            str: The top edge of the ascii table
+        """
         return self.__row_to_ascii(
             left_edge=self.__style.top_left_corner,
             heading_col_sep=self.__style.heading_col_top_tee,
@@ -153,7 +189,12 @@ class TableToAscii:
         )
 
     def __bottom_edge_to_ascii(self) -> str:
-        """Assembles the top edge of the ascii table"""
+        """
+        Assembles the bottom edge of the ascii table
+
+        Returns:
+            str: The bottom edge of the ascii table
+        """
         return self.__row_to_ascii(
             left_edge=self.__style.bottom_left_corner,
             heading_col_sep=self.__style.heading_col_bottom_tee,
@@ -163,7 +204,12 @@ class TableToAscii:
         )
 
     def __heading_row_to_ascii(self, row: List) -> str:
-        """Assembles the header or footer row line of the ascii table"""
+        """
+        Assembles the header or footer row line of the ascii table
+
+        Returns:
+            str: The header or footer row line of the ascii table
+        """
         return self.__row_to_ascii(
             left_edge=self.__style.left_and_right_edge,
             heading_col_sep=self.__style.heading_col_sep,
@@ -173,7 +219,12 @@ class TableToAscii:
         )
 
     def __heading_sep_to_ascii(self) -> str:
-        """Assembles the seperator below the header or above footer of the ascii table"""
+        """
+        Assembles the seperator below the header or above footer of the ascii table
+
+        Returns:
+            str: The seperator line
+        """
         return self.__row_to_ascii(
             left_edge=self.__style.heading_row_left_tee,
             heading_col_sep=self.__style.heading_col_heading_row_cross,
@@ -183,6 +234,12 @@ class TableToAscii:
         )
 
     def __body_to_ascii(self) -> str:
+        """
+        Assembles the body of the ascii table
+
+        Returns:
+            str: The body of the ascii table
+        """
         separation_row = self.__row_to_ascii(
             left_edge=self.__style.row_left_tee,
             heading_col_sep=self.__style.heading_col_row_cross,
@@ -202,6 +259,12 @@ class TableToAscii:
         )
 
     def to_ascii(self) -> str:
+        """
+        Generates a formatted ASCII table
+
+        Returns:
+            str: The generated ASCII table
+        """
         # top row of table
         table = self.__top_edge_to_ascii()
         # add table header
@@ -229,15 +292,17 @@ def table2ascii(
 ) -> str:
     """Convert a 2D Python table to ASCII text
 
-    Arguments
-    ---------
-    :param header: :class:`Optional[List]` List of column values in the table's header row
-    :param body: :class:`Optional[List[List]]` 2-dimensional list of values in the table's body
-    :param footer: :class:`Optional[List]` List of column values in the table's footer row
-    :param style: :class:`TableStyle` Table style to use for styling (preset styles can be imported)
-    :param column_widths: :class:`List[int]` List of widths in characters for each column (defaults to auto-sizing)
-    :param alignments: :class:`List[Alignment]` List of alignments (ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`)
-    :param first_col_heading: :class:`bool` Whether to add a header column separator after the first column
-    :param last_col_heading: :class:`bool` Whether to add a header column separator before the last column
+    Args:
+        header (:class:`Optional[List]`): List of column values in the table's header row
+        body (:class:`Optional[List[List]]`): 2-dimensional list of values in the table's body
+        footer (:class:`Optional[List]`): List of column values in the table's footer row
+        style (:class:`TableStyle`): Table style to use for styling (preset styles can be imported)
+        column_widths (:class:`List[int]`): List of widths in characters for each column (defaults to auto-sizing)
+        alignments (:class:`List[Alignment]`): List of alignments (ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`)
+        first_col_heading (:class:`bool`): Whether to add a header column separator after the first column
+        last_col_heading (:class:`bool`): Whether to add a header column separator before the last column
+
+    Returns:
+        str: The generated ASCII table
     """
     return TableToAscii(header, body, footer, Options(**options)).to_ascii()

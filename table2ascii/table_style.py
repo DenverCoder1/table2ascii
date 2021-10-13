@@ -63,7 +63,13 @@ class TableStyle:
     def from_string(cls, string: str) -> "TableStyle":
         """
         Create a TableStyle from a string
-        
+
+        Args:
+            string: The string to create the TableStyle from
+
+        Returns:
+            TableStyle: A TableStyle object
+
         Example::
 
             TableStyle.from_string("╔═╦═╗║║ ╟─╫─╢     ╚╩═╝")
