@@ -71,7 +71,7 @@ extras_require = {
         "sphinx==4.2.0",
         "enum-tools==0.6.4",
         "sphinx-toolbox==2.15.0",
-        'sphinxcontrib_trio==1.1.2',
+        "sphinxcontrib_trio==1.1.2",
         "sphinx-rtd-theme==1.0.0",
     ],
 }
