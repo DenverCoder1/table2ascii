@@ -5,9 +5,9 @@ from dataclasses import dataclass
 class TableStyle:
     """Class for storing information about a table style
 
-    **Parts of the table labeled alphabetically**
+    Parts of the table labeled alphabetically:
 
-    ```text
+    ```
     ABBBBBCBBBBBDBBBBBDBBBBBDBBBBBE
     F     G     H     H     H     F
     IJJJJJKJJJJJLJJJJJLJJJJJLJJJJJM
@@ -19,10 +19,10 @@ class TableStyle:
     SBBBBBTBBBBBUBBBBBUBBBBBUBBBBBV
     ```
 
-    **How the theme is displayed with double thickness for
-    heading rows and columns and thin for normal rows and columns**
+    How the theme is displayed with double thickness for
+    heading rows and columns and thin for normal rows and columns:
 
-    ```text
+    ```
     ╔═════╦═════╦═════╦═════╦═════╗
     ║  #  ║  G  │  H  │  R  │  S  ║
     ╠═════╬═════╪═════╪═════╪═════╣
@@ -59,7 +59,7 @@ class TableStyle:
     bottom_tee: str  # U
     bottom_right_corner: str  # V
 
-    # method for splitting string into argument list
     @classmethod
     def from_string(cls, string: str) -> "TableStyle":
+        """Create a TableStyle from a string"""
         return cls(*string)
