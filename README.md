@@ -8,21 +8,6 @@
 
 Module for converting 2D Python lists to fancy ASCII/Unicode tables
 
-- [table2ascii](#table2ascii)
-  - [📥 Installation](#-installation)
-  - [🧑‍💻 Usage](#-usage)
-    - [Convert lists to ASCII tables](#convert-lists-to-ascii-tables)
-    - [Set first or last column headings](#set-first-or-last-column-headings)
-    - [Set column widths and alignments](#set-column-widths-and-alignments)
-    - [Use a preset style](#use-a-preset-style)
-    - [Define a custom style](#define-a-custom-style)
-  - [🎨 Preset styles](#-preset-styles)
-  - [⚙️ Options](#️-options)
-  - [👨‍🎨 Use cases](#-use-cases)
-    - [Discord messages and embeds](#discord-messages-and-embeds)
-    - [Terminal outputs](#terminal-outputs)
-  - [🧰 Development](#-development)
-
 ## 📥 Installation
 
 ``pip install table2ascii`` 
