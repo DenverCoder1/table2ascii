@@ -1,0 +1,13 @@
+a.icon.icon-home:visited {
+    color: unset;
+}
+
+.wy-side-nav-search > a {
+    font-size: 160%;
+}
+
+.wy-side-nav-search input[type="text"] {
+    padding: 10px 15px;
+    font-size: 100%;
+    border-radius: 10px;
+}
