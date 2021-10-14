@@ -1,5 +1,5 @@
 from math import ceil, floor
-from typing import List, Optional, Union
+from typing import Any, List, Optional, Union
 
 from .alignment import Alignment
 from .options import Options
@@ -93,27 +93,30 @@ class TableToAscii:
         column_widths = []
         for i in range(self.__columns):
             # number of characters in column of i of header, each body row, and footer
-            header_size = len(self.__header[i]) if self.__header else 0
+            header_size = len(str(self.__header[i])) if self.__header else 0
             body_size = (
-                map(lambda row, i=i: len(row[i]), self.__body) if self.__body else [0]
+                map(lambda row, i=i: len(str(row[i])), self.__body)
+                if self.__body
+                else [0]
             )
-            footer_size = len(self.__footer[i]) if self.__footer else 0
+            footer_size = len(str(self.__footer[i])) if self.__footer else 0
             # get the max and add 2 for padding each side with a space
             column_widths.append(max(header_size, *body_size, footer_size) + 2)
         return column_widths
 
-    def __pad(self, text: str, width: int, alignment: Alignment) -> str:
+    def __pad(self, cell_value: Any, width: int, alignment: Alignment) -> str:
         """
         Pad a string of text to a given width with specified alignment
 
         Args:
-            text (str): The text to pad
+            cell_value (Any): The text in the cell to pad
             width (int): The width in characters to pad to
             alignment (Alignment): The alignment to use
 
         Returns:
             str: The padded text
         """
+        text = str(cell_value)
         if alignment == Alignment.LEFT:
             # pad with spaces on the end
             return f" {text} " + (" " * (width - len(text) - 2))
@@ -152,7 +155,7 @@ class TableToAscii:
                 if isinstance(filler, str)
                 # otherwise, use the column content
                 else self.__pad(
-                    str(filler[i]), self.__column_widths[i], self.__alignments[i]
+                    filler[i], self.__column_widths[i], self.__alignments[i]
                 )
             )
             # column seperator
