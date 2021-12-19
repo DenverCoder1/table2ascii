@@ -24,6 +24,13 @@ a.icon.icon-home:visited {
 /* Change code highlight background on dark mode */
 @media (prefers-color-scheme: dark) {
     .rst-content .highlight {
-       background: #26292b;
+        background: #26292b;
     }
+}
+
+/* Change code block font */
+.rst-content .linenodiv pre,
+.rst-content div[class^="highlight"] pre,
+.rst-content pre.literal-block {
+    font-family: Fira Mono, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, Courier, monospace;
 }
