@@ -8,7 +8,7 @@ Preset styles
 `ascii`
 ~~~~~~~
 
-::
+.. code-block:: none
 
    +-----+-----------------------+
    |  #  |  G     H     R     S  |
@@ -29,7 +29,7 @@ Preset styles
 `ascii_borderless`
 ~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: none
 
       #  |  G     H     R     S   
     ----- ----- ----- ----- ----- 
@@ -44,7 +44,7 @@ Preset styles
 `ascii_box`
 ~~~~~~~~~~~
 
-::
+.. code-block:: none
 
    +-----+-----+-----+-----+-----+
    |  #  |  G  |  H  |  R  |  S  |
@@ -65,7 +65,7 @@ Preset styles
 `ascii_compact`
 ~~~~~~~~~~~~~~~
 
-::
+.. code-block:: none
 
    +-----+-----------------------+
    |  #  |  G     H     R     S  |
@@ -84,7 +84,7 @@ Preset styles
 `ascii_double`
 ~~~~~~~~~~~~~~
 
-::
+.. code-block:: none
 
    +-----+-----------------------+
    |  #  |  G     H     R     S  |
@@ -105,7 +105,7 @@ Preset styles
 `ascii_minimalist`
 ~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: none
 
     ----------------------------- 
       #  |  G     H     R     S   
@@ -126,7 +126,7 @@ Preset styles
 `ascii_simple`
 ~~~~~~~~~~~~~~
 
-::
+.. code-block:: none
 
     ===== ===== ===== ===== ===== 
       #  |  G     H     R     S   
@@ -145,7 +145,7 @@ Preset styles
 `borderless`
 ~~~~~~~~~~~~
 
-::
+.. code-block:: none
 
       #  ┃  G     H     R     S   
     ━━━━━ ━━━━━ ━━━━━ ━━━━━ ━━━━━ 
@@ -160,7 +160,7 @@ Preset styles
 `double`
 ~~~~~~~~
 
-::
+.. code-block:: none
 
    ╔═════╦═══════════════════════╗
    ║  #  ║  G     H     R     S  ║
@@ -181,7 +181,7 @@ Preset styles
 `double_box`
 ~~~~~~~~~~~~
 
-::
+.. code-block:: none
 
    ╔═════╦═════╦═════╦═════╦═════╗
    ║  #  ║  G  ║  H  ║  R  ║  S  ║
@@ -202,7 +202,7 @@ Preset styles
 `double_compact`
 ~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: none
 
    ╔═════╦═══════════════════════╗
    ║  #  ║  G     H     R     S  ║
@@ -221,7 +221,7 @@ Preset styles
 `double_thin_compact`
 ~~~~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: none
 
    ╔═════╦═══════════════════════╗
    ║  #  ║  G     H     R     S  ║
@@ -240,7 +240,7 @@ Preset styles
 `markdown`
 ~~~~~~~~~~
 
-::
+.. code-block:: none
 
    |  #  |  G  |  H  |  R  |  S  |
    |-----|-----|-----|-----|-----|
@@ -255,7 +255,7 @@ Preset styles
 `minimalist`
 ~~~~~~~~~~~~
 
-::
+.. code-block:: none
 
     ───────────────────────────── 
       #  │  G     H     R     S   
@@ -276,7 +276,7 @@ Preset styles
 `simple`
 ~~~~~~~~
 
-::
+.. code-block:: none
 
     ═════ ═════ ═════ ═════ ═════ 
       #  ║  G     H     R     S   
@@ -295,7 +295,7 @@ Preset styles
 `thick`
 ~~~~~~~
 
-::
+.. code-block:: none
 
    ┏━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━┓
    ┃  #  ┃  G     H     R     S  ┃
@@ -316,7 +316,7 @@ Preset styles
 `thick_box`
 ~~~~~~~~~~~
 
-::
+.. code-block:: none
 
    ┏━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┓
    ┃  #  ┃  G  ┃  H  ┃  R  ┃  S  ┃
@@ -337,7 +337,7 @@ Preset styles
 `thick_compact`
 ~~~~~~~~~~~~~~~
 
-::
+.. code-block:: none
 
    ┏━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━┓
    ┃  #  ┃  G     H     R     S  ┃
@@ -356,7 +356,7 @@ Preset styles
 `thin`
 ~~~~~~
 
-::
+.. code-block:: none
 
    ┌─────┬───────────────────────┐
    │  #  │  G     H     R     S  │
@@ -377,7 +377,7 @@ Preset styles
 `thin_box`
 ~~~~~~~~~~
 
-::
+.. code-block:: none
 
    ┌─────┬─────┬─────┬─────┬─────┐
    │  #  │  G  │  H  │  R  │  S  │
@@ -398,7 +398,7 @@ Preset styles
 `thin_compact`
 ~~~~~~~~~~~~~~
 
-::
+.. code-block:: none
 
    ┌─────┬───────────────────────┐
    │  #  │  G     H     R     S  │
@@ -417,7 +417,7 @@ Preset styles
 `thin_compact_rounded`
 ~~~~~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: none
 
    ╭─────┬───────────────────────╮
    │  #  │  G     H     R     S  │
@@ -436,7 +436,7 @@ Preset styles
 `thin_double`
 ~~~~~~~~~~~~~
 
-::
+.. code-block:: none
 
    ┌─────┬───────────────────────┐
    │  #  │  G     H     R     S  │
@@ -457,7 +457,7 @@ Preset styles
 `thin_double_rounded`
 ~~~~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: none
 
    ╭─────┬───────────────────────╮
    │  #  │  G     H     R     S  │
@@ -478,7 +478,7 @@ Preset styles
 `thin_rounded`
 ~~~~~~~~~~~~~~
 
-::
+.. code-block:: none
 
    ╭─────┬───────────────────────╮
    │  #  │  G     H     R     S  │
@@ -499,7 +499,7 @@ Preset styles
 `thin_thick`
 ~~~~~~~~~~~~
 
-::
+.. code-block:: none
 
    ┌─────┬───────────────────────┐
    │  #  │  G     H     R     S  │
@@ -520,7 +520,7 @@ Preset styles
 `thin_thick_rounded`
 ~~~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: none
 
    ╭─────┬───────────────────────╮
    │  #  │  G     H     R     S  │
