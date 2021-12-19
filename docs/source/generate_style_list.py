@@ -36,7 +36,7 @@ def generate_style_list():
         )
         style_heading = f"`{style}`\n" + "~" * len(f"`{style}`")
         output_example = indent_all_lines(full + "\n\n" + body_only)
-        style_list += f"{style_heading}\n\n::\n\n{output_example}\n\n"
+        style_list += f"{style_heading}\n\n.. code-block:: none\n\n{output_example}\n\n"
     # put it all together
     return f"{heading}\n\n{table_of_contents}\n{style_list}"
 
@@ -49,4 +49,5 @@ def write_to_file(filename, content):
 
 if __name__ == "__main__":
     content = generate_style_list()
-    write_to_file(os.path.join("docs", "source", "styles.rst"), content)
+    write_to_file(os.path.join(os.path.dirname(__file__), "styles.rst"), content)
+    print("Successfully generated styles.rst")
