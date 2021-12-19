@@ -32,5 +32,5 @@ a.icon.icon-home:visited {
 .rst-content .linenodiv pre,
 .rst-content div[class^="highlight"] pre,
 .rst-content pre.literal-block {
-    font-family: Fira Mono, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, Courier, monospace;
+    font-family: Source Code Pro, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, Courier, monospace;
 }
