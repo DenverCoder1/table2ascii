@@ -33,3 +33,11 @@ jobs:
     - name: Test with pytest
       run: |
         tox
+    - name: execute python script
+      run: |
+        python ./docs/source/generate_style_list.py  
+    - name: commit files
+      run: |
+        git config user.name "$(git log -n 1 --pretty=format:%an)"
+        git config user.email "$(git log -n 1 --pretty=format:%ae)"
+        git diff-index --quiet HEAD || (git commit -a -m '[bot] update files' --allow-empty && git push -f)
