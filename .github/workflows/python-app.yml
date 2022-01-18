@@ -38,6 +38,7 @@ jobs:
         python ./docs/source/generate_style_list.py  
     - name: commit files
       run: |
-        git config user.name "$(git log -n 1 --pretty=format:%an)"
-        git config user.email "$(git log -n 1 --pretty=format:%ae)"
-        git diff-index --quiet HEAD || (git commit -a -m '[bot] update files' --allow-empty && git push -f)
+        git config --local user.name "github-actions"
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git diff --quiet && git diff --staged --quiet || git commit -a -m  'docs: update style list' 
+        git push
