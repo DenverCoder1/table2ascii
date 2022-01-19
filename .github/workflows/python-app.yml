@@ -35,6 +35,7 @@ jobs:
         tox
     - name: execute python script
       run: |
+        pip install -U table2ascii
         python ./docs/source/generate_style_list.py  
     - name: commit files
       run: |
