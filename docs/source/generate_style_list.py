@@ -1,4 +1,5 @@
 import os
+__import__("sys").path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 from table2ascii import PresetStyle, table2ascii
 
 
