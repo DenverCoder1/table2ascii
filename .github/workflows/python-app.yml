@@ -33,12 +33,3 @@ jobs:
     - name: Test with pytest
       run: |
         tox
-    - name: execute python script
-      run: |
-        python ./docs/source/generate_style_list.py  
-    - name: commit files
-      run: |
-        git config --local user.name "github-actions"
-        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git diff --quiet && git diff --staged --quiet || git commit -a -m  'docs: update style list' 
-        git push
