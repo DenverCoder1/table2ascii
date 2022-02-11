@@ -91,15 +91,18 @@ class TableToAscii:
             List[int]: The minimum number of characters needed for each column
         """
         column_widths = []
+        # lambda function to get the length of the longest line in a multi-line string
+        longest_line = lambda text: max(len(line) for line in str(text).splitlines())
+        # get the width necessary for each column
         for i in range(self.__columns):
             # number of characters in column of i of header, each body row, and footer
-            header_size = len(str(self.__header[i])) if self.__header else 0
+            header_size = longest_line(self.__header[i]) if self.__header else 0
             body_size = (
-                map(lambda row, i=i: len(str(row[i])), self.__body)
+                map(lambda row, i=i: longest_line(row[i]), self.__body)
                 if self.__body
                 else [0]
             )
-            footer_size = len(str(self.__footer[i])) if self.__footer else 0
+            footer_size = longest_line(self.__footer[i]) if self.__footer else 0
             # get the max and add 2 for padding each side with a space
             column_widths.append(max(header_size, *body_size, footer_size) + 2)
         return column_widths
@@ -144,37 +147,45 @@ class TableToAscii:
         Returns:
             str: The line in the ascii table
         """
-        # left edge of the row
-        output = left_edge
+        output = ""
+        # get number of lines for rendering row
+        num_lines = max(len(str(cell).splitlines()) for cell in filler)
         # add columns
-        for i in range(self.__columns):
-            # content between separators
-            output += (
-                # edge or row separator if filler is a specific character
-                filler * self.__column_widths[i]
-                if isinstance(filler, str)
-                # otherwise, use the column content
-                else self.__pad(
-                    filler[i], self.__column_widths[i], self.__alignments[i]
-                )
-            )
-            # column seperator
-            sep = column_seperator
-            if i == 0 and self.__first_col_heading:
-                # use column heading if first column option is specified
-                sep = heading_col_sep
-            elif i == self.__columns - 2 and self.__last_col_heading:
-                # use column heading if last column option is specified
-                sep = heading_col_sep
-            elif i == self.__columns - 1:
-                # replace last seperator with symbol for edge of the row
-                sep = right_edge
-            output += sep
-        # don't use separation row if it's only space
-        if output.strip() == "":
-            return ""
-        # otherwise, return the row followed by newline
-        return output + "\n"
+        for line in range(num_lines):
+            # left edge of the row
+            output += left_edge
+            for col in range(self.__columns):
+                # content between separators
+                col_content = ""
+                if isinstance(filler, str):
+                    col_content = filler * self.__column_widths[col]
+                else:
+                    col_lines = str(filler[col]).splitlines()
+                    if line < len(col_lines):
+                        col_content = col_lines[line]
+                    col_content = self.__pad(
+                        col_content,
+                        self.__column_widths[col],
+                        self.__alignments[col],
+                    )
+                output += col_content
+                # column seperator
+                sep = column_seperator
+                if col == 0 and self.__first_col_heading:
+                    # use column heading if first column option is specified
+                    sep = heading_col_sep
+                elif col == self.__columns - 2 and self.__last_col_heading:
+                    # use column heading if last column option is specified
+                    sep = heading_col_sep
+                elif col == self.__columns - 1:
+                    # replace last seperator with symbol for edge of the row
+                    sep = right_edge
+                output += sep
+            output += "\n"
+            # don't use separation row if it's only space
+            if output.strip() == "":
+                output = ""
+        return output
 
     def __top_edge_to_ascii(self) -> str:
         """
