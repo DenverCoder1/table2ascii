@@ -202,7 +202,7 @@ def test_numeric_data():
 
 
 def test_multiline_cells():
-    text = table = t2a(
+    text = t2a(
         header=["Multiline\nHeader\nCell", "G", "Two\nLines", "R", "S"],
         body=[[1, "Alpha\nBeta\nGamma", 3, 4, "One\nTwo"]],
         footer=["A", "Footer\nBreak", 1, "Second\nCell\nBroken", 3],

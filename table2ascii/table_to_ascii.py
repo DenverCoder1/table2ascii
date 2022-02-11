@@ -90,9 +90,12 @@ class TableToAscii:
         Returns:
             List[int]: The minimum number of characters needed for each column
         """
+
+        def longest_line(text) -> int:
+            """Returns the length of the longest line in a multi-line string"""
+            return max(len(line) for line in str(text).splitlines())
+
         column_widths = []
-        # lambda function to get the length of the longest line in a multi-line string
-        longest_line = lambda text: max(len(line) for line in str(text).splitlines())
         # get the width necessary for each column
         for i in range(self.__columns):
             # number of characters in column of i of header, each body row, and footer
@@ -148,36 +151,41 @@ class TableToAscii:
             str: The line in the ascii table
         """
         output = ""
-        # get number of lines for rendering row
+        # find the maximum number of lines a single cell in the column has
         num_lines = max(len(str(cell).splitlines()) for cell in filler)
         # add columns
-        for line in range(num_lines):
+        for line_index in range(num_lines):
             # left edge of the row
             output += left_edge
-            for col in range(self.__columns):
+            for col_index in range(self.__columns):
                 # content between separators
                 col_content = ""
+                # if filler is a separator character, repeat it for the full width of the column
                 if isinstance(filler, str):
-                    col_content = filler * self.__column_widths[col]
+                    col_content = filler * self.__column_widths[col_index]
+                # otherwise, use the text from the corresponding column in the filler list
                 else:
-                    col_lines = str(filler[col]).splitlines()
-                    if line < len(col_lines):
-                        col_content = col_lines[line]
+                    # get the text of the current line in the cell
+                    # if there are fewer lines in the current cell than others, empty string is used
+                    col_lines = str(filler[col_index]).splitlines()
+                    if line_index < len(col_lines):
+                        col_content = col_lines[line_index]
+                    # pad the text to the width of the column using the alignment
                     col_content = self.__pad(
                         col_content,
-                        self.__column_widths[col],
-                        self.__alignments[col],
+                        self.__column_widths[col_index],
+                        self.__alignments[col_index],
                     )
                 output += col_content
                 # column seperator
                 sep = column_seperator
-                if col == 0 and self.__first_col_heading:
+                if col_index == 0 and self.__first_col_heading:
                     # use column heading if first column option is specified
                     sep = heading_col_sep
-                elif col == self.__columns - 2 and self.__last_col_heading:
+                elif col_index == self.__columns - 2 and self.__last_col_heading:
                     # use column heading if last column option is specified
                     sep = heading_col_sep
-                elif col == self.__columns - 1:
+                elif col_index == self.__columns - 1:
                     # replace last seperator with symbol for edge of the row
                     sep = right_edge
                 output += sep
