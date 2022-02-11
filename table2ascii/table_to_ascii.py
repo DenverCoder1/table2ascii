@@ -191,7 +191,7 @@ class TableToAscii:
                 output += sep
             output += "\n"
             # don't use separation row if it's only space
-            if output.strip() == "":
+            if num_lines == 1 and output.strip() == "":
                 output = ""
         return output
 
