@@ -65,3 +65,28 @@ def test_alignment_numeric_data():
         "╚════╩══════════════════════╝"
     )
     assert text == expected
+
+
+def test_alignments_multiline_data():
+    text = t2a(
+        header=["Multiline\nHeader\nCell", "G", "Two\nLines", "R", "S"],
+        body=[[1, "Alpha\nBeta\nGamma", 3, 4, "One\nTwo"]],
+        footer=["A", "Footer\nBreak", 1, "Second\nCell\nBroken", 3],
+        alignments=[Alignment.LEFT, Alignment.RIGHT, Alignment.CENTER, Alignment.LEFT, Alignment.CENTER],
+    )
+    expected = (
+        "╔═══════════════════════════════════════════╗\n"
+        "║ Multiline        G    Two    R         S  ║\n"
+        "║ Header               Lines                ║\n"
+        "║ Cell                                      ║\n"
+        "╟───────────────────────────────────────────╢\n"
+        "║ 1            Alpha     3     4        One ║\n"
+        "║               Beta                    Two ║\n"
+        "║              Gamma                        ║\n"
+        "╟───────────────────────────────────────────╢\n"
+        "║ A           Footer     1     Second    3  ║\n"
+        "║              Break           Cell         ║\n"
+        "║                              Broken       ║\n"
+        "╚═══════════════════════════════════════════╝"
+    )
+    assert text == expected
