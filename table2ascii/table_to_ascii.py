@@ -93,7 +93,7 @@ class TableToAscii:
 
         def longest_line(text) -> int:
             """Returns the length of the longest line in a multi-line string"""
-            return max(len(line) for line in str(text).splitlines())
+            return max(len(line) for line in str(text).splitlines()) if text else 0
 
         column_widths = []
         # get the width necessary for each column
@@ -151,8 +151,8 @@ class TableToAscii:
             str: The line in the ascii table
         """
         output = ""
-        # find the maximum number of lines a single cell in the column has
-        num_lines = max(len(str(cell).splitlines()) for cell in filler)
+        # find the maximum number of lines a single cell in the column has (minimum of 1)
+        num_lines = max(len(str(cell).splitlines()) for cell in filler) or 1
         # add columns
         for line_index in range(num_lines):
             # left edge of the row
@@ -191,7 +191,7 @@ class TableToAscii:
                 output += sep
             output += "\n"
             # don't use separation row if it's only space
-            if num_lines == 1 and output.strip() == "":
+            if isinstance(filler, str) and output.strip() == "":
                 output = ""
         return output
 
