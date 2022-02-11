@@ -91,21 +91,21 @@ class TableToAscii:
             List[int]: The minimum number of characters needed for each column
         """
 
-        def longest_line(text) -> int:
+        def longest_line(text: str) -> int:
             """Returns the length of the longest line in a multi-line string"""
-            return max(len(line) for line in str(text).splitlines()) if text else 0
+            return max(len(line) for line in text.splitlines()) if len(text) else 0
 
         column_widths = []
         # get the width necessary for each column
         for i in range(self.__columns):
             # number of characters in column of i of header, each body row, and footer
-            header_size = longest_line(self.__header[i]) if self.__header else 0
+            header_size = longest_line(str(self.__header[i])) if self.__header else 0
             body_size = (
-                map(lambda row, i=i: longest_line(row[i]), self.__body)
+                map(lambda row, i=i: longest_line(str(row[i])), self.__body)
                 if self.__body
                 else [0]
             )
-            footer_size = longest_line(self.__footer[i]) if self.__footer else 0
+            footer_size = longest_line(str(self.__footer[i])) if self.__footer else 0
             # get the max and add 2 for padding each side with a space
             column_widths.append(max(header_size, *body_size, footer_size) + 2)
         return column_widths
