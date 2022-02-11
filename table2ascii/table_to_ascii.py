@@ -153,10 +153,11 @@ class TableToAscii:
         output = ""
         # find the maximum number of lines a single cell in the column has (minimum of 1)
         num_lines = max(len(str(cell).splitlines()) for cell in filler) or 1
-        # add columns
+        # repeat for each line of text in the cell
         for line_index in range(num_lines):
             # left edge of the row
             output += left_edge
+            # add columns
             for col_index in range(self.__columns):
                 # content between separators
                 col_content = ""
