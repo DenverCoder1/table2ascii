@@ -1,3 +1,5 @@
+:og:description: Python library for converting lists to fancy ASCII tables for displaying in the terminal and on Discord. Install with \`pip install -U table2ascii\`.
+
 table2ascii
 ===========
 
