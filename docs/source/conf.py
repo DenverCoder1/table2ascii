@@ -39,6 +39,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinxcontrib_trio",
     "enum_tools.autoenum",
+    "sphinxext.opengraph",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
