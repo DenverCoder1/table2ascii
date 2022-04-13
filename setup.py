@@ -87,8 +87,10 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/DenverCoder1/table2ascii",
     project_urls={
-        "Bug Tracker": "https://github.com/DenverCoder1/table2ascii/issues",
+        "Documentation": "https://table2ascii.rtfd.io",
+        "Issue tracker": "https://github.com/DenverCoder1/table2ascii/issues",
     },
+    license="MIT",
     packages=["table2ascii"],
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -97,6 +99,7 @@ setup(
         "Intended Audience :: Developers",
         "Topic :: Utilities",
     ],
+    keywords="table ascii unicode formatter",
     python_requires=">=3.6",
     install_requires=[requirements()],
     extras_require=extras_require,
