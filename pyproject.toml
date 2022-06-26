@@ -5,7 +5,63 @@ requires = [
 ]
 build-backend = "setuptools.build_meta"
 
+
 [project]
 name = "table2ascii"
 authors = [{name = "Jonah Lawrence", email = "jonah@freshidea.com"}]
 dynamic = ["version", "description"]
+
+
+[tool.black]
+line-length = 100
+target-version = ["py38", "py39", "py310"]
+
+
+[tool.isort]
+profile = "black"
+py_version = 38
+line_length = 100
+combine_as_imports = true
+filter_files = true
+
+
+[tool.taskipy.tasks]
+black = { cmd = "task lint black", help = "Run black" }
+docs = { cmd = "cd docs && sphinx-autobuild source _build/html --ignore _build --watch ../table2ascii --port 8888", help = "Build the documentation on an autoreloading server."}
+isort = { cmd = "task lint isort", help = "Run isort" }
+lint = { cmd = "pre-commit run --all-files", help = "Check all files for linting errors" }
+precommit = { cmd = "pre-commit install --install-hooks", help = "Install the precommit hook" }
+pyright = { cmd = "dotenv -f task.env run -- pyright", help = "Run pyright" }
+slotscheck = { cmd = "python -m slotscheck --verbose -m table2ascii", help = "Run slotscheck" }
+
+
+[tool.slotscheck]
+strict-imports = true
+require-superclass = true
+require-subclass = false
+
+
+[tool.pyright]
+typeCheckingMode = "basic"
+include = [
+    "table2ascii",
+    "*.py",
+]
+pythonVersion = "3.7"
+
+# https://github.com/microsoft/pyright/blob/main/docs/configuration.md
+reportInvalidStringEscapeSequence = false
+reportPropertyTypeMismatch = true
+reportDuplicateImport = true
+reportUntypedFunctionDecorator = true
+reportUntypedClassDecorator = true
+reportUntypedBaseClass = true
+reportUntypedNamedTuple = true
+reportUnknownLambdaType = true
+reportInvalidTypeVarUse = true
+reportUnnecessaryCast = true
+reportSelfClsParameterName = true
+reportUnsupportedDunderAll = true
+reportUnusedVariable = true
+reportUnnecessaryComparison = true
+reportUnnecessaryTypeIgnoreComment = true

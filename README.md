@@ -12,7 +12,7 @@ Documentation and examples are available at [table2ascii.rtfd.io](https://table2
 
 ## 📥 Installation
 
-``pip install -U table2ascii`` 
+`pip install -U table2ascii`
 
 **Requirements:** `Python 3.7+`
 
@@ -178,16 +178,12 @@ All parameters are optional.
 
 ## 🧰 Development
 
+Install development dependencies with `pip install -e .[dev]`
+
 ### Running tests
 
-1. Install `tox` with the command ``pip install -U tox``
-
-2. Run tests with the command ``tox``
+Run tests with the command `tox`
 
 ### Linting
 
-Run the following command to lint with flake8
-
-``python setup.py lint``
-
-(Note: The exact command may vary depending on your Python version and environment)
+Run `task lint` to lint with black, isort, and pre-commit hooks.
