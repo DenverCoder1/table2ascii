@@ -1,6 +1,6 @@
 import pytest
 
-from table2ascii import Alignment, alignment, table2ascii as t2a
+from table2ascii import Alignment, table2ascii as t2a
 
 
 def test_first_left_four_right():
@@ -42,7 +42,7 @@ def test_invalid_alignments():
             body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
             footer=["SUM", "130", "140", "135", "130"],
             first_col_heading=True,
-            alignments=[9999, -1, Alignment.RIGHT, Alignment.CENTER, Alignment.RIGHT],
+            alignments=[9999, -1, Alignment.RIGHT, Alignment.CENTER, Alignment.RIGHT],  # type: ignore
         )
 
 

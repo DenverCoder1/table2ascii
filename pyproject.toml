@@ -45,6 +45,7 @@ require-subclass = false
 typeCheckingMode = "basic"
 include = [
     "table2ascii",
+    "tests",
     "*.py",
 ]
 pythonVersion = "3.7"
