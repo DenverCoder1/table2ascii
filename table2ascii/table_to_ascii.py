@@ -57,9 +57,8 @@ class TableToAscii:
                 option = options.column_widths[i]
                 minimum = self.__column_widths[i]
                 if option is None:
-                    options.column_widths[i] = minimum
-                    continue
-                if option < minimum:
+                    option = minimum
+                elif option < minimum:
                     raise ValueError(
                         f"The value at index {i} of `column_widths` is {option} which is less than the minimum {minimum}."
                     )

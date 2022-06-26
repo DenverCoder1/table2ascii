@@ -54,7 +54,7 @@ def test_column_widths_contains_none():
         footer=["TOTL", "130", "140", "135", "130"],
         first_col_heading=True,
         last_col_heading=True,
-        column_widths=[7, 5, 5, 5, None],
+        column_widths=[7, None, 5, 5, None],
     )
     expected = (
         "╔═══════╦═════════════════╦═════╗\n"
