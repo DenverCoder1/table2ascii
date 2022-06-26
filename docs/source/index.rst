@@ -30,7 +30,7 @@ Contents
    :target: https://github.com/DenverCoder1/table2ascii/actions/workflows/python-app.yml
 .. |version| image:: https://img.shields.io/pypi/v/table2ascii
    :target: https://pypi.org/project/table2ascii/
-.. |downloads| image:: https://static.pepy.tech/personalized-badge/table2ascii?period=total&units=none&left_color=grey&right_color=orange&left_text=downloads
+.. |downloads| image:: https://static.pepy.tech/personalized-badge/table2ascii?period=total&left_color=grey&right_color=blue&left_text=downloads
    :target: https://pepy.tech/project/table2ascii
 .. |license| image:: https://img.shields.io/pypi/l/table2ascii
    :target: https://github.com/DenverCoder1/table2ascii/blob/main/LICENSE
