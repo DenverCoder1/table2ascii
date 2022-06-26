@@ -1,4 +1,4 @@
-from table2ascii import table2ascii as t2a, PresetStyle
+from table2ascii import PresetStyle, table2ascii as t2a
 
 
 def test_thin():
