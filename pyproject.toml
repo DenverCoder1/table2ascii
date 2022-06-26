@@ -31,8 +31,9 @@ docs = { cmd = "cd docs && sphinx-autobuild source _build/html --ignore _build -
 isort = { cmd = "task lint isort", help = "Run isort" }
 lint = { cmd = "pre-commit run --all-files", help = "Check all files for linting errors" }
 precommit = { cmd = "pre-commit install --install-hooks", help = "Install the precommit hook" }
-pyright = { cmd = "dotenv -f task.env run -- pyright", help = "Run pyright" }
+pyright = { cmd = "pyright", help = "Run pyright" }
 slotscheck = { cmd = "python -m slotscheck --verbose -m table2ascii", help = "Run slotscheck" }
+test = { cmd = "tox", help = "Run tests" }
 
 
 [tool.slotscheck]
@@ -45,6 +46,7 @@ require-subclass = false
 typeCheckingMode = "basic"
 include = [
     "table2ascii",
+    "tests",
     "*.py",
 ]
 pythonVersion = "3.7"

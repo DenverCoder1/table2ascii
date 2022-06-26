@@ -45,9 +45,9 @@ extras_require = {
         "pre-commit==2.18.1",
         "taskipy==1.10.1",
         "slotscheck==0.14.0",
-        "python-dotenv==0.20.0",
         "pyright==1.1.244",
         "tox==3.24.5",
+        "pytest==7.1.2",
     ],
 }
 

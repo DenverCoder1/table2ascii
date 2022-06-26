@@ -327,7 +327,7 @@ def table2ascii(
         footer (:class:`Optional[List[Any]]`): List of column values in the table's footer row
         first_col_heading (:class:`bool`): Whether to add a header column separator after the first column
         last_col_heading (:class:`bool`): Whether to add a header column separator before the last column
-        column_widths (:class:`List[int]`): List of widths in characters for each column (defaults to auto-sizing)
+        column_widths (:class:`Optional[List[int]]`): List of widths in characters for each column (``None`` for auto-sizing)
         alignments (:class:`List[Alignment]`): List of alignments (ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`)
         style (:class:`TableStyle`): Table style to use for styling (preset styles can be imported)
 

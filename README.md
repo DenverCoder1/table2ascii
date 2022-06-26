@@ -176,14 +176,8 @@ All parameters are optional.
 ![image](https://user-images.githubusercontent.com/20955511/116204490-802dcf80-a745-11eb-9b4a-7cef49f23958.png)
 
 
-## 🧰 Development
+## 🤗 Contributing
 
-Install development dependencies with `pip install -e .[dev]`
+Contributions are welcome!
 
-### Running tests
-
-Run tests with the command `tox`
-
-### Linting
-
-Run `task lint` to lint with black, isort, and pre-commit hooks.
+See [CONTRIBUTING.md](https://github.com/DenverCoder1/table2ascii/blob/main/CONTRIBUTING.md) for more details on how to get involved.
