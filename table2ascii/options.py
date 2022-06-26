@@ -11,6 +11,6 @@ class Options:
 
     first_col_heading: bool
     last_col_heading: bool
-    column_widths: Optional[List[int]]
+    column_widths: Optional[List[Optional[int]]]
     alignments: Optional[List[Alignment]]
     style: TableStyle
