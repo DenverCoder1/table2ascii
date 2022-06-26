@@ -1,6 +1,6 @@
-from table2ascii import alignment, table2ascii as t2a, Alignment
-
 import pytest
+
+from table2ascii import Alignment, alignment, table2ascii as t2a
 
 
 def test_first_left_four_right():
@@ -72,7 +72,13 @@ def test_alignments_multiline_data():
         header=["Multiline\nHeader\nCell", "G", "Two\nLines", "R", "S"],
         body=[[1, "Alpha\nBeta\nGamma", 3, 4, "One\nTwo"]],
         footer=["A", "Footer\nBreak", 1, "Second\nCell\nBroken", 3],
-        alignments=[Alignment.LEFT, Alignment.RIGHT, Alignment.CENTER, Alignment.LEFT, Alignment.CENTER],
+        alignments=[
+            Alignment.LEFT,
+            Alignment.RIGHT,
+            Alignment.CENTER,
+            Alignment.LEFT,
+            Alignment.CENTER,
+        ],
     )
     expected = (
         "╔═══════════════════════════════════════════╗\n"

@@ -1,6 +1,6 @@
-from table2ascii import table2ascii as t2a
-
 import pytest
+
+from table2ascii import table2ascii as t2a
 
 
 def test_column_widths():

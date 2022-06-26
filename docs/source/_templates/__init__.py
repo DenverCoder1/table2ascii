@@ -12,7 +12,6 @@ from sphinx import version_info as sphinx_version
 from sphinx.locale import _
 from sphinx.util.logging import getLogger
 
-
 __version__ = "1.0.0"
 __version_full__ = __version__
 
@@ -38,9 +37,7 @@ def config_initiated(app, config):
 # See http://www.sphinx-doc.org/en/stable/theming.html#distribute-your-theme-as-a-python-package
 def setup(app):
     if python_version[0] < 3:
-        logger.warning(
-            "Python 2 is deprecated with sphinx_rtd_theme, update to Python 3"
-        )
+        logger.warning("Python 2 is deprecated with sphinx_rtd_theme, update to Python 3")
     app.require_sphinx("1.6")
     if sphinx_version <= (2, 0, 0):
         logger.warning(

@@ -1,53 +1,18 @@
 # /usr/bin/env python
 import os
 import re
+
 from setuptools import setup
 from setuptools.command.test import test as Command
-
-
-class LintCommand(Command):
-    """
-    A copy of flake8's Flake8Command
-    """
-
-    description = "Run flake8 on modules registered in setuptools"
-    user_options = []
-
-    def initialize_options(self):
-        # must override
-        pass
-
-    def finalize_options(self):
-        # must override
-        pass
-
-    def distribution_files(self):
-        if self.distribution.packages:
-            for package in self.distribution.packages:
-                yield package.replace(".", os.path.sep)
-
-        if self.distribution.py_modules:
-            for filename in self.distribution.py_modules:
-                yield "%s.py" % filename
-
-    def run(self):
-        from flake8.api.legacy import get_style_guide
-
-        flake8_style = get_style_guide(config_file="setup.cfg")
-        paths = self.distribution_files()
-        report = flake8_style.check_files(paths)
-        raise SystemExit(report.total_errors > 0)
 
 
 def version():
     version = ""
     with open("table2ascii/__init__.py") as f:
-        version = re.search(
-            r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE
-        ).group(1)
+        version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE)
     if not version:
         raise RuntimeError("version is not set")
-    return version
+    return version.group(1)
 
 
 def long_description():
@@ -68,12 +33,21 @@ def requirements():
 
 extras_require = {
     "docs": [
-        "sphinx>=4.4.0,<5",
-        "enum-tools>=0.9.0.post1,<1",
-        "sphinx-toolbox>=2.18.0,<3",
-        "sphinxcontrib_trio>=1.1.2,<2",
-        "sphinx-rtd-theme>=1.0.0,<2",
-        "sphinxext-opengraph>=0.6.2,<1",
+        "sphinx",
+        "enum-tools",
+        "sphinx-toolbox",
+        "sphinxcontrib_trio",
+        "sphinx-rtd-theme",
+        "sphinxext-opengraph",
+        "sphinx-autobuild",
+    ],
+    "dev": [
+        "pre-commit==2.18.1",
+        "taskipy==1.10.1",
+        "slotscheck==0.14.0",
+        "python-dotenv==0.20.0",
+        "pyright==1.1.244",
+        "tox==3.24.5",
     ],
 }
 
@@ -109,7 +83,4 @@ setup(
     tests_require=[
         "pytest>=6.2,<7",
     ],
-    cmdclass={
-        "lint": LintCommand,
-    },
 )

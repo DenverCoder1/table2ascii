@@ -31,9 +31,7 @@ class TableToAscii:
 
         # check if footer has a different number of columns
         if footer and len(footer) != self.__columns:
-            raise ValueError(
-                "Footer must have the same number of columns as the other rows"
-            )
+            raise ValueError("Footer must have the same number of columns as the other rows")
         # check if any rows in body have a different number of columns
         if body and any(len(row) != self.__columns for row in body):
             raise ValueError(
@@ -45,9 +43,7 @@ class TableToAscii:
         if options.column_widths:
             # check that the right number of columns were specified
             if len(options.column_widths) != self.__columns:
-                raise ValueError(
-                    "Length of `column_widths` list must equal the number of columns"
-                )
+                raise ValueError("Length of `column_widths` list must equal the number of columns")
             # check that each column is at least as large as the minimum size
             for i in range(len(options.column_widths)):
                 option = options.column_widths[i]
@@ -62,9 +58,7 @@ class TableToAscii:
 
         # check if alignments specified have a different number of columns
         if options.alignments and len(options.alignments) != self.__columns:
-            raise ValueError(
-                "Length of `alignments` list must equal the number of columns"
-            )
+            raise ValueError("Length of `alignments` list must equal the number of columns")
 
     def __count_columns(self) -> int:
         """
@@ -101,9 +95,7 @@ class TableToAscii:
             # number of characters in column of i of header, each body row, and footer
             header_size = longest_line(str(self.__header[i])) if self.__header else 0
             body_size = (
-                map(lambda row, i=i: longest_line(str(row[i])), self.__body)
-                if self.__body
-                else [0]
+                map(lambda row, i=i: longest_line(str(row[i])), self.__body) if self.__body else [0]
             )
             footer_size = longest_line(str(self.__footer[i])) if self.__footer else 0
             # get the max and add 2 for padding each side with a space
