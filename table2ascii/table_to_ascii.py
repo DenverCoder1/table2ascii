@@ -1,21 +1,29 @@
 from math import ceil, floor
-from typing import Any, List, Optional, Union
+from typing import Any, Callable, List, Optional, Union
 
 from .alignment import Alignment
 from .options import Options
+from .preset_style import PresetStyle
+from .table_style import TableStyle
 
 
 class TableToAscii:
     """Class used to convert a 2D Python table to ASCII text"""
 
-    def __init__(self, header: List, body: List[List], footer: List, options: Options):
+    def __init__(
+        self,
+        header: Optional[List[Any]],
+        body: Optional[List[List[Any]]],
+        footer: Optional[List[Any]],
+        options: Options,
+    ):
         """
         Validate arguments and initialize fields
 
         Args:
-            header (List): The values in the header of the table
-            body (List[List]): The rows of values in the body of the table
-            footer (List): The values in the footer of the table
+            header (Optional[List[Any]]): The values in the header of the table
+            body (Optional[List[List[Any]]]): The rows of values in the body of the table
+            footer (Optional[List[Any]]): The values in the footer of the table
             options (Options): The options for the table
         """
         # initialize fields
@@ -85,19 +93,19 @@ class TableToAscii:
             List[int]: The minimum number of characters needed for each column
         """
 
-        def longest_line(text: str) -> int:
-            """Returns the length of the longest line in a multi-line string"""
+        def widest_line(text: str) -> int:
+            """Returns the width of the longest line in a multi-line string"""
             return max(len(line) for line in text.splitlines()) if len(text) else 0
 
         column_widths = []
         # get the width necessary for each column
         for i in range(self.__columns):
+            # col_widest returns the width of the widest line in the ith cell of a given list
+            col_widest: Callable[[List[Any], int], int] = lambda row, i=i: widest_line(str(row[i]))
             # number of characters in column of i of header, each body row, and footer
-            header_size = longest_line(str(self.__header[i])) if self.__header else 0
-            body_size = (
-                map(lambda row, i=i: longest_line(str(row[i])), self.__body) if self.__body else [0]
-            )
-            footer_size = longest_line(str(self.__footer[i])) if self.__footer else 0
+            header_size = col_widest(self.__header) if self.__header else 0
+            body_size = map(col_widest, self.__body) if self.__body else [0]
+            footer_size = col_widest(self.__footer) if self.__footer else 0
             # get the max and add 2 for padding each side with a space
             column_widths.append(max(header_size, *body_size, footer_size) + 2)
         return column_widths
@@ -248,7 +256,7 @@ class TableToAscii:
             filler=self.__style.heading_row_sep,
         )
 
-    def __body_to_ascii(self) -> str:
+    def __body_to_ascii(self, body: List[List[Any]]) -> str:
         """
         Assembles the body of the ascii table
 
@@ -270,7 +278,7 @@ class TableToAscii:
                 right_edge=self.__style.left_and_right_edge,
                 filler=row,
             )
-            for row in self.__body
+            for row in body
         )
 
     def to_ascii(self) -> str:
@@ -288,7 +296,7 @@ class TableToAscii:
             table += self.__heading_sep_to_ascii()
         # add table body
         if self.__body:
-            table += self.__body_to_ascii()
+            table += self.__body_to_ascii(self.__body)
         # add table footer
         if self.__footer:
             table += self.__heading_sep_to_ascii()
@@ -300,25 +308,41 @@ class TableToAscii:
 
 
 def table2ascii(
-    header: Optional[List] = None,
-    body: Optional[List[List]] = None,
-    footer: Optional[List] = None,
-    **options,
+    header: Optional[List[Any]] = None,
+    body: Optional[List[List[Any]]] = None,
+    footer: Optional[List[Any]] = None,
+    *,
+    first_col_heading: bool = False,
+    last_col_heading: bool = False,
+    column_widths: Optional[List[int]] = None,
+    alignments: Optional[List[Alignment]] = None,
+    style: TableStyle = PresetStyle.double_thin_compact,
 ) -> str:
     """
     Convert a 2D Python table to ASCII text
 
     Args:
-        header (:class:`Optional[List]`): List of column values in the table's header row
-        body (:class:`Optional[List[List]]`): 2-dimensional list of values in the table's body
-        footer (:class:`Optional[List]`): List of column values in the table's footer row
-        style (:class:`TableStyle`): Table style to use for styling (preset styles can be imported)
-        column_widths (:class:`List[int]`): List of widths in characters for each column (defaults to auto-sizing)
-        alignments (:class:`List[Alignment]`): List of alignments (ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`)
+        header (:class:`Optional[List[Any]]`): List of column values in the table's header row
+        body (:class:`Optional[List[List[Any]]]`): 2-dimensional list of values in the table's body
+        footer (:class:`Optional[List[Any]]`): List of column values in the table's footer row
         first_col_heading (:class:`bool`): Whether to add a header column separator after the first column
         last_col_heading (:class:`bool`): Whether to add a header column separator before the last column
+        column_widths (:class:`List[int]`): List of widths in characters for each column (defaults to auto-sizing)
+        alignments (:class:`List[Alignment]`): List of alignments (ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`)
+        style (:class:`TableStyle`): Table style to use for styling (preset styles can be imported)
 
     Returns:
         str: The generated ASCII table
     """
-    return TableToAscii(header, body, footer, Options(**options)).to_ascii()
+    return TableToAscii(
+        header,
+        body,
+        footer,
+        Options(
+            first_col_heading=first_col_heading,
+            last_col_heading=last_col_heading,
+            column_widths=column_widths,
+            alignments=alignments,
+            style=style,
+        ),
+    ).to_ascii()
