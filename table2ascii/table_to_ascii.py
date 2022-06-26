@@ -56,11 +56,13 @@ class TableToAscii:
             for i in range(len(options.column_widths)):
                 option = options.column_widths[i]
                 minimum = self.__column_widths[i]
-                if option < minimum:
+                if option is None:
+                    option = minimum
+                elif option < minimum:
                     raise ValueError(
                         f"The value at index {i} of `column_widths` is {option} which is less than the minimum {minimum}."
                     )
-            self.__column_widths = options.column_widths
+                self.__column_widths[i] = option
 
         self.__alignments = options.alignments or [Alignment.CENTER] * self.__columns
 
@@ -314,7 +316,7 @@ def table2ascii(
     *,
     first_col_heading: bool = False,
     last_col_heading: bool = False,
-    column_widths: Optional[List[int]] = None,
+    column_widths: Optional[List[Optional[int]]] = None,
     alignments: Optional[List[Alignment]] = None,
     style: TableStyle = PresetStyle.double_thin_compact,
 ) -> str:
@@ -322,17 +324,27 @@ def table2ascii(
     Convert a 2D Python table to ASCII text
 
     Args:
-        header (:class:`Optional[List[Any]]`): List of column values in the table's header row
-        body (:class:`Optional[List[List[Any]]]`): 2-dimensional list of values in the table's body
-        footer (:class:`Optional[List[Any]]`): List of column values in the table's footer row
-        first_col_heading (:class:`bool`): Whether to add a header column separator after the first column
-        last_col_heading (:class:`bool`): Whether to add a header column separator before the last column
-        column_widths (:class:`Optional[List[int]]`): List of widths in characters for each column (``None`` for auto-sizing)
-        alignments (:class:`List[Alignment]`): List of alignments (ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`)
-        style (:class:`TableStyle`): Table style to use for styling (preset styles can be imported)
+        header (Optional[List[Any]]): List of column values in the table's header row.
+            If not specified, the table will not have a header row.
+        body (Optional[List[List[Any]]]): 2-dimensional list of values in the table's body.
+            If not specified, the table will not have a body.
+        footer (Optional[List[Any]]): List of column values in the table's footer row.
+            If not specified, the table will not have a footer row.
+        first_col_heading (:class:`bool`): Whether to add a header column separator after the first
+            column. Defaults to ``False``.
+        last_col_heading (:class:`bool`): Whether to add a header column separator before the last
+            column. Defaults to ``False``.
+        column_widths (Optional[List[Optional[:class:`int`]]]): List of widths in characters for each
+            column. Any value of ``None`` indicates that the column width should be determined automatically.
+            If ``column_widths`` is set to ``None``, all columns will be automatically sized. Defaults to ``None``.
+        alignments (Optional[List[:class:`Alignment`]]): List of alignments for each column
+            (ex. ``[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]``). If not specified or set to ``None``,
+            all columns will be center-aligned. Defaults to ``None``.
+        style (:class:`TableStyle`): Table style to use for styling (preset styles can be imported).
+            Defaults to :data:`PresetStyle.double_thin_compact`.
 
     Returns:
-        str: The generated ASCII table
+        :class:`str`: The generated ASCII table
     """
     return TableToAscii(
         header,
