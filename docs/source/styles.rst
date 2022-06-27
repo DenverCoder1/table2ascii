@@ -5,6 +5,8 @@ Preset styles
 
 .. contents::
 
+.. _PresetStyle.ascii:
+
 `ascii`
 ~~~~~~~
 
@@ -26,6 +28,8 @@ Preset styles
    | 2 | 30   40   35   30 |
    +---+-------------------+
 
+.. _PresetStyle.ascii_borderless:
+
 `ascii_borderless`
 ~~~~~~~~~~~~~~~~~~
 
@@ -40,6 +44,8 @@ Preset styles
    
      1 | 30   40   35   30  
      2 | 30   40   35   30  
+
+.. _PresetStyle.ascii_box:
 
 `ascii_box`
 ~~~~~~~~~~~
@@ -62,6 +68,8 @@ Preset styles
    | 2 | 30 | 40 | 35 | 30 |
    +---+----+----+----+----+
 
+.. _PresetStyle.ascii_compact:
+
 `ascii_compact`
 ~~~~~~~~~~~~~~~
 
@@ -80,6 +88,8 @@ Preset styles
    | 1 | 30   40   35   30 |
    | 2 | 30   40   35   30 |
    +---+-------------------+
+
+.. _PresetStyle.ascii_double:
 
 `ascii_double`
 ~~~~~~~~~~~~~~
@@ -102,6 +112,8 @@ Preset styles
    | 2 | 30   40   35   30 |
    +---+-------------------+
 
+.. _PresetStyle.ascii_minimalist:
+
 `ascii_minimalist`
 ~~~~~~~~~~~~~~~~~~
 
@@ -123,6 +135,8 @@ Preset styles
      2 | 30   40   35   30  
     ----------------------- 
 
+.. _PresetStyle.ascii_simple:
+
 `ascii_simple`
 ~~~~~~~~~~~~~~
 
@@ -142,6 +156,8 @@ Preset styles
      2 | 30   40   35   30  
     === ==== ==== ==== ==== 
 
+.. _PresetStyle.borderless:
+
 `borderless`
 ~~~~~~~~~~~~
 
@@ -156,6 +172,8 @@ Preset styles
    
      1 ┃ 30   40   35   30  
      2 ┃ 30   40   35   30  
+
+.. _PresetStyle.double:
 
 `double`
 ~~~~~~~~
@@ -178,6 +196,8 @@ Preset styles
    ║ 2 ║ 30   40   35   30 ║
    ╚═══╩═══════════════════╝
 
+.. _PresetStyle.double_box:
+
 `double_box`
 ~~~~~~~~~~~~
 
@@ -199,6 +219,8 @@ Preset styles
    ║ 2 ║ 30 ║ 40 ║ 35 ║ 30 ║
    ╚═══╩════╩════╩════╩════╝
 
+.. _PresetStyle.double_compact:
+
 `double_compact`
 ~~~~~~~~~~~~~~~~
 
@@ -217,6 +239,8 @@ Preset styles
    ║ 1 ║ 30   40   35   30 ║
    ║ 2 ║ 30   40   35   30 ║
    ╚═══╩═══════════════════╝
+
+.. _PresetStyle.double_thin_compact:
 
 `double_thin_compact`
 ~~~~~~~~~~~~~~~~~~~~~
@@ -237,6 +261,8 @@ Preset styles
    ║ 2 ║ 30   40   35   30 ║
    ╚═══╩═══════════════════╝
 
+.. _PresetStyle.markdown:
+
 `markdown`
 ~~~~~~~~~~
 
@@ -251,6 +277,8 @@ Preset styles
    
    | 1 | 30 | 40 | 35 | 30 |
    | 2 | 30 | 40 | 35 | 30 |
+
+.. _PresetStyle.minimalist:
 
 `minimalist`
 ~~~~~~~~~~~~
@@ -273,6 +301,8 @@ Preset styles
      2 │ 30   40   35   30  
     ─────────────────────── 
 
+.. _PresetStyle.simple:
+
 `simple`
 ~~~~~~~~
 
@@ -291,6 +321,8 @@ Preset styles
      1 ║ 30   40   35   30  
      2 ║ 30   40   35   30  
     ═══ ════ ════ ════ ════ 
+
+.. _PresetStyle.thick:
 
 `thick`
 ~~~~~~~
@@ -313,6 +345,8 @@ Preset styles
    ┃ 2 ┃ 30   40   35   30 ┃
    ┗━━━┻━━━━━━━━━━━━━━━━━━━┛
 
+.. _PresetStyle.thick_box:
+
 `thick_box`
 ~~~~~~~~~~~
 
@@ -334,6 +368,8 @@ Preset styles
    ┃ 2 ┃ 30 ┃ 40 ┃ 35 ┃ 30 ┃
    ┗━━━┻━━━━┻━━━━┻━━━━┻━━━━┛
 
+.. _PresetStyle.thick_compact:
+
 `thick_compact`
 ~~~~~~~~~~~~~~~
 
@@ -352,6 +388,8 @@ Preset styles
    ┃ 1 ┃ 30   40   35   30 ┃
    ┃ 2 ┃ 30   40   35   30 ┃
    ┗━━━┻━━━━━━━━━━━━━━━━━━━┛
+
+.. _PresetStyle.thin:
 
 `thin`
 ~~~~~~
@@ -374,6 +412,8 @@ Preset styles
    │ 2 │ 30   40   35   30 │
    └───┴───────────────────┘
 
+.. _PresetStyle.thin_box:
+
 `thin_box`
 ~~~~~~~~~~
 
@@ -395,6 +435,8 @@ Preset styles
    │ 2 │ 30 │ 40 │ 35 │ 30 │
    └───┴────┴────┴────┴────┘
 
+.. _PresetStyle.thin_compact:
+
 `thin_compact`
 ~~~~~~~~~~~~~~
 
@@ -414,6 +456,8 @@ Preset styles
    │ 2 │ 30   40   35   30 │
    └───┴───────────────────┘
 
+.. _PresetStyle.thin_compact_rounded:
+
 `thin_compact_rounded`
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -432,6 +476,8 @@ Preset styles
    │ 1 │ 30   40   35   30 │
    │ 2 │ 30   40   35   30 │
    ╰───┴───────────────────╯
+
+.. _PresetStyle.thin_double:
 
 `thin_double`
 ~~~~~~~~~~~~~
@@ -454,6 +500,8 @@ Preset styles
    │ 2 │ 30   40   35   30 │
    └───┴───────────────────┘
 
+.. _PresetStyle.thin_double_rounded:
+
 `thin_double_rounded`
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -474,6 +522,8 @@ Preset styles
    ├───┼───────────────────┤
    │ 2 │ 30   40   35   30 │
    ╰───┴───────────────────╯
+
+.. _PresetStyle.thin_rounded:
 
 `thin_rounded`
 ~~~~~~~~~~~~~~
@@ -496,6 +546,8 @@ Preset styles
    │ 2 │ 30   40   35   30 │
    ╰───┴───────────────────╯
 
+.. _PresetStyle.thin_thick:
+
 `thin_thick`
 ~~~~~~~~~~~~
 
@@ -516,6 +568,8 @@ Preset styles
    ├───┼───────────────────┤
    │ 2 │ 30   40   35   30 │
    └───┴───────────────────┘
+
+.. _PresetStyle.thin_thick_rounded:
 
 `thin_thick_rounded`
 ~~~~~~~~~~~~~~~~~~~~

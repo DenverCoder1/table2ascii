@@ -21,10 +21,10 @@ class TableToAscii:
         Validate arguments and initialize fields
 
         Args:
-            header (Optional[List[Any]]): The values in the header of the table
-            body (Optional[List[List[Any]]]): The rows of values in the body of the table
-            footer (Optional[List[Any]]): The values in the footer of the table
-            options (Options): The options for the table
+            header: The values in the header of the table
+            body: The rows of values in the body of the table
+            footer: The values in the footer of the table
+            options: The options for the table
         """
         # initialize fields
         self.__header = header
@@ -76,7 +76,7 @@ class TableToAscii:
         provided header, footer, and body lists.
 
         Returns:
-            int: The number of columns in the table
+            The number of columns in the table
         """
         if self.__header:
             return len(self.__header)
@@ -92,7 +92,7 @@ class TableToAscii:
         each column in the table with 1 space of padding on each side.
 
         Returns:
-            List[int]: The minimum number of characters needed for each column
+            The minimum number of characters needed for each column
         """
 
         def widest_line(text: str) -> int:
@@ -117,12 +117,12 @@ class TableToAscii:
         Pad a string of text to a given width with specified alignment
 
         Args:
-            cell_value (Any): The text in the cell to pad
-            width (int): The width in characters to pad to
-            alignment (Alignment): The alignment to use
+            cell_value: The text in the cell to pad
+            width: The width in characters to pad to
+            alignment: The alignment to use
 
         Returns:
-            str: The padded text
+            The padded text
         """
         text = str(cell_value)
         if alignment == Alignment.LEFT:
@@ -150,7 +150,7 @@ class TableToAscii:
         Assembles a line of text in the ascii table
 
         Returns:
-            str: The line in the ascii table
+            The line in the ascii table
         """
         output = ""
         # find the maximum number of lines a single cell in the column has (minimum of 1)
@@ -203,7 +203,7 @@ class TableToAscii:
         Assembles the top edge of the ascii table
 
         Returns:
-            str: The top edge of the ascii table
+            The top edge of the ascii table
         """
         return self.__row_to_ascii(
             left_edge=self.__style.top_left_corner,
@@ -218,7 +218,7 @@ class TableToAscii:
         Assembles the bottom edge of the ascii table
 
         Returns:
-            str: The bottom edge of the ascii table
+            The bottom edge of the ascii table
         """
         return self.__row_to_ascii(
             left_edge=self.__style.bottom_left_corner,
@@ -233,7 +233,7 @@ class TableToAscii:
         Assembles the header or footer row line of the ascii table
 
         Returns:
-            str: The header or footer row line of the ascii table
+            The header or footer row line of the ascii table
         """
         return self.__row_to_ascii(
             left_edge=self.__style.left_and_right_edge,
@@ -248,7 +248,7 @@ class TableToAscii:
         Assembles the seperator below the header or above footer of the ascii table
 
         Returns:
-            str: The seperator line
+            The seperator line
         """
         return self.__row_to_ascii(
             left_edge=self.__style.heading_row_left_tee,
@@ -263,7 +263,7 @@ class TableToAscii:
         Assembles the body of the ascii table
 
         Returns:
-            str: The body of the ascii table
+            The body of the ascii table
         """
         separation_row = self.__row_to_ascii(
             left_edge=self.__style.row_left_tee,
@@ -288,7 +288,7 @@ class TableToAscii:
         Generates a formatted ASCII table
 
         Returns:
-            str: The generated ASCII table
+            The generated ASCII table
         """
         # top row of table
         table = self.__top_edge_to_ascii()
@@ -324,27 +324,28 @@ def table2ascii(
     Convert a 2D Python table to ASCII text
 
     Args:
-        header (Optional[List[Any]]): List of column values in the table's header row.
-            If not specified, the table will not have a header row.
-        body (Optional[List[List[Any]]]): 2-dimensional list of values in the table's body.
-            If not specified, the table will not have a body.
-        footer (Optional[List[Any]]): List of column values in the table's footer row.
-            If not specified, the table will not have a footer row.
-        first_col_heading (:class:`bool`): Whether to add a header column separator after the first
-            column. Defaults to ``False``.
-        last_col_heading (:class:`bool`): Whether to add a header column separator before the last
-            column. Defaults to ``False``.
-        column_widths (Optional[List[Optional[:class:`int`]]]): List of widths in characters for each
-            column. Any value of ``None`` indicates that the column width should be determined automatically.
-            If ``column_widths`` is set to ``None``, all columns will be automatically sized. Defaults to ``None``.
-        alignments (Optional[List[:class:`Alignment`]]): List of alignments for each column
-            (ex. ``[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]``). If not specified or set to ``None``,
-            all columns will be center-aligned. Defaults to ``None``.
-        style (:class:`TableStyle`): Table style to use for styling (preset styles can be imported).
-            Defaults to :data:`PresetStyle.double_thin_compact`.
+        header: List of column values in the table's header row. If not specified,
+            the table will not have a header row.
+        body: 2-dimensional list of values in the table's body. If not specified,
+            the table will not have a body.
+        footer: List of column values in the table's footer row. If not specified,
+            the table will not have a footer row.
+        first_col_heading: Whether to add a header column separator after the first column.
+            Defaults to :py:obj:`False`.
+        last_col_heading: Whether to add a header column separator before the last column.
+            Defaults to :py:obj:`False`.
+        column_widths: List of widths in characters for each column. Any value of :py:obj:`None`
+            indicates that the column width should be determined automatically. If :py:obj:`None`
+            is passed instead of a :py:obj:`~typing.List`, all columns will be automatically sized.
+            Defaults to :py:obj:`None`.
+        alignments: List of alignments for each column
+            (ex. ``[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]``). If not specified or set to
+            :py:obj:`None`, all columns will be center-aligned. Defaults to :py:obj:`None`.
+        style: Table style to use for styling (preset styles can be imported).
+            Defaults to :ref:`PresetStyle.double_thin_compact <PresetStyle.double_thin_compact>`.
 
     Returns:
-        :class:`str`: The generated ASCII table
+        The generated ASCII table
     """
     return TableToAscii(
         header,

@@ -36,7 +36,7 @@ def generate_style_list():
             last_col_heading=False,
             style=styles[style],
         )
-        style_heading = f"`{style}`\n" + "~" * len(f"`{style}`")
+        style_heading = f".. _PresetStyle.{style}:\n\n`{style}`\n" + "~" * len(f"`{style}`")
         output_example = indent_all_lines(full + "\n\n" + body_only)
         style_list += f"{style_heading}\n\n.. code-block:: none\n\n{output_example}\n\n"
     # put it all together

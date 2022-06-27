@@ -40,7 +40,12 @@ extensions = [
     "sphinxcontrib_trio",
     "enum_tools.autoenum",
     "sphinxext.opengraph",
+    "sphinx_toolbox.more_autodoc.typehints",
 ]
+
+intersphinx_mapping = {
+    "py": ("https://docs.python.org/3", None),
+}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
