@@ -65,10 +65,10 @@ class TableStyle:
         Create a TableStyle from a string
 
         Args:
-            string (:class:`str`): The string to create the TableStyle from
+            string: The string to create the TableStyle from
 
         Returns:
-            :class:`TableStyle`: A TableStyle object
+            A TableStyle object
 
         Example::
 
