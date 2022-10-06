@@ -149,32 +149,34 @@ See a list of all preset styles [here](https://table2ascii.readthedocs.io/en/lat
 
 All parameters are optional.
 
-|       Option        |       Type        |   Default    |                                        Description                                         |
-| :-----------------: | :---------------: | :----------: | :----------------------------------------------------------------------------------------: |
-|      `header`       |    `List[str]`    |    `None`    |                    First row of table seperated by header row seperator                    |
-|       `body`        | `List[List[str]]` |    `None`    |                       List of rows for the main section of the table                       |
-|      `footer`       |    `List[str]`    |    `None`    |                    Last row of table seperated by header row seperator                     |
-|   `column_widths`   |    `List[int]`    |  automatic   |                    List of column widths in characters for each column                     |
-|    `alignments`     |    `List[int]`    | all centered | Alignments for each column<br/>(ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`) |
-| `first_col_heading` |      `bool`       |   `False`    |              Whether to add a heading column seperator after the first column              |
-| `last_col_heading`  |      `bool`       |   `False`    |              Whether to add a heading column seperator before the last column              |
+|       Option        |         Type          |        Default        |                                    Description                                    |
+| :-----------------: | :-------------------: | :-------------------: | :-------------------------------------------------------------------------------: |
+|      `header`       |      `List[Any]`      |        `None`         | First table row seperated by header row seperator. Values should support `str()`. |
+|       `body`        |   `List[List[Any]]`   |        `None`         |  List of rows for the main section of the table. Values should support `str()`.   |
+|      `footer`       |      `List[Any]`      |        `None`         | Last table row seperated by header row seperator. Values should support `str()`.  |
+|   `column_widths`   | `List[Optional[int]]` |  `None` (automatic)   |                List of column widths in characters for each column                |
+|    `alignments`     |   `List[Alignment]`   | `None` (all centered) | Column alignments<br/>(ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`) |
+|       `style`       |     `TableStyle`      | `double_thin_compact` |                         Table style to use for the table                          |
+| `first_col_heading` |        `bool`         |        `False`        |         Whether to add a heading column seperator after the first column          |
+| `last_col_heading`  |        `bool`         |        `False`        |         Whether to add a heading column seperator before the last column          |
+
+See the [API Reference](https://table2ascii.readthedocs.io/en/latest/api.html) for more info.
 
 ## 👨‍🎨 Use cases
 
 ### Discord messages and embeds
 
-* Display tables nicely inside markdown codeblocks on Discord
-* Useful for making Discord bots with [Discord.py](https://github.com/Rapptz/discord.py)
+-   Display tables nicely inside markdown code blocks on Discord
+-   Useful for making Discord bots with [Discord.py](https://github.com/Rapptz/discord.py)
 
 ![image](https://user-images.githubusercontent.com/20955511/116203248-2973c600-a744-11eb-97d8-4b75ed2845c9.png)
 
 ### Terminal outputs
 
-* Tables display nicely whenever monospace fonts are fully supported
-* Tables make terminal outputs look more professional
+-   Tables display nicely whenever monospace fonts are fully supported
+-   Tables make terminal outputs look more professional
 
 ![image](https://user-images.githubusercontent.com/20955511/116204490-802dcf80-a745-11eb-9b4a-7cef49f23958.png)
-
 
 ## 🤗 Contributing
 
