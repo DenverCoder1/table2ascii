@@ -1,12 +1,12 @@
 from abc import abstractmethod
-from typing import TYPE_CHECKING, runtime_checkable
+from typing import TYPE_CHECKING
 
 try:
     # Python 3.8+
-    from typing import Protocol
+    from typing import Protocol, runtime_checkable
 except ImportError:
     # Python 3.7
-    from typing_extensions import Protocol
+    from typing_extensions import Protocol, runtime_checkable
 
 if TYPE_CHECKING:
     from typing import Protocol
