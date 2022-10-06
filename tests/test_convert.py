@@ -201,6 +201,29 @@ def test_numeric_data():
     assert text == expected
 
 
+def test_stringifiable_classes():
+    class Foo:
+        def __str__(self):
+            return "Foo"
+
+    text = t2a(
+        header=[1, Foo(), None],
+        body=[[1, Foo(), None]],
+        footer=[1, Foo(), None],
+        first_col_heading=True,
+    )
+    expected = (
+        "╔═══╦════════════╗\n"
+        "║ 1 ║ Foo   None ║\n"
+        "╟───╫────────────╢\n"
+        "║ 1 ║ Foo   None ║\n"
+        "╟───╫────────────╢\n"
+        "║ 1 ║ Foo   None ║\n"
+        "╚═══╩════════════╝"
+    )
+    assert text == expected
+
+
 def test_multiline_cells():
     text = t2a(
         header=["Multiline\nHeader\nCell", "G", "Two\nLines", "R", "S"],

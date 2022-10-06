@@ -1,7 +1,8 @@
 from math import ceil, floor
-from typing import Any, Callable, List, Optional, Union
+from typing import Callable, List, Optional, Union
 
 from .alignment import Alignment
+from .annotations import SupportsStr
 from .options import Options
 from .preset_style import PresetStyle
 from .table_style import TableStyle
@@ -12,9 +13,9 @@ class TableToAscii:
 
     def __init__(
         self,
-        header: Optional[List[Any]],
-        body: Optional[List[List[Any]]],
-        footer: Optional[List[Any]],
+        header: Optional[List[SupportsStr]],
+        body: Optional[List[List[SupportsStr]]],
+        footer: Optional[List[SupportsStr]],
         options: Options,
     ):
         """
@@ -103,7 +104,9 @@ class TableToAscii:
         # get the width necessary for each column
         for i in range(self.__columns):
             # col_widest returns the width of the widest line in the ith cell of a given list
-            col_widest: Callable[[List[Any], int], int] = lambda row, i=i: widest_line(str(row[i]))
+            col_widest: Callable[[List[SupportsStr], int], int] = lambda row, i=i: widest_line(
+                str(row[i])
+            )
             # number of characters in column of i of header, each body row, and footer
             header_size = col_widest(self.__header) if self.__header else 0
             body_size = map(col_widest, self.__body) if self.__body else [0]
@@ -112,7 +115,7 @@ class TableToAscii:
             column_widths.append(max(header_size, *body_size, footer_size) + 2)
         return column_widths
 
-    def __pad(self, cell_value: Any, width: int, alignment: Alignment) -> str:
+    def __pad(self, cell_value: SupportsStr, width: int, alignment: Alignment) -> str:
         """
         Pad a string of text to a given width with specified alignment
 
@@ -258,7 +261,7 @@ class TableToAscii:
             filler=self.__style.heading_row_sep,
         )
 
-    def __body_to_ascii(self, body: List[List[Any]]) -> str:
+    def __body_to_ascii(self, body: List[List[SupportsStr]]) -> str:
         """
         Assembles the body of the ascii table
 
@@ -310,9 +313,9 @@ class TableToAscii:
 
 
 def table2ascii(
-    header: Optional[List[Any]] = None,
-    body: Optional[List[List[Any]]] = None,
-    footer: Optional[List[Any]] = None,
+    header: Optional[List[SupportsStr]] = None,
+    body: Optional[List[List[SupportsStr]]] = None,
+    footer: Optional[List[SupportsStr]] = None,
     *,
     first_col_heading: bool = False,
     last_col_heading: bool = False,
@@ -324,12 +327,12 @@ def table2ascii(
     Convert a 2D Python table to ASCII text
 
     Args:
-        header: List of column values in the table's header row. If not specified,
-            the table will not have a header row.
-        body: 2-dimensional list of values in the table's body. If not specified,
-            the table will not have a body.
-        footer: List of column values in the table's footer row. If not specified,
-            the table will not have a footer row.
+        header: List of column values in the table's header row. All values should be :class:`str`
+            or support :class:`str` conversion. If not specified, the table will not have a header row.
+        body: 2-dimensional list of values in the table's body. All values should be :class:`str`
+            or support :class:`str` conversion. If not specified, the table will not have a body.
+        footer: List of column values in the table's footer row. All values should be :class:`str`
+            or support :class:`str` conversion. If not specified, the table will not have a footer row.
         first_col_heading: Whether to add a header column separator after the first column.
             Defaults to :py:obj:`False`.
         last_col_heading: Whether to add a header column separator before the last column.
