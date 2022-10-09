@@ -1,5 +1,4 @@
 :og:description: Python library for converting lists to fancy ASCII tables for displaying in the terminal and on Discord. Install with \`pip install -U table2ascii\`.
-:tocdepth: 2
 
 table2ascii
 ===========
@@ -21,6 +20,7 @@ Contents
 --------
 
 .. toctree::
+   :maxdepth: 2
 
    usage
    api
