@@ -563,6 +563,52 @@ def test_ascii_borderless():
     assert text == expected
 
 
+def test_ascii_rounded():
+    text = t2a(
+        header=["#", "G", "H", "R", "S"],
+        body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
+        footer=["SUM", "130", "140", "135", "130"],
+        first_col_heading=True,
+        last_col_heading=False,
+        style=PresetStyle.ascii_rounded,
+    )
+    expected = (
+        "/=============================\\\n"
+        "|  #  |  G     H     R     S  |\n"
+        "|=====|=======================|\n"
+        "|  1  | 30    40    35    30  |\n"
+        "|-----|-----------------------|\n"
+        "|  2  | 30    40    35    30  |\n"
+        "|=====|=======================|\n"
+        "| SUM | 130   140   135   130 |\n"
+        "\\=====|=======================/"
+    )
+    assert text == expected
+
+
+def test_ascii_rounded_box():
+    text = t2a(
+        header=["#", "G", "H", "R", "S"],
+        body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
+        footer=["SUM", "130", "140", "135", "130"],
+        first_col_heading=True,
+        last_col_heading=False,
+        style=PresetStyle.ascii_rounded_box,
+    )
+    expected = (
+        "/=============================\\\n"
+        "|  #  |  G  |  H  |  R  |  S  |\n"
+        "|=====|=====|=====|=====|=====|\n"
+        "|  1  | 30  | 40  | 35  | 30  |\n"
+        "|-----|-----|-----|-----|-----|\n"
+        "|  2  | 30  | 40  | 35  | 30  |\n"
+        "|=====|=====|=====|=====|=====|\n"
+        "| SUM | 130 | 140 | 135 | 130 |\n"
+        "\\=====|=====|=====|=====|=====/"
+    )
+    assert text == expected
+
+
 def test_ascii_simple():
     text = t2a(
         header=["#", "G", "H", "R", "S"],
