@@ -43,4 +43,6 @@ class PresetStyle:
     ascii_minimalist = TableStyle.from_string(" ---  |  ===  ---  -- ")
     ascii_borderless = TableStyle.from_string("      |  -            ")
     ascii_simple = TableStyle.from_string(" =    |  =            ")
+    ascii_rounded = TableStyle.from_string("/===\|| |=|=||-|-|\|=/")
+    ascii_rounded_box = TableStyle.from_string("/===\||||=||||-|||\||/")
     markdown = TableStyle.from_string("     ||||-|||         ")
