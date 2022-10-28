@@ -347,6 +347,21 @@ Preset styles
      2 │ 30   40   35   30  
     ─────────────────────── 
 
+.. _PresetStyle.plain:
+
+`plain`
+~~~~~~~
+
+.. code-block:: none
+
+      #     G     H     R     S   
+      1    30    40    35    30   
+      2    30    40    35    30   
+     SUM   130   140   135   130  
+   
+     1   30   40   35   30  
+     2   30   40   35   30  
+
 .. _PresetStyle.simple:
 
 `simple`
