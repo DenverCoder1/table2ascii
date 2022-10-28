@@ -46,3 +46,4 @@ class PresetStyle:
     ascii_rounded = TableStyle.from_string("/===\|| |=|=||-|-|\|=/")
     ascii_rounded_box = TableStyle.from_string("/===\||||=||||-|||\||/")
     markdown = TableStyle.from_string("     ||||-|||         ")
+    plain = TableStyle.from_string("                      ")
