@@ -649,3 +649,21 @@ def test_markdown():
         "| SUM | 130 | 140 | 135 | 130 |"
     )
     assert text == expected
+
+
+def test_plain():
+    text = t2a(
+        header=["#", "G", "H", "R", "S"],
+        body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
+        footer=["SUM", "130", "140", "135", "130"],
+        first_col_heading=True,
+        last_col_heading=False,
+        style=PresetStyle.plain,
+    )
+    expected = (
+        "   #     G     H     R     S   \n"
+        "   1    30    40    35    30   \n"
+        "   2    30    40    35    30   \n"
+        "  SUM   130   140   135   130  "
+    )
+    assert text == expected
