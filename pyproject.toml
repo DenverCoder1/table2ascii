@@ -67,3 +67,15 @@ reportUnsupportedDunderAll = true
 reportUnusedVariable = true
 reportUnnecessaryComparison = true
 reportUnnecessaryTypeIgnoreComment = true
+
+
+[tool.mypy]
+python_version = "3.10"
+namespace_packages = true
+
+
+[[tool.mypy.overrides]]
+module = [
+    "setuptools.*",
+]
+ignore_missing_imports = true
