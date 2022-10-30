@@ -48,6 +48,7 @@ extras_require = {
         "pyright==1.1.244",
         "tox==3.24.5",
         "pytest==7.1.2",
+        "mypy==0.982",
     ],
 }
 

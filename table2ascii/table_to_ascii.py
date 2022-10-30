@@ -96,23 +96,20 @@ class TableToAscii:
             The minimum number of characters needed for each column
         """
 
-        def widest_line(text: str) -> int:
+        def widest_line(value: SupportsStr) -> int:
             """Returns the width of the longest line in a multi-line string"""
+            text = str(value)
             return max(len(line) for line in text.splitlines()) if len(text) else 0
 
         column_widths = []
         # get the width necessary for each column
         for i in range(self.__columns):
-            # col_widest returns the width of the widest line in the ith cell of a given list
-            col_widest: Callable[[List[SupportsStr], int], int] = lambda row, i=i: widest_line(
-                str(row[i])
-            )
             # number of characters in column of i of header, each body row, and footer
-            header_size = col_widest(self.__header) if self.__header else 0
-            body_size = map(col_widest, self.__body) if self.__body else [0]
-            footer_size = col_widest(self.__footer) if self.__footer else 0
+            header_size = widest_line(self.__header[i]) if self.__header else 0
+            body_size = max(widest_line(row[i]) for row in self.__body) if self.__body else 0
+            footer_size = widest_line(self.__footer[i]) if self.__footer else 0
             # get the max and add 2 for padding each side with a space
-            column_widths.append(max(header_size, *body_size, footer_size) + 2)
+            column_widths.append(max(header_size, body_size, footer_size) + 2)
         return column_widths
 
     def __pad(self, cell_value: SupportsStr, width: int, alignment: Alignment) -> str:
