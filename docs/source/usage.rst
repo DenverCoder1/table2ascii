@@ -79,7 +79,7 @@ Use a preset style
 
 .. code:: py
 
-   from table2ascii import table2ascii, PresetStyle, Alignment
+   from table2ascii import table2ascii, Alignment, PresetStyle
 
    output = table2ascii(
        header=["First", "Second", "Third", "Fourth"],
