@@ -314,3 +314,14 @@ def test_cell_padding_more_than_one():
         "╚═════╩═══════════════════════╝"
     )
     assert text == expected
+
+
+def test_negative_cell_padding():
+    with pytest.raises(ValueError):
+        t2a(
+            header=["#", "G", "H", "R", "S"],
+            body=[[1, 2, 3, 4, 5]],
+            footer=["A", "B", 1, 2, 3],
+            first_col_heading=True,
+            cell_padding=-1,
+        )

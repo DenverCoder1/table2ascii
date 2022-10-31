@@ -72,6 +72,10 @@ class TableToAscii:
         if options.alignments and len(options.alignments) != self.__columns:
             raise ValueError("Length of `alignments` list must equal the number of columns")
 
+        # check if the cell padding is valid
+        if self.__cell_padding < 0:
+            raise ValueError("Cell padding must be greater than or equal to 0")
+
     def __count_columns(self) -> int:
         """
         Get the number of columns in the table based on the
