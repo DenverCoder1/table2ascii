@@ -72,8 +72,8 @@ output = table2ascii(
     header=["#", "G", "H", "R", "S"],
     body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
     first_col_heading=True,
-    column_widths=[5, 5, 5, 5, 5]
-    alignments=[Alignment.LEFT, Alignment.RIGHT, Alignment.RIGHT, Alignment.RIGHT, Alignment.RIGHT],
+    column_widths=[5, 5, 5, 5, 5],
+    alignments=[Alignment.LEFT] + [Alignment.RIGHT] * 4,
 )
 
 print(output)
