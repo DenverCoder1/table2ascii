@@ -18,7 +18,7 @@ Documentation and examples are available at [table2ascii.rtfd.io](https://table2
 
 ## 🧑‍💻 Usage
 
-### 🚀 Convert lists to ASCII tables
+### Convert lists to ASCII tables
 
 ```py
 from table2ascii import table2ascii
@@ -43,7 +43,7 @@ print(output)
 """
 ```
 
-### 🏆 Set first or last column headings
+### Set first or last column headings
 
 ```py
 from table2ascii import table2ascii
@@ -63,7 +63,7 @@ print(output)
 """
 ```
 
-### 📰 Set column widths and alignments
+### Set column widths and alignments
 
 ```py
 from table2ascii import table2ascii, Alignment
@@ -88,12 +88,10 @@ print(output)
 """
 ```
 
-### 🎨 Use a preset style
-
-See a list of all preset styles [here](https://table2ascii.readthedocs.io/en/latest/styles.html).
+### Use a preset style
 
 ```py
-from table2ascii import table2ascii, PresetStyle, Alignment
+from table2ascii import table2ascii, PresetStyle
 
 output = table2ascii(
     header=["First", "Second", "Third", "Fourth"],
@@ -113,25 +111,9 @@ print(output)
 |    20    |    10    |    20    |    5     |
 +----------+----------+----------+----------+
 """
-
-output = table2ascii(
-    header=["First", "Second", "Third", "Fourth"],
-    body=[["10", "30", "40", "35"], ["20", "10", "20", "5"]],
-    style=PresetStyle.plain,
-    cell_padding=0,
-    alignments=[Alignment.LEFT] * 4,
-)
-
-print(output)
-
-"""
-First Second Third Fourth
-10    30     40    35
-20    10     20    5
-"""
 ```
 
-### 🎲 Define a custom style
+### Define a custom style
 
 Check [`TableStyle`](https://github.com/DenverCoder1/table2ascii/blob/main/table2ascii/table_style.py) for more info and [`PresetStyle`](https://github.com/DenverCoder1/table2ascii/blob/main/table2ascii/preset_style.py) for examples.
 
@@ -159,6 +141,10 @@ print(output)
 """
 ```
 
+## 🎨 Preset styles
+
+See a list of all preset styles [here](https://table2ascii.readthedocs.io/en/latest/styles.html).
+
 ## ⚙️ Options
 
 All parameters are optional.
@@ -170,24 +156,22 @@ All parameters are optional.
 |      `footer`       |      `List[Any]`      |        `None`         | Last table row seperated by header row seperator. Values should support `str()`.  |
 |   `column_widths`   | `List[Optional[int]]` |  `None` (automatic)   |                List of column widths in characters for each column                |
 |    `alignments`     |   `List[Alignment]`   | `None` (all centered) | Column alignments<br/>(ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`) |
-|       `style`       |     `TableStyle`      | `double_thin_compact` |                        Table style to use for the table\*                         |
+|       `style`       |     `TableStyle`      | `double_thin_compact` |                         Table style to use for the table                          |
 | `first_col_heading` |        `bool`         |        `False`        |         Whether to add a heading column seperator after the first column          |
 | `last_col_heading`  |        `bool`         |        `False`        |         Whether to add a heading column seperator before the last column          |
-
-\*See a list of all preset styles [here](https://table2ascii.readthedocs.io/en/latest/styles.html).
 
 See the [API Reference](https://table2ascii.readthedocs.io/en/latest/api.html) for more info.
 
 ## 👨‍🎨 Use cases
 
-### 🗨️ Discord messages and embeds
+### Discord messages and embeds
 
 -   Display tables nicely inside markdown code blocks on Discord
 -   Useful for making Discord bots with [Discord.py](https://github.com/Rapptz/discord.py)
 
 ![image](https://user-images.githubusercontent.com/20955511/116203248-2973c600-a744-11eb-97d8-4b75ed2845c9.png)
 
-### 💻 Terminal outputs
+### Terminal outputs
 
 -   Tables display nicely whenever monospace fonts are fully supported
 -   Tables make terminal outputs look more professional
