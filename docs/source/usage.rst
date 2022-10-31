@@ -104,7 +104,7 @@ Use a preset style
         header=["First", "Second", "Third", "Fourth"],
         body=[["10", "30", "40", "35"], ["20", "10", "20", "5"]],
         style=PresetStyle.plain,
-        extra_padding=False,
+        cell_padding=0,
         alignments=[Alignment.LEFT] * 4,
     )
 

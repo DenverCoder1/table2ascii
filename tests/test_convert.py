@@ -248,13 +248,13 @@ def test_multiline_cells():
     assert text == expected
 
 
-def test_without_extra_padding():
+def test_without_cell_padding():
     text = t2a(
         header=["#", "G", "H", "R", "S"],
         body=[[1, 2, 3, 4, 5]],
         footer=["A", "B", 1, 2, 3],
         first_col_heading=True,
-        extra_padding=False,
+        cell_padding=0,
     )
     expected = (
         "╔═╦═══════╗\n"
@@ -268,7 +268,7 @@ def test_without_extra_padding():
     assert text == expected
 
 
-def test_column_width_and_alignment_without_extra_padding():
+def test_column_width_and_alignment_without_cell_padding():
     text = t2a(
         header=["#", "G", "H", "R", "S"],
         body=[[1, 2, 3, 4, 5]],
@@ -282,7 +282,7 @@ def test_column_width_and_alignment_without_extra_padding():
             Alignment.RIGHT,
         ],
         first_col_heading=True,
-        extra_padding=False,
+        cell_padding=0,
     )
     expected = (
         "╔════╦═════════════════════════╗\n"
@@ -292,5 +292,25 @@ def test_column_width_and_alignment_without_extra_padding():
         "╟────╫─────────────────────────╢\n"
         "║A   ║   B         1 2        3║\n"
         "╚════╩═════════════════════════╝"
+    )
+    assert text == expected
+
+
+def test_cell_padding_more_than_one():
+    text = t2a(
+        header=["#", "G", "H", "R", "S"],
+        body=[[1, 2, 3, 4, 5]],
+        footer=["A", "B", 1, 2, 3],
+        first_col_heading=True,
+        cell_padding=2,
+    )
+    expected = (
+        "╔═════╦═══════════════════════╗\n"
+        "║  #  ║  G     H     R     S  ║\n"
+        "╟─────╫───────────────────────╢\n"
+        "║  1  ║  2     3     4     5  ║\n"
+        "╟─────╫───────────────────────╢\n"
+        "║  A  ║  B     1     2     3  ║\n"
+        "╚═════╩═══════════════════════╝"
     )
     assert text == expected
