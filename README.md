@@ -72,8 +72,8 @@ output = table2ascii(
     header=["#", "G", "H", "R", "S"],
     body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
     first_col_heading=True,
-    column_widths=[5] * 5,  # [5, 5, 5, 5, 5]
-    alignments=[Alignment.LEFT] + [Alignment.RIGHT] * 4, # First is left, remaining 4 are right
+    column_widths=[5, 5, 5, 5, 5]
+    alignments=[Alignment.LEFT, Alignment.RIGHT, Alignment.RIGHT, Alignment.RIGHT, Alignment.RIGHT],
 )
 
 print(output)
@@ -98,7 +98,7 @@ from table2ascii import table2ascii, Alignment, PresetStyle
 output = table2ascii(
     header=["First", "Second", "Third", "Fourth"],
     body=[["10", "30", "40", "35"], ["20", "10", "20", "5"]],
-    column_widths=[10] * 4,
+    column_widths=[10, 10, 10, 10],
     style=PresetStyle.ascii_box
 )
 
