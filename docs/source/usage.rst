@@ -107,9 +107,9 @@ Use a preset style
        cell_padding=0,
        alignments=[Alignment.LEFT] * 4,
    )
-   
+
    print(output)
-   
+
    """
    First Second Third Fourth
    10    30     40    35
