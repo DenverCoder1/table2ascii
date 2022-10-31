@@ -345,9 +345,9 @@ def table2ascii(
         alignments: List of alignments for each column
             (ex. ``[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]``). If not specified or set to
             :py:obj:`None`, all columns will be center-aligned. Defaults to :py:obj:`None`.
-        cell_padding: The minimum number of spaces to add between the cell content and the cell border.
-            If this is set to ``0``, the cell content will be printed directly next to the column
-            separator. Defaults to ``1``.
+        cell_padding: The minimum number of spaces to add between the cell content and the column
+            separator. If set to ``0``, the cell content will be flush against the column separator.
+            Defaults to ``1``.
         style: Table style to use for styling (preset styles can be imported).
             Defaults to :ref:`PresetStyle.double_thin_compact <PresetStyle.double_thin_compact>`.
 
