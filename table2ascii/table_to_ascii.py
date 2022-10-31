@@ -34,6 +34,7 @@ class TableToAscii:
         self.__style = options.style
         self.__first_col_heading = options.first_col_heading
         self.__last_col_heading = options.last_col_heading
+        self.__cell_padding = options.cell_padding
 
         # calculate number of columns
         self.__columns = self.__count_columns()
@@ -70,6 +71,10 @@ class TableToAscii:
         # check if alignments specified have a different number of columns
         if options.alignments and len(options.alignments) != self.__columns:
             raise ValueError("Length of `alignments` list must equal the number of columns")
+
+        # check if the cell padding is valid
+        if self.__cell_padding < 0:
+            raise ValueError("Cell padding must be greater than or equal to 0")
 
     def __count_columns(self) -> int:
         """
@@ -108,8 +113,8 @@ class TableToAscii:
             header_size = widest_line(self.__header[i]) if self.__header else 0
             body_size = max(widest_line(row[i]) for row in self.__body) if self.__body else 0
             footer_size = widest_line(self.__footer[i]) if self.__footer else 0
-            # get the max and add 2 for padding each side with a space
-            column_widths.append(max(header_size, body_size, footer_size) + 2)
+            # get the max and add 2 for padding each side with a space depending on cell padding
+            column_widths.append(max(header_size, body_size, footer_size) + self.__cell_padding * 2)
         return column_widths
 
     def __pad(self, cell_value: SupportsStr, width: int, alignment: Alignment) -> str:
@@ -125,17 +130,19 @@ class TableToAscii:
             The padded text
         """
         text = str(cell_value)
+        padding = " " * self.__cell_padding
+        padded_text = f"{padding}{text}{padding}"
         if alignment == Alignment.LEFT:
             # pad with spaces on the end
-            return f" {text} " + (" " * (width - len(text) - 2))
+            return padded_text + (" " * (width - len(padded_text)))
         if alignment == Alignment.CENTER:
             # pad with spaces, half on each side
-            before = " " * floor((width - len(text) - 2) / 2)
-            after = " " * ceil((width - len(text) - 2) / 2)
-            return before + f" {text} " + after
+            before = " " * floor((width - len(padded_text)) / 2)
+            after = " " * ceil((width - len(padded_text)) / 2)
+            return before + padded_text + after
         if alignment == Alignment.RIGHT:
             # pad with spaces at the beginning
-            return (" " * (width - len(text) - 2)) + f" {text} "
+            return (" " * (width - len(padded_text))) + padded_text
         raise ValueError(f"The value '{alignment}' is not valid for alignment.")
 
     def __row_to_ascii(
@@ -318,6 +325,7 @@ def table2ascii(
     last_col_heading: bool = False,
     column_widths: Optional[List[Optional[int]]] = None,
     alignments: Optional[List[Alignment]] = None,
+    cell_padding: int = 1,
     style: TableStyle = PresetStyle.double_thin_compact,
 ) -> str:
     """
@@ -341,6 +349,9 @@ def table2ascii(
         alignments: List of alignments for each column
             (ex. ``[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]``). If not specified or set to
             :py:obj:`None`, all columns will be center-aligned. Defaults to :py:obj:`None`.
+        cell_padding: The minimum number of spaces to add between the cell content and the column
+            separator. If set to ``0``, the cell content will be flush against the column separator.
+            Defaults to ``1``.
         style: Table style to use for styling (preset styles can be imported).
             Defaults to :ref:`PresetStyle.double_thin_compact <PresetStyle.double_thin_compact>`.
 
@@ -356,6 +367,7 @@ def table2ascii(
             last_col_heading=last_col_heading,
             column_widths=column_widths,
             alignments=alignments,
+            cell_padding=cell_padding,
             style=style,
         ),
     ).to_ascii()

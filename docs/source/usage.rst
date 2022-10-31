@@ -79,7 +79,7 @@ Use a preset style
 
 .. code:: py
 
-   from table2ascii import table2ascii, PresetStyle
+   from table2ascii import table2ascii, Alignment, PresetStyle
 
    output = table2ascii(
        header=["First", "Second", "Third", "Fourth"],
@@ -99,6 +99,22 @@ Use a preset style
    |    20    |    10    |    20    |    5     |
    +----------+----------+----------+----------+
    """
+
+    output = table2ascii(
+        header=["First", "Second", "Third", "Fourth"],
+        body=[["10", "30", "40", "35"], ["20", "10", "20", "5"]],
+        style=PresetStyle.plain,
+        cell_padding=0,
+        alignments=[Alignment.LEFT] * 4,
+    )
+
+    print(output)
+
+    """
+    First Second Third Fourth
+    10    30     40    35
+    20    10     20    5
+    """
 
 Define a custom style
 ~~~~~~~~~~~~~~~~~~~~~

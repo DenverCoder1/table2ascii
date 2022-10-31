@@ -91,7 +91,7 @@ print(output)
 ### Use a preset style
 
 ```py
-from table2ascii import table2ascii, PresetStyle
+from table2ascii import table2ascii, Alignment, PresetStyle
 
 output = table2ascii(
     header=["First", "Second", "Third", "Fourth"],
@@ -110,6 +110,22 @@ print(output)
 +----------+----------+----------+----------+
 |    20    |    10    |    20    |    5     |
 +----------+----------+----------+----------+
+"""
+
+output = table2ascii(
+    header=["First", "Second", "Third", "Fourth"],
+    body=[["10", "30", "40", "35"], ["20", "10", "20", "5"]],
+    style=PresetStyle.plain,
+    cell_padding=0,
+    alignments=[Alignment.LEFT] * 4,
+)
+
+print(output)
+
+"""
+First Second Third Fourth
+10    30     40    35
+20    10     20    5
 """
 ```
 
@@ -159,6 +175,7 @@ All parameters are optional.
 |       `style`       |     `TableStyle`      | `double_thin_compact` |                         Table style to use for the table                          |
 | `first_col_heading` |        `bool`         |        `False`        |         Whether to add a heading column seperator after the first column          |
 | `last_col_heading`  |        `bool`         |        `False`        |         Whether to add a heading column seperator before the last column          |
+|   `cell_padding`    |         `int`         |          `1`          | The minimum number of spaces to add between the cell content and the cell border. |
 
 See the [API Reference](https://table2ascii.readthedocs.io/en/latest/api.html) for more info.
 
