@@ -18,7 +18,7 @@ Documentation and examples are available at [table2ascii.rtfd.io](https://table2
 
 ## 🧑‍💻 Usage
 
-### Convert lists to ASCII tables
+### 🚀 Convert lists to ASCII tables
 
 ```py
 from table2ascii import table2ascii
@@ -43,7 +43,7 @@ print(output)
 """
 ```
 
-### Set first or last column headings
+### 🏆 Set first or last column headings
 
 ```py
 from table2ascii import table2ascii
@@ -63,7 +63,7 @@ print(output)
 """
 ```
 
-### Set column widths and alignments
+### 📰 Set column widths and alignments
 
 ```py
 from table2ascii import table2ascii, Alignment
@@ -88,7 +88,9 @@ print(output)
 """
 ```
 
-### Use a preset style
+### 🎨 Use a preset style
+
+See a list of all preset styles [here](https://table2ascii.readthedocs.io/en/latest/styles.html).
 
 ```py
 from table2ascii import table2ascii, PresetStyle, Alignment
@@ -129,7 +131,7 @@ First Second Third Fourth
 """
 ```
 
-### Define a custom style
+### 🎲 Define a custom style
 
 Check [`TableStyle`](https://github.com/DenverCoder1/table2ascii/blob/main/table2ascii/table_style.py) for more info and [`PresetStyle`](https://github.com/DenverCoder1/table2ascii/blob/main/table2ascii/preset_style.py) for examples.
 
@@ -157,10 +159,6 @@ print(output)
 """
 ```
 
-## 🎨 Preset styles
-
-See a list of all preset styles [here](https://table2ascii.readthedocs.io/en/latest/styles.html).
-
 ## ⚙️ Options
 
 All parameters are optional.
@@ -180,14 +178,14 @@ See the [API Reference](https://table2ascii.readthedocs.io/en/latest/api.html) f
 
 ## 👨‍🎨 Use cases
 
-### Discord messages and embeds
+### 🗨️ Discord messages and embeds
 
 -   Display tables nicely inside markdown code blocks on Discord
 -   Useful for making Discord bots with [Discord.py](https://github.com/Rapptz/discord.py)
 
 ![image](https://user-images.githubusercontent.com/20955511/116203248-2973c600-a744-11eb-97d8-4b75ed2845c9.png)
 
-### Terminal outputs
+### 💻 Terminal outputs
 
 -   Tables display nicely whenever monospace fonts are fully supported
 -   Tables make terminal outputs look more professional
