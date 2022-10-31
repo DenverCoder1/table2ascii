@@ -1,6 +1,6 @@
 import pytest
 
-from table2ascii import table2ascii as t2a, Alignment
+from table2ascii import Alignment, table2ascii as t2a
 
 
 def test_header_body_footer():

@@ -110,7 +110,9 @@ class TableToAscii:
             body_size = max(widest_line(row[i]) for row in self.__body) if self.__body else 0
             footer_size = widest_line(self.__footer[i]) if self.__footer else 0
             # get the max and add 2 for padding each side with a space if extra_padding is True
-            column_widths.append(max(header_size, body_size, footer_size) + self.__extra_padding * 2)
+            column_widths.append(
+                max(header_size, body_size, footer_size) + self.__extra_padding * 2
+            )
         return column_widths
 
     def __pad(self, cell_value: SupportsStr, width: int, alignment: Alignment) -> str:
