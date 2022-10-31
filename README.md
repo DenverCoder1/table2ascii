@@ -126,8 +126,8 @@ print(output)
 
 """
 First Second Third Fourth
-10    30     40    35    
-20    10     20    5      
+10    30     40    35
+20    10     20    5
 """
 ```
 
@@ -170,9 +170,11 @@ All parameters are optional.
 |      `footer`       |      `List[Any]`      |        `None`         | Last table row seperated by header row seperator. Values should support `str()`.  |
 |   `column_widths`   | `List[Optional[int]]` |  `None` (automatic)   |                List of column widths in characters for each column                |
 |    `alignments`     |   `List[Alignment]`   | `None` (all centered) | Column alignments<br/>(ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`) |
-|       `style`       |     `TableStyle`      | `double_thin_compact` |                         Table style to use for the table                          |
+|       `style`       |     `TableStyle`      | `double_thin_compact` |                        Table style to use for the table\*                         |
 | `first_col_heading` |        `bool`         |        `False`        |         Whether to add a heading column seperator after the first column          |
 | `last_col_heading`  |        `bool`         |        `False`        |         Whether to add a heading column seperator before the last column          |
+
+\*See a list of all preset styles [here](https://table2ascii.readthedocs.io/en/latest/styles.html).
 
 See the [API Reference](https://table2ascii.readthedocs.io/en/latest/api.html) for more info.
 
