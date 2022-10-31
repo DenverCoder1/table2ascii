@@ -1,6 +1,6 @@
 import pytest
 
-from table2ascii import table2ascii as t2a
+from table2ascii import table2ascii as t2a, Alignment
 
 
 def test_header_body_footer():
@@ -244,5 +244,53 @@ def test_multiline_cells():
         "║             Break             Cell        ║\n"
         "║                              Broken       ║\n"
         "╚═══════════════════════════════════════════╝"
+    )
+    assert text == expected
+
+
+def test_without_extra_padding():
+    text = t2a(
+        header=["#", "G", "H", "R", "S"],
+        body=[[1, 2, 3, 4, 5]],
+        footer=["A", "B", 1, 2, 3],
+        first_col_heading=True,
+        extra_padding=False,
+    )
+    expected = (
+        "╔═╦═══════╗\n"
+        "║#║G H R S║\n"
+        "╟─╫───────╢\n"
+        "║1║2 3 4 5║\n"
+        "╟─╫───────╢\n"
+        "║A║B 1 2 3║\n"
+        "╚═╩═══════╝"
+    )
+    assert text == expected
+
+
+def test_column_width_and_alignment_without_extra_padding():
+    text = t2a(
+        header=["#", "G", "H", "R", "S"],
+        body=[[1, 2, 3, 4, 5]],
+        footer=["A", "B", 1, 2, 3],
+        column_widths=[4, 8, 5, 4, 5],
+        alignments=[
+            Alignment.LEFT,
+            Alignment.CENTER,
+            Alignment.RIGHT,
+            Alignment.LEFT,
+            Alignment.RIGHT,
+        ],
+        first_col_heading=True,
+        extra_padding=False,
+    )
+    expected = (
+        "╔════╦═════════════════════════╗\n"
+        "║#   ║   G         H R        S║\n"
+        "╟────╫─────────────────────────╢\n"
+        "║1   ║   2         3 4        5║\n"
+        "╟────╫─────────────────────────╢\n"
+        "║A   ║   B         1 2        3║\n"
+        "╚════╩═════════════════════════╝"
     )
     assert text == expected

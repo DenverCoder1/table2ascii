@@ -14,3 +14,4 @@ class Options:
     column_widths: Optional[List[Optional[int]]]
     alignments: Optional[List[Alignment]]
     style: TableStyle
+    extra_padding: bool

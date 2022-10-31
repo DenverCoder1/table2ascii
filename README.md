@@ -91,7 +91,7 @@ print(output)
 ### Use a preset style
 
 ```py
-from table2ascii import table2ascii, PresetStyle
+from table2ascii import table2ascii, PresetStyle, Alignment
 
 output = table2ascii(
     header=["First", "Second", "Third", "Fourth"],
@@ -110,6 +110,22 @@ print(output)
 +----------+----------+----------+----------+
 |    20    |    10    |    20    |    5     |
 +----------+----------+----------+----------+
+"""
+
+output = table2ascii(
+    header=["First", "Second", "Third", "Fourth"],
+    body=[["10", "30", "40", "35"], ["20", "10", "20", "5"]],
+    style=PresetStyle.plain,
+    extra_padding=False,
+    alignments=[Alignment.LEFT] * 4,
+)
+
+print(output)
+
+"""
+First Second Third Fourth
+10    30     40    35    
+20    10     20    5      
 """
 ```
 
