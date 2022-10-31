@@ -321,8 +321,8 @@ def table2ascii(
     last_col_heading: bool = False,
     column_widths: Optional[List[Optional[int]]] = None,
     alignments: Optional[List[Alignment]] = None,
-    style: TableStyle = PresetStyle.double_thin_compact,
     cell_padding: int = 1,
+    style: TableStyle = PresetStyle.double_thin_compact,
 ) -> str:
     """
     Convert a 2D Python table to ASCII text
@@ -345,11 +345,11 @@ def table2ascii(
         alignments: List of alignments for each column
             (ex. ``[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]``). If not specified or set to
             :py:obj:`None`, all columns will be center-aligned. Defaults to :py:obj:`None`.
-        style: Table style to use for styling (preset styles can be imported).
-            Defaults to :ref:`PresetStyle.double_thin_compact <PresetStyle.double_thin_compact>`.
         cell_padding: The minimum number of spaces to add between the cell content and the cell border.
             If this is set to ``0``, the cell content will be printed directly next to the column
             separator. Defaults to ``1``.
+        style: Table style to use for styling (preset styles can be imported).
+            Defaults to :ref:`PresetStyle.double_thin_compact <PresetStyle.double_thin_compact>`.
 
     Returns:
         The generated ASCII table
@@ -363,7 +363,7 @@ def table2ascii(
             last_col_heading=last_col_heading,
             column_widths=column_widths,
             alignments=alignments,
-            style=style,
             cell_padding=cell_padding,
+            style=style,
         ),
     ).to_ascii()
