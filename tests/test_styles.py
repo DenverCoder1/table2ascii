@@ -661,9 +661,9 @@ def test_plain():
         style=PresetStyle.plain,
     )
     expected = (
-        "   #     G     H     R     S   \n"
-        "   1    30    40    35    30   \n"
-        "   2    30    40    35    30   \n"
-        "  SUM   130   140   135   130  "
+        "  #     G     H     R     S  \n"
+        "  1    30    40    35    30  \n"
+        "  2    30    40    35    30  \n"
+        " SUM   130   140   135   130 "
     )
     assert text == expected

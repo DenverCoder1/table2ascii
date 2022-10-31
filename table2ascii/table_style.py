@@ -75,3 +75,21 @@ class TableStyle:
             TableStyle.from_string("╔═╦═╗║║ ╟─╫─╢     ╚╩═╝")
         """
         return cls(*string)
+
+    def set(self, **kwargs) -> "TableStyle":
+        """
+        Set attributes of the TableStyle
+
+        Args:
+            kwargs: The attributes to set
+
+        Returns:
+            A TableStyle object with the attributes set
+
+        Example::
+
+            TableStyle().set(top_left_corner="╔", top_and_bottom_edge="═")
+        """
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+        return self
