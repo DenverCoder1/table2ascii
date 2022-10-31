@@ -112,8 +112,8 @@ Use a preset style
 
     """
     First Second Third Fourth
-    10    30     40    35    
-    20    10     20    5      
+    10    30     40    35
+    20    10     20    5
     """
 
 Define a custom style
