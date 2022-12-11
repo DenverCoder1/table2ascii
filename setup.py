@@ -35,7 +35,6 @@ extras_require = {
         "sphinx==5.2.3",
         "enum-tools==0.9.0.post1",
         "sphinx-autobuild==2021.3.14",
-        "sphinx-autodoc-typehints==1.11.1",
         "sphinx-rtd-theme==1.0.0",
         "sphinx-toolbox==2.18.0",
         "sphinxcontrib-trio==1.1.2",
