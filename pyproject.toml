@@ -33,7 +33,7 @@ lint = { cmd = "pre-commit run --all-files", help = "Check all files for linting
 precommit = { cmd = "pre-commit install --install-hooks", help = "Install the precommit hook" }
 pyright = { cmd = "pyright", help = "Run pyright" }
 slotscheck = { cmd = "python -m slotscheck --verbose -m table2ascii", help = "Run slotscheck" }
-test = { cmd = "tox", help = "Run tests" }
+test = { cmd = "tox --skip-missing-interpreters", help = "Run tests" }
 
 
 [tool.slotscheck]
@@ -70,7 +70,7 @@ reportUnnecessaryTypeIgnoreComment = true
 
 
 [tool.mypy]
-python_version = "3.10"
+python_version = "3.11"
 namespace_packages = true
 
 

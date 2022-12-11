@@ -3,7 +3,6 @@ import os
 import re
 
 from setuptools import setup
-from setuptools.command.test import test as Command
 
 
 def version():
@@ -76,7 +75,7 @@ setup(
     ],
     keywords="table ascii unicode formatter",
     python_requires=">=3.6",
-    install_requires=[requirements()],
+    install_requires=requirements(),
     extras_require=extras_require,
     setup_requires=[
         "flake8>=3.8,<4",
