@@ -32,12 +32,12 @@ def requirements():
 
 extras_require = {
     "docs": [
-        "enum-tools==0.9.0.post1",
-        "sphinx-autobuild==2021.3.14",
-        "sphinx-rtd-theme==1.0.0",
-        "sphinx-toolbox==2.18.0",
-        "sphinxcontrib-trio==1.1.2",
-        "sphinxext-opengraph==0.6.2",
+        "enum-tools",
+        "sphinx-toolbox",
+        "sphinxcontrib_trio",
+        "sphinx-rtd-theme",
+        "sphinxext-opengraph",
+        "sphinx-autobuild",
     ],
     "dev": [
         "pre-commit==2.18.1",
