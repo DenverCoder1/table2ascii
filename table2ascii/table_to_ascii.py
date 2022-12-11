@@ -19,8 +19,7 @@ class TableToAscii:
         footer: list[SupportsStr] | None,
         options: Options,
     ):
-        """
-        Validate arguments and initialize fields
+        """Validate arguments and initialize fields
 
         Args:
             header: The values in the header of the table
@@ -78,9 +77,7 @@ class TableToAscii:
             raise ValueError("Cell padding must be greater than or equal to 0")
 
     def __count_columns(self) -> int:
-        """
-        Get the number of columns in the table based on the
-        provided header, footer, and body lists.
+        """Get the number of columns in the table based on the provided header, footer, and body lists.
 
         Returns:
             The number of columns in the table
@@ -94,9 +91,8 @@ class TableToAscii:
         return 0
 
     def __auto_column_widths(self) -> list[int]:
-        """
-        Get the minimum number of characters needed for the values in
-        each column in the table with 1 space of padding on each side.
+        """Get the minimum number of characters needed for the values in each column in the table
+        with 1 space of padding on each side.
 
         Returns:
             The minimum number of characters needed for each column
@@ -119,8 +115,7 @@ class TableToAscii:
         return column_widths
 
     def __pad(self, cell_value: SupportsStr, width: int, alignment: Alignment) -> str:
-        """
-        Pad a string of text to a given width with specified alignment
+        """Pad a string of text to a given width with specified alignment
 
         Args:
             cell_value: The text in the cell to pad
@@ -154,8 +149,7 @@ class TableToAscii:
         right_edge: str,
         filler: str | list[SupportsStr],
     ) -> str:
-        """
-        Assembles a line of text in the ascii table
+        """Assembles a line of text in the ascii table
 
         Returns:
             The line in the ascii table
@@ -165,50 +159,96 @@ class TableToAscii:
         num_lines = max(len(str(cell).splitlines()) for cell in filler) or 1
         # repeat for each line of text in the cell
         for line_index in range(num_lines):
-            # left edge of the row
-            output += left_edge
-            # add columns
-            for col_index in range(self.__columns):
-                # content between separators
-                col_content = ""
-                # if filler is a separator character, repeat it for the full width of the column
-                if isinstance(filler, str):
-                    col_content = filler * self.__column_widths[col_index]
-                # otherwise, use the text from the corresponding column in the filler list
-                else:
-                    # get the text of the current line in the cell
-                    # if there are fewer lines in the current cell than others, empty string is used
-                    col_lines = str(filler[col_index]).splitlines()
-                    if line_index < len(col_lines):
-                        col_content = col_lines[line_index]
-                    # pad the text to the width of the column using the alignment
-                    col_content = self.__pad(
-                        col_content,
-                        self.__column_widths[col_index],
-                        self.__alignments[col_index],
-                    )
-                output += col_content
-                # column separator
-                sep = column_separator
-                if col_index == 0 and self.__first_col_heading:
-                    # use column heading if first column option is specified
-                    sep = heading_col_sep
-                elif col_index == self.__columns - 2 and self.__last_col_heading:
-                    # use column heading if last column option is specified
-                    sep = heading_col_sep
-                elif col_index == self.__columns - 1:
-                    # replace last separator with symbol for edge of the row
-                    sep = right_edge
-                output += sep
-            output += "\n"
-            # don't use separation row if it's only space
-            if isinstance(filler, str) and output.strip() == "":
-                output = ""
+            output += self.__line_in_row_to_ascii(
+                line_index,
+                left_edge,
+                heading_col_sep,
+                column_separator,
+                right_edge,
+                filler,
+            )
+        # don't use separation row if it's only space
+        if isinstance(filler, str) and output.strip() == "":
+            output = ""
         return output
 
-    def __top_edge_to_ascii(self) -> str:
+    def __line_in_row_to_ascii(
+        self,
+        line_index: int,
+        left_edge: str,
+        heading_col_sep: str,
+        column_separator: str,
+        right_edge: str,
+        filler: str | list[SupportsStr],
+    ) -> str:
+        """Assembles a line of text in the ascii table
+
+        Returns:
+            The line in the ascii table
         """
-        Assembles the top edge of the ascii table
+        output = left_edge
+        # add columns
+        for col_index in range(self.__columns):
+            output += self.__line_in_cell_column_to_ascii(
+                line_index,
+                col_index,
+                heading_col_sep,
+                column_separator,
+                right_edge,
+                filler,
+            )
+        output += "\n"
+        return output
+
+    def __line_in_cell_column_to_ascii(
+        self,
+        line_index: int,
+        col_index: int,
+        heading_col_sep: str,
+        column_separator: str,
+        right_edge: str,
+        filler: str | list[SupportsStr],
+    ) -> str:
+        """Assembles a column of text in the ascii table
+
+        Returns:
+            The column in the ascii table
+        """
+        output = ""
+        # content between separators
+        col_content = ""
+        # if filler is a separator character, repeat it for the full width of the column
+        if isinstance(filler, str):
+            col_content = filler * self.__column_widths[col_index]
+        # otherwise, use the text from the corresponding column in the filler list
+        else:
+            # get the text of the current line in the cell
+            # if there are fewer lines in the current cell than others, empty string is used
+            col_lines = str(filler[col_index]).splitlines()
+            if line_index < len(col_lines):
+                col_content = col_lines[line_index]
+            # pad the text to the width of the column using the alignment
+            col_content = self.__pad(
+                col_content,
+                self.__column_widths[col_index],
+                self.__alignments[col_index],
+            )
+        output += col_content
+        # column separator
+        sep = column_separator
+        if col_index == 0 and self.__first_col_heading:
+            # use column heading if first column option is specified
+            sep = heading_col_sep
+        elif col_index == self.__columns - 2 and self.__last_col_heading:
+            # use column heading if last column option is specified
+            sep = heading_col_sep
+        elif col_index == self.__columns - 1:
+            # replace last separator with symbol for edge of the row
+            sep = right_edge
+        return output + sep
+
+    def __top_edge_to_ascii(self) -> str:
+        """Assembles the top edge of the ascii table
 
         Returns:
             The top edge of the ascii table
@@ -222,8 +262,7 @@ class TableToAscii:
         )
 
     def __bottom_edge_to_ascii(self) -> str:
-        """
-        Assembles the bottom edge of the ascii table
+        """Assembles the bottom edge of the ascii table
 
         Returns:
             The bottom edge of the ascii table
@@ -237,8 +276,7 @@ class TableToAscii:
         )
 
     def __heading_row_to_ascii(self, row: list[SupportsStr]) -> str:
-        """
-        Assembles the header or footer row line of the ascii table
+        """Assembles the header or footer row line of the ascii table
 
         Returns:
             The header or footer row line of the ascii table
@@ -252,8 +290,7 @@ class TableToAscii:
         )
 
     def __heading_sep_to_ascii(self) -> str:
-        """
-        Assembles the separator below the header or above footer of the ascii table
+        """Assembles the separator below the header or above footer of the ascii table
 
         Returns:
             The separator line
@@ -267,8 +304,7 @@ class TableToAscii:
         )
 
     def __body_to_ascii(self, body: list[list[SupportsStr]]) -> str:
-        """
-        Assembles the body of the ascii table
+        """Assembles the body of the ascii table
 
         Returns:
             The body of the ascii table
@@ -292,8 +328,7 @@ class TableToAscii:
         )
 
     def to_ascii(self) -> str:
-        """
-        Generates a formatted ASCII table
+        """Generates a formatted ASCII table
 
         Returns:
             The generated ASCII table
@@ -329,8 +364,7 @@ def table2ascii(
     cell_padding: int = 1,
     style: TableStyle = PresetStyle.double_thin_compact,
 ) -> str:
-    """
-    Convert a 2D Python table to ASCII text
+    """Convert a 2D Python table to ASCII text
 
     Args:
         header: List of column values in the table's header row. All values should be :class:`str`

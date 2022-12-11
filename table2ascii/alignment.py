@@ -2,8 +2,7 @@ from enum import Enum
 
 
 class Alignment(Enum):
-    """
-    Enum for text alignment types within a table cell
+    """Enum for text alignment types within a table cell
 
     Example::
 
