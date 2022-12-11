@@ -49,22 +49,7 @@ class TableToAscii:
             )
 
         # calculate or use given column widths
-        self.__column_widths = self.__auto_column_widths()
-        if options.column_widths:
-            # check that the right number of columns were specified
-            if len(options.column_widths) != self.__columns:
-                raise ValueError("Length of `column_widths` list must equal the number of columns")
-            # check that each column is at least as large as the minimum size
-            for i in range(len(options.column_widths)):
-                option = options.column_widths[i]
-                minimum = self.__column_widths[i]
-                if option is None:
-                    option = minimum
-                elif option < minimum:
-                    raise ValueError(
-                        f"The value at index {i} of `column_widths` is {option} which is less than the minimum {minimum}."
-                    )
-                self.__column_widths[i] = option
+        self.__column_widths = self.__calculate_column_widths(options.column_widths)
 
         self.__alignments = options.alignments or [Alignment.CENTER] * self.__columns
 
@@ -113,6 +98,34 @@ class TableToAscii:
             # get the max and add 2 for padding each side with a space depending on cell padding
             column_widths.append(max(header_size, body_size, footer_size) + self.__cell_padding * 2)
         return column_widths
+
+    def __calculate_column_widths(self, user_column_widths: list[int | None] | None) -> list[int]:
+        """Calculate the width of each column in the table based on the cell values and provided column widths.
+
+        Args:
+            user_column_widths: The user specified column widths
+
+        Returns:
+            The width of each column in the table
+        """
+        column_widths = self.__auto_column_widths()
+        if user_column_widths:
+            # check that the right number of columns were specified
+            if len(user_column_widths) != self.__columns:
+                raise ValueError("Length of `column_widths` list must equal the number of columns")
+            # check that each column is at least as large as the minimum size
+            for i in range(len(user_column_widths)):
+                option = user_column_widths[i]
+                minimum = column_widths[i]
+                if option is None:
+                    option = minimum
+                elif option < minimum:
+                    raise ValueError(
+                        f"The value at index {i} of `column_widths` is {option} which is less than the minimum {minimum}."
+                    )
+                column_widths[i] = option
+        return column_widths
+
 
     def __pad(self, cell_value: SupportsStr, width: int, alignment: Alignment) -> str:
         """Pad a string of text to a given width with specified alignment
