@@ -254,6 +254,7 @@ def test_east_asian_wide_characters_and_zero_width():
         header=["日期", "test"],
         body=[["2022/12/11", "test"], ["2022/1/1", "測試"]],
         cell_padding=5,
+        use_wcwidth=False,
     )
     expected = (
         "╔═══════════════════════════════════╗\n"

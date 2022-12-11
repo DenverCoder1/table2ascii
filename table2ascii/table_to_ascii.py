@@ -396,7 +396,7 @@ def table2ascii(
     alignments: list[Alignment] | None = None,
     cell_padding: int = 1,
     style: TableStyle = PresetStyle.double_thin_compact,
-    use_wcwidth: bool = False,
+    use_wcwidth: bool = True,
 ) -> str:
     """Convert a 2D Python table to ASCII text
 
@@ -424,10 +424,10 @@ def table2ascii(
         style: Table style to use for styling (preset styles can be imported).
             Defaults to :ref:`PresetStyle.double_thin_compact <PresetStyle.double_thin_compact>`.
         use_wcwidth: Whether to use :func:`wcwidth.wcswidth` to determine the width of each cell instead of
-            :func:`len`. This is useful when dealing with double-width characters
-            (East Asian Wide and East Asian Fullwidth) or zero-width characters
-            (combining characters, zero-width space, etc.) which are not properly handled by :func:`len`.
-            Defaults to :py:obj:`False`.
+            :func:`len`. The :func:`~wcwidth.wcswidth` function takes into account double-width characters
+            (East Asian Wide and East Asian Fullwidth) and zero-width characters (combining characters,
+            zero-width space, etc.), whereas :func:`len` determines the width solely based on the number of
+            characters in the string. Defaults to :py:obj:`True`.
 
     Returns:
         The generated ASCII table
