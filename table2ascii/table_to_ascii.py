@@ -1,5 +1,6 @@
+from __future__ import annotations
+
 from math import ceil, floor
-from typing import Callable, List, Optional, Union
 
 from .alignment import Alignment
 from .annotations import SupportsStr
@@ -13,9 +14,9 @@ class TableToAscii:
 
     def __init__(
         self,
-        header: Optional[List[SupportsStr]],
-        body: Optional[List[List[SupportsStr]]],
-        footer: Optional[List[SupportsStr]],
+        header: list[SupportsStr] | None,
+        body: list[list[SupportsStr]] | None,
+        footer: list[SupportsStr] | None,
         options: Options,
     ):
         """
@@ -92,7 +93,7 @@ class TableToAscii:
             return len(self.__body[0])
         return 0
 
-    def __auto_column_widths(self) -> List[int]:
+    def __auto_column_widths(self) -> list[int]:
         """
         Get the minimum number of characters needed for the values in
         each column in the table with 1 space of padding on each side.
@@ -151,7 +152,7 @@ class TableToAscii:
         heading_col_sep: str,
         column_seperator: str,
         right_edge: str,
-        filler: Union[str, List],
+        filler: str | list[SupportsStr],
     ) -> str:
         """
         Assembles a line of text in the ascii table
@@ -235,7 +236,7 @@ class TableToAscii:
             filler=self.__style.top_and_bottom_edge,
         )
 
-    def __heading_row_to_ascii(self, row: List) -> str:
+    def __heading_row_to_ascii(self, row: list[SupportsStr]) -> str:
         """
         Assembles the header or footer row line of the ascii table
 
@@ -265,7 +266,7 @@ class TableToAscii:
             filler=self.__style.heading_row_sep,
         )
 
-    def __body_to_ascii(self, body: List[List[SupportsStr]]) -> str:
+    def __body_to_ascii(self, body: list[list[SupportsStr]]) -> str:
         """
         Assembles the body of the ascii table
 
@@ -317,14 +318,14 @@ class TableToAscii:
 
 
 def table2ascii(
-    header: Optional[List[SupportsStr]] = None,
-    body: Optional[List[List[SupportsStr]]] = None,
-    footer: Optional[List[SupportsStr]] = None,
+    header: list[SupportsStr] | None = None,
+    body: list[list[SupportsStr]] | None = None,
+    footer: list[SupportsStr] | None = None,
     *,
     first_col_heading: bool = False,
     last_col_heading: bool = False,
-    column_widths: Optional[List[Optional[int]]] = None,
-    alignments: Optional[List[Alignment]] = None,
+    column_widths: list[int | None] | None = None,
+    alignments: list[Alignment] | None = None,
     cell_padding: int = 1,
     style: TableStyle = PresetStyle.double_thin_compact,
 ) -> str:

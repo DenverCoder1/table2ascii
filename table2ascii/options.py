@@ -1,5 +1,6 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
-from typing import List, Optional
 
 from .alignment import Alignment
 from .table_style import TableStyle
@@ -11,7 +12,7 @@ class Options:
 
     first_col_heading: bool
     last_col_heading: bool
-    column_widths: Optional[List[Optional[int]]]
-    alignments: Optional[List[Alignment]]
+    column_widths: list[int | None] | None
+    alignments: list[Alignment] | None
     cell_padding: int
     style: TableStyle
