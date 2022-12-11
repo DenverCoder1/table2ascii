@@ -246,3 +246,38 @@ def test_multiline_cells():
         "╚═══════════════════════════════════════════╝"
     )
     assert text == expected
+
+
+def test_east_asian_wide_characters_and_zero_width():
+    # using len() to count the number of characters
+    text = t2a(
+        header=["日期", "test"],
+        body=[["2022/12/11", "test"], ["2022/1/1", "測試"]],
+        cell_padding=5,
+    )
+    expected = (
+        "╔═══════════════════════════════════╗\n"
+        "║         日期               test     ║\n"
+        "╟───────────────────────────────────╢\n"
+        "║     2022/12/11           test     ║\n"
+        "║      2022/1/1             測試      ║\n"
+        "╚═══════════════════════════════════╝"
+    )
+    assert text == expected
+
+    # using wcwidth.wcswidth() to count the number of characters
+    text = t2a(
+        header=["日期", "test"],
+        body=[["2022/12/11", "test"], ["2022/1/1", "測試"]],
+        cell_padding=5,
+        use_wcwidth=True,
+    )
+    expected = (
+        "╔═══════════════════════════════════╗\n"
+        "║        日期              test     ║\n"
+        "╟───────────────────────────────────╢\n"
+        "║     2022/12/11           test     ║\n"
+        "║      2022/1/1            測試     ║\n"
+        "╚═══════════════════════════════════╝"
+    )
+    assert text == expected

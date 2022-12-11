@@ -16,3 +16,4 @@ class Options:
     alignments: list[Alignment] | None
     cell_padding: int
     style: TableStyle
+    use_wcwidth: bool
