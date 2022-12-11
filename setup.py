@@ -38,6 +38,7 @@ extras_require = {
         "sphinx-rtd-theme",
         "sphinxext-opengraph",
         "sphinx-autobuild",
+        "sphinx-autodoc-typehints",
     ],
     "dev": [
         "pre-commit==2.18.1",
