@@ -29,53 +29,55 @@ class TableToAscii:
             options: The options for the table
         """
         # initialize fields
-        self._header = header
-        self._body = body
-        self._footer = footer
-        self._style = options.style
-        self._first_col_heading = options.first_col_heading
-        self._last_col_heading = options.last_col_heading
-        self._cell_padding = options.cell_padding
+        self.__header = header
+        self.__body = body
+        self.__footer = footer
+        self.__style = options.style
+        self.__first_col_heading = options.first_col_heading
+        self.__last_col_heading = options.last_col_heading
+        self.__cell_padding = options.cell_padding
+
+        # calculate number of columns
+        self.__columns = self.__count_columns()
 
         # check if footer has a different number of columns
-        if footer and len(footer) != self.column_count:
+        if footer and len(footer) != self.__columns:
             raise ValueError("Footer must have the same number of columns as the other rows")
         # check if any rows in body have a different number of columns
-        if body and any(len(row) != self.column_count for row in body):
+        if body and any(len(row) != self.__columns for row in body):
             raise ValueError(
                 "All rows in body must have the same number of columns as the other rows"
             )
 
         # calculate or use given column widths
-        self._column_widths = self.auto_column_widths()
+        self.__column_widths = self.__auto_column_widths()
         if options.column_widths:
             # check that the right number of columns were specified
-            if len(options.column_widths) != self.column_count:
+            if len(options.column_widths) != self.__columns:
                 raise ValueError("Length of `column_widths` list must equal the number of columns")
             # check that each column is at least as large as the minimum size
             for i in range(len(options.column_widths)):
                 option = options.column_widths[i]
-                minimum = self._column_widths[i]
+                minimum = self.__column_widths[i]
                 if option is None:
                     option = minimum
                 elif option < minimum:
                     raise ValueError(
                         f"The value at index {i} of `column_widths` is {option} which is less than the minimum {minimum}."
                     )
-                self._column_widths[i] = option
+                self.__column_widths[i] = option
 
-        self._alignments = options.alignments or [Alignment.CENTER] * self.column_count
+        self.__alignments = options.alignments or [Alignment.CENTER] * self.__columns
 
         # check if alignments specified have a different number of columns
-        if options.alignments and len(options.alignments) != self.column_count:
+        if options.alignments and len(options.alignments) != self.__columns:
             raise ValueError("Length of `alignments` list must equal the number of columns")
 
         # check if the cell padding is valid
-        if self._cell_padding < 0:
+        if self.__cell_padding < 0:
             raise ValueError("Cell padding must be greater than or equal to 0")
 
-    @property
-    def column_count(self) -> int:
+    def __count_columns(self) -> int:
         """
         Get the number of columns in the table based on the
         provided header, footer, and body lists.
@@ -83,35 +85,15 @@ class TableToAscii:
         Returns:
             The number of columns in the table
         """
-        if self._header:
-            return len(self._header)
-        if self._footer:
-            return len(self._footer)
-        if self._body and len(self._body) > 0:
-            return len(self._body[0])
+        if self.__header:
+            return len(self.__header)
+        if self.__footer:
+            return len(self.__footer)
+        if self.__body and len(self.__body) > 0:
+            return len(self.__body[0])
         return 0
 
-    @property
-    def column_widths(self) -> list[int]:
-        """
-        Get the column widths of the table
-
-        Returns:
-            The column widths of the table
-        """
-        return self._column_widths
-
-    @property
-    def alignments(self) -> list[Alignment]:
-        """
-        Get the alignments of the table
-
-        Returns:
-            The alignments of the table
-        """
-        return self._alignments
-
-    def auto_column_widths(self) -> list[int]:
+    def __auto_column_widths(self) -> list[int]:
         """
         Get the minimum number of characters needed for the values in
         each column in the table with 1 space of padding on each side.
@@ -125,18 +107,18 @@ class TableToAscii:
             text = str(value)
             return max(len(line) for line in text.splitlines()) if len(text) else 0
 
-        column_widths: list[int] = []
+        column_widths = []
         # get the width necessary for each column
-        for i in range(self.column_count):
+        for i in range(self.__columns):
             # number of characters in column of i of header, each body row, and footer
-            header_size = widest_line(self._header[i]) if self._header else 0
-            body_size = max(widest_line(row[i]) for row in self._body) if self._body else 0
-            footer_size = widest_line(self._footer[i]) if self._footer else 0
+            header_size = widest_line(self.__header[i]) if self.__header else 0
+            body_size = max(widest_line(row[i]) for row in self.__body) if self.__body else 0
+            footer_size = widest_line(self.__footer[i]) if self.__footer else 0
             # get the max and add 2 for padding each side with a space depending on cell padding
-            column_widths.append(max(header_size, body_size, footer_size) + self._cell_padding * 2)
+            column_widths.append(max(header_size, body_size, footer_size) + self.__cell_padding * 2)
         return column_widths
 
-    def pad(self, cell_value: SupportsStr, *, width: int, alignment: Alignment) -> str:
+    def __pad(self, cell_value: SupportsStr, width: int, alignment: Alignment) -> str:
         """
         Pad a string of text to a given width with specified alignment
 
@@ -149,7 +131,7 @@ class TableToAscii:
             The padded text
         """
         text = str(cell_value)
-        padding = " " * self._cell_padding
+        padding = " " * self.__cell_padding
         padded_text = f"{padding}{text}{padding}"
         if alignment == Alignment.LEFT:
             # pad with spaces on the end
@@ -164,9 +146,8 @@ class TableToAscii:
             return (" " * (width - len(padded_text))) + padded_text
         raise ValueError(f"The value '{alignment}' is not valid for alignment.")
 
-    def row_to_ascii(
+    def __row_to_ascii(
         self,
-        *,
         left_edge: str,
         heading_col_sep: str,
         column_separator: str,
@@ -187,12 +168,12 @@ class TableToAscii:
             # left edge of the row
             output += left_edge
             # add columns
-            for col_index in range(self.column_count):
+            for col_index in range(self.__columns):
                 # content between separators
                 col_content = ""
                 # if filler is a separator character, repeat it for the full width of the column
                 if isinstance(filler, str):
-                    col_content = filler * self._column_widths[col_index]
+                    col_content = filler * self.__column_widths[col_index]
                 # otherwise, use the text from the corresponding column in the filler list
                 else:
                     # get the text of the current line in the cell
@@ -201,21 +182,21 @@ class TableToAscii:
                     if line_index < len(col_lines):
                         col_content = col_lines[line_index]
                     # pad the text to the width of the column using the alignment
-                    col_content = self.pad(
+                    col_content = self.__pad(
                         col_content,
-                        width=self._column_widths[col_index],
-                        alignment=self._alignments[col_index],
+                        self.__column_widths[col_index],
+                        self.__alignments[col_index],
                     )
                 output += col_content
                 # column separator
                 sep = column_separator
-                if col_index == 0 and self._first_col_heading:
+                if col_index == 0 and self.__first_col_heading:
                     # use column heading if first column option is specified
                     sep = heading_col_sep
-                elif col_index == self.column_count - 2 and self._last_col_heading:
+                elif col_index == self.__columns - 2 and self.__last_col_heading:
                     # use column heading if last column option is specified
                     sep = heading_col_sep
-                elif col_index == self.column_count - 1:
+                elif col_index == self.__columns - 1:
                     # replace last separator with symbol for edge of the row
                     sep = right_edge
                 output += sep
@@ -225,86 +206,86 @@ class TableToAscii:
                 output = ""
         return output
 
-    def top_edge_to_ascii(self) -> str:
+    def __top_edge_to_ascii(self) -> str:
         """
         Assembles the top edge of the ascii table
 
         Returns:
             The top edge of the ascii table
         """
-        return self.row_to_ascii(
-            left_edge=self._style.top_left_corner,
-            heading_col_sep=self._style.heading_col_top_tee,
-            column_separator=self._style.top_tee,
-            right_edge=self._style.top_right_corner,
-            filler=self._style.top_and_bottom_edge,
+        return self.__row_to_ascii(
+            left_edge=self.__style.top_left_corner,
+            heading_col_sep=self.__style.heading_col_top_tee,
+            column_separator=self.__style.top_tee,
+            right_edge=self.__style.top_right_corner,
+            filler=self.__style.top_and_bottom_edge,
         )
 
-    def bottom_edge_to_ascii(self) -> str:
+    def __bottom_edge_to_ascii(self) -> str:
         """
         Assembles the bottom edge of the ascii table
 
         Returns:
             The bottom edge of the ascii table
         """
-        return self.row_to_ascii(
-            left_edge=self._style.bottom_left_corner,
-            heading_col_sep=self._style.heading_col_bottom_tee,
-            column_separator=self._style.bottom_tee,
-            right_edge=self._style.bottom_right_corner,
-            filler=self._style.top_and_bottom_edge,
+        return self.__row_to_ascii(
+            left_edge=self.__style.bottom_left_corner,
+            heading_col_sep=self.__style.heading_col_bottom_tee,
+            column_separator=self.__style.bottom_tee,
+            right_edge=self.__style.bottom_right_corner,
+            filler=self.__style.top_and_bottom_edge,
         )
 
-    def heading_row_to_ascii(self, row: list[SupportsStr]) -> str:
+    def __heading_row_to_ascii(self, row: list[SupportsStr]) -> str:
         """
         Assembles the header or footer row line of the ascii table
 
         Returns:
             The header or footer row line of the ascii table
         """
-        return self.row_to_ascii(
-            left_edge=self._style.left_and_right_edge,
-            heading_col_sep=self._style.heading_col_sep,
-            column_separator=self._style.col_sep,
-            right_edge=self._style.left_and_right_edge,
+        return self.__row_to_ascii(
+            left_edge=self.__style.left_and_right_edge,
+            heading_col_sep=self.__style.heading_col_sep,
+            column_separator=self.__style.col_sep,
+            right_edge=self.__style.left_and_right_edge,
             filler=row,
         )
 
-    def heading_sep_to_ascii(self) -> str:
+    def __heading_sep_to_ascii(self) -> str:
         """
         Assembles the separator below the header or above footer of the ascii table
 
         Returns:
             The separator line
         """
-        return self.row_to_ascii(
-            left_edge=self._style.heading_row_left_tee,
-            heading_col_sep=self._style.heading_col_heading_row_cross,
-            column_separator=self._style.heading_row_cross,
-            right_edge=self._style.heading_row_right_tee,
-            filler=self._style.heading_row_sep,
+        return self.__row_to_ascii(
+            left_edge=self.__style.heading_row_left_tee,
+            heading_col_sep=self.__style.heading_col_heading_row_cross,
+            column_separator=self.__style.heading_row_cross,
+            right_edge=self.__style.heading_row_right_tee,
+            filler=self.__style.heading_row_sep,
         )
 
-    def body_to_ascii(self, body: list[list[SupportsStr]]) -> str:
+    def __body_to_ascii(self, body: list[list[SupportsStr]]) -> str:
         """
         Assembles the body of the ascii table
 
         Returns:
             The body of the ascii table
         """
-        separation_row = self.row_to_ascii(
-            left_edge=self._style.row_left_tee,
-            heading_col_sep=self._style.heading_col_row_cross,
-            column_separator=self._style.col_row_cross,
-            right_edge=self._style.row_right_tee,
-            filler=self._style.row_sep,
+        separation_row = self.__row_to_ascii(
+            left_edge=self.__style.row_left_tee,
+            heading_col_sep=self.__style.heading_col_row_cross,
+            column_separator=self.__style.col_row_cross,
+            right_edge=self.__style.row_right_tee,
+            filler=self.__style.row_sep,
         )
         return separation_row.join(
-            self.row_to_ascii(
-                left_edge=self._style.left_and_right_edge,
-                heading_col_sep=self._style.heading_col_sep,
-                column_separator=self._style.col_sep,
-                right_edge=self._style.left_and_right_edge,
+            self.__row_to_ascii(
+                left_edge=self.__style.left_and_right_edge,
+                heading_col_sep=self.__style.heading_col_sep,
+                column_separator=self.__style.col_sep,
+                right_edge=self.__style.left_and_right_edge,
                 filler=row,
             )
             for row in body
@@ -318,20 +299,20 @@ class TableToAscii:
             The generated ASCII table
         """
         # top row of table
-        table = self.top_edge_to_ascii()
+        table = self.__top_edge_to_ascii()
         # add table header
-        if self._header:
-            table += self.heading_row_to_ascii(self._header)
-            table += self.heading_sep_to_ascii()
+        if self.__header:
+            table += self.__heading_row_to_ascii(self.__header)
+            table += self.__heading_sep_to_ascii()
         # add table body
-        if self._body:
-            table += self.body_to_ascii(self._body)
+        if self.__body:
+            table += self.__body_to_ascii(self.__body)
         # add table footer
-        if self._footer:
-            table += self.heading_sep_to_ascii()
-            table += self.heading_row_to_ascii(self._footer)
+        if self.__footer:
+            table += self.__heading_sep_to_ascii()
+            table += self.__heading_row_to_ascii(self.__footer)
         # bottom row of table
-        table += self.bottom_edge_to_ascii()
+        table += self.__bottom_edge_to_ascii()
         # reurn ascii table
         return table.strip("\n")
 
