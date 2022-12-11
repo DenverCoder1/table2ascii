@@ -2,8 +2,7 @@ from .table_style import TableStyle
 
 
 class PresetStyle:
-    """
-    Importable preset styles for more easily selecting a :ref:`TableStyle`.
+    """Importable preset styles for more easily selecting a :ref:`TableStyle`.
 
     See the :ref:`Preset Styles<styles>` for more information on the available styles.
 

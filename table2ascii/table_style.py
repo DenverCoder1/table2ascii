@@ -61,8 +61,7 @@ class TableStyle:
 
     @classmethod
     def from_string(cls, string: str) -> "TableStyle":
-        """
-        Create a TableStyle from a string
+        """Create a TableStyle from a string
 
         Args:
             string: The string to create the TableStyle from
@@ -77,8 +76,7 @@ class TableStyle:
         return cls(*string)
 
     def set(self, **kwargs) -> "TableStyle":
-        """
-        Set attributes of the TableStyle
+        """Set attributes of the TableStyle
 
         Args:
             kwargs: The attributes to set
