@@ -30,4 +30,6 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install -r requirements.txt -e ".[dev]"
     - name: Test with pytest
-      run: tox -e "py${{ matrix.python-version//./ }}"
+      run: |
+        # remove '.' in python-version and prepend with 'py' to get the correct tox env
+        tox -e py$(echo ${{ matrix.python-version }} | sed 's/\.//g')
