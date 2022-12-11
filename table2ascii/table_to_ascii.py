@@ -126,7 +126,6 @@ class TableToAscii:
                 column_widths[i] = option
         return column_widths
 
-
     def __pad(self, cell_value: SupportsStr, width: int, alignment: Alignment) -> str:
         """Pad a string of text to a given width with specified alignment
 
