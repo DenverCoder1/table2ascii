@@ -77,5 +77,6 @@ namespace_packages = true
 [[tool.mypy.overrides]]
 module = [
     "setuptools.*",
+    "wcwidth"
 ]
 ignore_missing_imports = true
