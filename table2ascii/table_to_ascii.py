@@ -90,7 +90,7 @@ class TableToAscii:
         if self._body and len(self._body) > 0:
             return len(self._body[0])
         return 0
-    
+
     @property
     def column_widths(self) -> list[int]:
         """
