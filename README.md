@@ -165,14 +165,14 @@ All parameters are optional.
 
 |       Option        |         Type          |        Default        |                                    Description                                    |
 | :-----------------: | :-------------------: | :-------------------: | :-------------------------------------------------------------------------------: |
-|      `header`       |      `List[Any]`      |        `None`         | First table row seperated by header row seperator. Values should support `str()`. |
+|      `header`       |      `List[Any]`      |        `None`         | First table row seperated by header row separator. Values should support `str()`. |
 |       `body`        |   `List[List[Any]]`   |        `None`         |  List of rows for the main section of the table. Values should support `str()`.   |
-|      `footer`       |      `List[Any]`      |        `None`         | Last table row seperated by header row seperator. Values should support `str()`.  |
+|      `footer`       |      `List[Any]`      |        `None`         | Last table row seperated by header row separator. Values should support `str()`.  |
 |   `column_widths`   | `List[Optional[int]]` |  `None` (automatic)   |                List of column widths in characters for each column                |
 |    `alignments`     |   `List[Alignment]`   | `None` (all centered) | Column alignments<br/>(ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`) |
 |       `style`       |     `TableStyle`      | `double_thin_compact` |                        Table style to use for the table\*                         |
-| `first_col_heading` |        `bool`         |        `False`        |         Whether to add a heading column seperator after the first column          |
-| `last_col_heading`  |        `bool`         |        `False`        |         Whether to add a heading column seperator before the last column          |
+| `first_col_heading` |        `bool`         |        `False`        |         Whether to add a heading column separator after the first column          |
+| `last_col_heading`  |        `bool`         |        `False`        |         Whether to add a heading column separator before the last column          |
 |   `cell_padding`    |         `int`         |          `1`          | The minimum number of spaces to add between the cell content and the cell border. |
 
 \*See a list of all preset styles [here](https://table2ascii.readthedocs.io/en/latest/styles.html).
