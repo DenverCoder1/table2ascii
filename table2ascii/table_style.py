@@ -38,15 +38,13 @@ class TableStyle:
 
     .. code-block::
 
-        +-----+-----+-------+-----+
-        |  #  |  G  | Merge |  S  |
-        +=====+=====+==[Y]==+=====+
-        |  1  |  5  | 6 | 4 |  5  |
-        +-----+-----+--[X]-[X]----+
-        |  2  |  E  |  Long cell  |
-        +----[X]---[X]-[W]--+-----+
-        |     Bonus     | F |  G  |
-        +====[Y]===[Y]=[Z]==+=====+
+        +-----+-----+---+---+-----+
+        |   Merge   | # | G |  S  |
+        +====[Y]====+==[Z]==+=====+
+        |  1  | 100 |  Long | 150 |
+        +----[X]----+--[W]--+-----+
+        |   Bonus   | 5 | 5 | 150 |
+        +====[Y]====+==[Z]==+=====+
         | SUM | 100 |  200  | 300 |
         +-----+-----+-------+-----+
 
@@ -92,7 +90,7 @@ class TableStyle:
 
         Example::
 
-            TableStyle.from_string("╔═╦═╗║║ ╟─╫─╢     ╚╩═╝")
+            TableStyle.from_string("╔═╦═╗║║ ╟─╫─╢     ╚╩═╝  ──")
 
         Raises:
             ValueError: If the string is too long
@@ -105,7 +103,7 @@ class TableStyle:
             )
         # if the string is too short, pad it with spaces
         elif len(string) < num_params:
-            string = f"{string}{' ' * (num_params - len(string))}"
+            string += " " * (num_params - len(string))
         return cls(*string)
 
     def set(self, **kwargs) -> "TableStyle":
