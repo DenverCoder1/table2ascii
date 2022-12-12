@@ -13,6 +13,7 @@ from .exceptions import (
     InvalidAlignmentError,
     InvalidCellPaddingError,
 )
+from .merge import Merge
 from .options import Options
 from .preset_style import PresetStyle
 from .table_style import TableStyle
@@ -95,13 +96,21 @@ class TableToAscii:
             text = str(value)
             return max(len(line) for line in text.splitlines()) if len(text) else 0
 
+        def get_column_width(row: list[SupportsStr], column: int) -> int:
+            """Get the width of a cell in a column"""
+            value = row[column]
+            next_value = row[column + 1] if column < self.__columns - 1 else None
+            if value is Merge.LEFT or next_value is Merge.LEFT:
+                return 0
+            return widest_line(value)
+
         column_widths = []
         # get the width necessary for each column
         for i in range(self.__columns):
             # number of characters in column of i of header, each body row, and footer
-            header_size = widest_line(self.__header[i]) if self.__header else 0
-            body_size = max(widest_line(row[i]) for row in self.__body) if self.__body else 0
-            footer_size = widest_line(self.__footer[i]) if self.__footer else 0
+            header_size = get_column_width(self.__header, i) if self.__header else 0
+            body_size = max(get_column_width(row, i) for row in self.__body) if self.__body else 0
+            footer_size = get_column_width(self.__footer, i) if self.__footer else 0
             # get the max and add 2 for padding each side with a space depending on cell padding
             column_widths.append(max(header_size, body_size, footer_size) + self.__cell_padding * 2)
         return column_widths
@@ -232,37 +241,60 @@ class TableToAscii:
             The column in the ascii table
         """
         output = ""
-        # content between separators
-        col_content = ""
-        # if filler is a separator character, repeat it for the full width of the column
-        if isinstance(filler, str):
-            col_content = filler * self.__column_widths[col_index]
-        # otherwise, use the text from the corresponding column in the filler list
-        else:
-            # get the text of the current line in the cell
-            # if there are fewer lines in the current cell than others, empty string is used
-            col_lines = str(filler[col_index]).splitlines()
-            if line_index < len(col_lines):
-                col_content = col_lines[line_index]
-            # pad the text to the width of the column using the alignment
-            col_content = self.__pad(
-                col_content,
-                self.__column_widths[col_index],
-                self.__alignments[col_index],
+        col_content = (
+            # if filler is a separator character, repeat it for the full width of the column
+            filler * self.__column_widths[col_index]
+            if isinstance(filler, str)
+            # otherwise, use the text from the corresponding column in the filler list
+            else self.__get_padded_cell_line_content(
+                line_index, col_index, column_separator, filler
             )
+        )
         output += col_content
         # column separator
         sep = column_separator
+        # use column heading if first column option is specified
         if col_index == 0 and self.__first_col_heading:
-            # use column heading if first column option is specified
             sep = heading_col_sep
+        # use column heading if last column option is specified
         elif col_index == self.__columns - 2 and self.__last_col_heading:
-            # use column heading if last column option is specified
             sep = heading_col_sep
+        # replace last separator with symbol for edge of the row
         elif col_index == self.__columns - 1:
-            # replace last separator with symbol for edge of the row
             sep = right_edge
+        # if this is cell contents and the next column is Merge.LEFT, don't add a separator
+        next_value = (
+            filler[col_index + 1]
+            if not isinstance(filler, str) and col_index < self.__columns - 1
+            else None
+        )
+        if next_value is Merge.LEFT:
+            sep = ""
+        # TODO: handle alternate separators between rows when row above or below is merged
         return output + sep
+
+    def __get_padded_cell_line_content(
+        self, line_index: int, col_index: int, column_separator: str, filler: list[SupportsStr]
+    ) -> str:
+        # If this is a merge cell, merge with the previous column
+        if filler[col_index] is Merge.LEFT:
+            return ""
+        # get the text of the current line in the cell
+        # if there are fewer lines in the current cell than others, empty string is used
+        col_lines = str(filler[col_index]).splitlines()
+        col_content = col_lines[line_index] if line_index < len(col_lines) else ""
+        pad_width = self.__column_widths[col_index]
+        # if the columns to the right are Merge.LEFT, add their width to the padding
+        for other_col_index in range(col_index + 1, self.__columns):
+            if filler[other_col_index] is not Merge.LEFT:
+                break
+            pad_width += self.__column_widths[other_col_index] + len(column_separator)
+        # pad the text to the width of the column using the alignment
+        return self.__pad(
+            cell_value=col_content,
+            width=pad_width,
+            alignment=self.__alignments[col_index],
+        )
 
     def __top_edge_to_ascii(self) -> str:
         """Assembles the top edge of the ascii table
@@ -292,7 +324,7 @@ class TableToAscii:
             filler=self.__style.top_and_bottom_edge,
         )
 
-    def __heading_row_to_ascii(self, row: list[SupportsStr]) -> str:
+    def __content_row_to_ascii(self, row: list[SupportsStr]) -> str:
         """Assembles the header or footer row line of the ascii table
 
         Returns:
@@ -333,16 +365,7 @@ class TableToAscii:
             right_edge=self.__style.row_right_tee,
             filler=self.__style.row_sep,
         )
-        return separation_row.join(
-            self.__row_to_ascii(
-                left_edge=self.__style.left_and_right_edge,
-                heading_col_sep=self.__style.heading_col_sep,
-                column_separator=self.__style.col_sep,
-                right_edge=self.__style.left_and_right_edge,
-                filler=row,
-            )
-            for row in body
-        )
+        return separation_row.join(self.__content_row_to_ascii(row) for row in body)
 
     def to_ascii(self) -> str:
         """Generates a formatted ASCII table
@@ -354,7 +377,7 @@ class TableToAscii:
         table = self.__top_edge_to_ascii()
         # add table header
         if self.__header:
-            table += self.__heading_row_to_ascii(self.__header)
+            table += self.__content_row_to_ascii(self.__header)
             table += self.__heading_sep_to_ascii()
         # add table body
         if self.__body:
@@ -362,7 +385,7 @@ class TableToAscii:
         # add table footer
         if self.__footer:
             table += self.__heading_sep_to_ascii()
-            table += self.__heading_row_to_ascii(self.__footer)
+            table += self.__content_row_to_ascii(self.__footer)
         # bottom row of table
         table += self.__bottom_edge_to_ascii()
         # reurn ascii table
