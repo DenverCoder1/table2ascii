@@ -114,3 +114,32 @@ def test_merge_line_wrap():
         "╚═════════════╧═════════════════════════════════╝"
     )
     assert text == expected
+
+
+def test_merge_compact():
+    text = t2a(
+        header=["Header", Merge.LEFT, "A", "B"],
+        body=[
+            ["A", "B", "C", Merge.LEFT],
+            ["D", Merge.LEFT, "E", Merge.LEFT],
+            ["F", "G", "H", "I"],
+            ["J", "K", "L", Merge.LEFT],
+        ],
+        column_widths=[4, 4, None, None],
+        footer=["Footer", Merge.LEFT, "A", "B"],
+        style=PresetStyle.double_thin_compact,
+        first_col_heading=True,
+    )
+    expected = (
+        "╔═════════════════╗\n"
+        "║ Header    A   B ║\n"
+        "╟────╥────────────╢\n"
+        "║ A  ║ B      C   ║\n"
+        "║    D        E   ║\n"
+        "║ F  ║ G    H   I ║\n"
+        "║ J  ║ K      L   ║\n"
+        "╟────╨────────────╢\n"
+        "║ Footer    A   B ║\n"
+        "╚═════════════════╝"
+    )
+    assert text == expected
