@@ -105,8 +105,8 @@ class TableStyle:
 
         .. versionchanged:: 1.0.0
 
-            The string will be padded on the right with spaces if it is too
-            short and a :class:`ValueError` will be raised if it is too long.
+            The string will be padded on the right with spaces if it is too short
+            and :class:`TableStyleTooLongError` will be raised if it is too long.
 
         Args:
             string: The string to create the TableStyle from
@@ -119,7 +119,7 @@ class TableStyle:
             TableStyle.from_string("╔═╦╤╗║║│╠═╬╪╣╟─╫┼╢╚╩╧╝┬┴╤╧╥╨╦╩")
 
         Raises:
-            ValueError: If the string is too long
+            TableStyleTooLongError: If the string is too long
         """
         num_params = len(cls.__dataclass_fields__)
         # if the string is too long, raise an error
