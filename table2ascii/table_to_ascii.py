@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import textwrap
 from math import ceil, floor
 
 from .alignment import Alignment
@@ -167,6 +168,33 @@ class TableToAscii:
             return (" " * (width - len(padded_text))) + padded_text
         raise InvalidAlignmentError(alignment)
 
+    def __wrap_long_lines_in_merged_cells(
+        self, row: list[SupportsStr], column_separator: str
+    ) -> list[SupportsStr]:
+        """Wrap long lines in merged cells to the width of the merged cell
+
+        Args:
+            row: The row to wrap cells in
+            column_separator: The column separator between cells
+
+        Returns:
+            The row with long lines wrapped
+        """
+        wrapped_row: list[SupportsStr] = []
+        for col_index, cell in enumerate(row):
+            if cell is Merge.LEFT:
+                wrapped_row.append(cell)
+                continue
+            merged_width = self.__column_widths[col_index]
+            # if the columns to the right are Merge.LEFT, add their width to the padding
+            for other_col_index in range(col_index + 1, self.__columns):
+                if row[other_col_index] is not Merge.LEFT:
+                    break
+                merged_width += self.__column_widths[other_col_index] + len(column_separator)
+            cell = textwrap.fill(str(cell), merged_width)
+            wrapped_row.append(cell)
+        return wrapped_row
+
     def __row_to_ascii(
         self,
         left_edge: str,
@@ -181,6 +209,9 @@ class TableToAscii:
             The line in the ascii table
         """
         output = ""
+        # wrap long lines in merged cells
+        if isinstance(filler, list):
+            filler = self.__wrap_long_lines_in_merged_cells(filler, column_separator)
         # find the maximum number of lines a single cell in the column has (minimum of 1)
         num_lines = max(len(str(cell).splitlines()) for cell in filler) or 1
         # repeat for each line of text in the cell
