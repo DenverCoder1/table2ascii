@@ -42,7 +42,7 @@ extras_require = {
     ],
     "dev": [
         "pre-commit==2.20.0",
-        "taskipy==1.10.1",
+        "taskipy==1.10.3",
         "slotscheck==0.14.0",
         "pyright==1.1.244",
         "tox==3.24.5",
