@@ -223,18 +223,18 @@ class TableToAscii:
         # repeat for each line of text in the cell
         for line_index in range(num_lines):
             output += self.__line_in_row_to_ascii(
-                line_index,
-                left_edge,
-                heading_col_sep,
-                column_separator,
-                right_edge,
-                filler,
-                previous_content_row,
-                next_content_row,
-                top_tee,
-                bottom_tee,
-                heading_col_top_tee,
-                heading_col_bottom_tee,
+                line_index=line_index,
+                left_edge=left_edge,
+                heading_col_sep=heading_col_sep,
+                column_separator=column_separator,
+                right_edge=right_edge,
+                filler=filler,
+                previous_content_row=previous_content_row,
+                next_content_row=next_content_row,
+                top_tee=top_tee,
+                bottom_tee=bottom_tee,
+                heading_col_top_tee=heading_col_top_tee,
+                heading_col_bottom_tee=heading_col_bottom_tee,
             )
         # don't use separation row if it's only space
         if isinstance(filler, str) and output.strip() == "":
@@ -265,18 +265,18 @@ class TableToAscii:
         # add columns
         for col_index in range(self.__columns):
             output += self.__line_in_cell_column_to_ascii(
-                line_index,
-                col_index,
-                heading_col_sep,
-                column_separator,
-                right_edge,
-                filler,
-                previous_content_row,
-                next_content_row,
-                top_tee,
-                bottom_tee,
-                heading_col_top_tee,
-                heading_col_bottom_tee,
+                line_index=line_index,
+                col_index=col_index,
+                heading_col_sep=heading_col_sep,
+                column_separator=column_separator,
+                right_edge=right_edge,
+                filler=filler,
+                previous_content_row=previous_content_row,
+                next_content_row=next_content_row,
+                top_tee=top_tee,
+                bottom_tee=bottom_tee,
+                heading_col_top_tee=heading_col_top_tee,
+                heading_col_bottom_tee=heading_col_bottom_tee,
             )
         output += "\n"
         return output
@@ -308,7 +308,10 @@ class TableToAscii:
             if isinstance(filler, str)
             # otherwise, use the text from the corresponding column in the filler list
             else self.__get_padded_cell_line_content(
-                line_index, col_index, column_separator, filler
+                line_index=line_index,
+                col_index=col_index,
+                column_separator=column_separator,
+                filler=filler,
             )
         )
         output += col_content
@@ -390,9 +393,9 @@ class TableToAscii:
             filler=self.__style.top_and_bottom_edge,
             next_content_row=first_row,
             top_tee=self.__style.col_row_top_tee,
-            bottom_tee=self.__style.col_row_bottom_tee,
+            bottom_tee=self.__style.top_and_bottom_edge,
             heading_col_top_tee=self.__style.heading_col_top_tee,
-            heading_col_bottom_tee=self.__style.heading_col_bottom_tee,
+            heading_col_bottom_tee=self.__style.top_and_bottom_edge,
         )
 
     def __bottom_edge_to_ascii(self) -> str:
@@ -410,9 +413,9 @@ class TableToAscii:
             right_edge=self.__style.bottom_right_corner,
             filler=self.__style.top_and_bottom_edge,
             previous_content_row=last_row,
-            top_tee=self.__style.col_row_top_tee,
+            top_tee=self.__style.top_and_bottom_edge,
             bottom_tee=self.__style.col_row_bottom_tee,
-            heading_col_top_tee=self.__style.heading_col_top_tee,
+            heading_col_top_tee=self.__style.top_and_bottom_edge,
             heading_col_bottom_tee=self.__style.heading_col_bottom_tee,
         )
 

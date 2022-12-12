@@ -1,6 +1,35 @@
-import pytest
-
 from table2ascii import Alignment, Merge, PresetStyle, table2ascii as t2a
+
+
+def test_merge_all_edges():
+    text = t2a(
+        header=["Header", Merge.LEFT, "A", "B"],
+        body=[
+            ["A", "B", "C", Merge.LEFT],
+            ["D", Merge.LEFT, "E", Merge.LEFT],
+            ["F", "G", "H", "I"],
+            ["J", "K", "L", Merge.LEFT],
+        ],
+        column_widths=[4, 4, None, None],
+        footer=["Footer", Merge.LEFT, "A", "B"],
+        style=PresetStyle.double_thin_box,
+    )
+    expected = (
+        "╔═════════╤═══╤═══╗\n"
+        "║ Header  │ A │ B ║\n"
+        "╠════╤════╪═══╧═══╣\n"
+        "║ A  │ B  │   C   ║\n"
+        "╟────┴────┼───────╢\n"
+        "║    D    │   E   ║\n"
+        "╟────┬────┼───┬───╢\n"
+        "║ F  │ G  │ H │ I ║\n"
+        "╟────┼────┼───┴───╢\n"
+        "║ J  │ K  │   L   ║\n"
+        "╠════╧════╪═══╤═══╣\n"
+        "║ Footer  │ A │ B ║\n"
+        "╚═════════╧═══╧═══╝"
+    )
+    assert text == expected
 
 
 def test_merge_no_header_column():
