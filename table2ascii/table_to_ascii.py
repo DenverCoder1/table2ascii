@@ -191,7 +191,7 @@ class TableToAscii:
                 if row[other_col_index] is not Merge.LEFT:
                     break
                 merged_width += self.__column_widths[other_col_index] + len(column_separator)
-            cell = textwrap.fill(str(cell), merged_width)
+            cell = textwrap.fill(str(cell), merged_width - self.__cell_padding * 2)
             wrapped_row.append(cell)
         return wrapped_row
 
