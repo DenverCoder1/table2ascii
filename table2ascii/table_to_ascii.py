@@ -532,7 +532,7 @@ def table2ascii(
             separator. If set to ``0``, the cell content will be flush against the column separator.
             Defaults to ``1``.
         style: Table style to use for styling (preset styles can be imported).
-            Defaults to :ref:`PresetStyle.double_thin_compact <PresetStyle.double_thin_compact>`.
+            Defaults to :ref:`PresetStyle.double_thin_compact`.
 
     Returns:
         The generated ASCII table

@@ -31,6 +31,8 @@ class Merge(Enum):
         ║   ║ contents  ║
         ╚═══╩═══════════╝
         \"\"\"
+
+    .. versionadded:: 1.0.0
     """
 
     LEFT = 0

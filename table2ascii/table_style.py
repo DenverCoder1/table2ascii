@@ -19,8 +19,8 @@ class TableStyle:
         F     G     H     H     H     F
         SBBBBBTBBBBBUBBBBBUBBBBBUBBBBBV
 
-    How the theme is displayed with double thickness for
-    heading rows and columns and thin for normal rows and columns:
+    How the theme is displayed using :ref:`PresetStyle.double_thin_box`
+    as an example:
 
     .. code-block::
 
@@ -34,20 +34,33 @@ class TableStyle:
         ║ SUM ║ 130 │ 140 │ 135 │ 130 ║
         ╚═════╩═════╧═════╧═════╧═════╝
 
-    In addition to the parts above, W-Z are used for merged cells as follows:
+    In addition to the parts above, W-Z and the four fields that follow
+    (labeled 0-3) are used for top and bottom edges of merged cells as shown:
 
     .. code-block::
 
-        +-----+-----+---+---+-----+
-        |   Merge   | # | G |  S  |
-        +====[Y]====+==[Z]==+=====+
-        |  1  | 100 |  Long | 150 |
-        +----[X]----+--[W]--+-----+
-        |   Bonus   | 5 | 5 | 150 |
-        +====[Y]====+==[Z]==+=====+
-        | SUM | 100 |  200  | 300 |
-        +-----+-----+-------+-----+
+        ╔══════════════╤══════╤══════╗
+        ║    Header    │      │      ║
+        ╠══════[2]═════╪═════[Z]═════╣
+        ║       ║      │             ║
+        ╟──────[1]─────┼─────────────╢
+        ║              │             ║
+        ╟──────[0]─────┼─────[W]─────╢
+        ║       ║      │      │      ║
+        ╟───────╫──────┼─────[X]─────╢
+        ║       ║      │             ║
+        ╠══════[3]═════╪═════[Y]═════╣
+        ║    Footer    │      │      ║
+        ╚══════════════╧══════╧══════╝
 
+        [W] = ┬ [X] = ┴ [Y] = ╤ [Z] = ╧
+        [0] = ╥ [1] = ╨ [2] = ╦ [3] = ╩
+
+    .. versionchanged:: 1.0.0
+
+        Added fields for ``col_row_top_tee``, ``col_row_bottom_tee``, ``heading_row_top_tee``,
+        ``heading_row_bottom_tee``, ``heading_col_body_row_top_tee``, ``heading_col_body_row_bottom_tee``,
+        ``heading_col_heading_row_top_tee``, ``heading_col_heading_row_bottom_tee``
     """
 
     # parts of the table
@@ -77,10 +90,19 @@ class TableStyle:
     col_row_bottom_tee: str  # X
     heading_row_top_tee: str  # Y
     heading_row_bottom_tee: str  # Z
+    heading_col_body_row_top_tee: str  # 0
+    heading_col_body_row_bottom_tee: str  # 1
+    heading_col_heading_row_top_tee: str  # 2
+    heading_col_heading_row_bottom_tee: str  # 3
 
     @classmethod
     def from_string(cls, string: str) -> "TableStyle":
         """Create a TableStyle from a string
+
+        .. versionchanged:: 1.0.0
+
+            The string will be padded on the right with spaces if it is too
+            short and a :class:`ValueError` will be raised if it is too long.
 
         Args:
             string: The string to create the TableStyle from
@@ -90,7 +112,7 @@ class TableStyle:
 
         Example::
 
-            TableStyle.from_string("╔═╦╤╗║║│╠═╬╪╣╟─╫┼╢╚╩╧╝┬┴╤╧")
+            TableStyle.from_string("╔═╦╤╗║║│╠═╬╪╣╟─╫┼╢╚╩╧╝┬┴╤╧╥╨╦╩")
 
         Raises:
             ValueError: If the string is too long
