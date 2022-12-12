@@ -97,6 +97,6 @@ setup(
     extras_require=extras_require,
     setup_requires=[],
     tests_require=[
-        "pytest>=6.2,<7",
+        "pytest>=6.2,<8",
     ],
 )
