@@ -313,43 +313,34 @@ class TableToAscii:
         )
         output += col_content
         # check for merged cells
-        next_value = (
-            filler[col_index + 1]
-            if not isinstance(filler, str) and col_index < self.__columns - 1
-            else None
-        )
-        prev_row_next_value = (
-            previous_content_row[col_index + 1]
-            if previous_content_row is not None and col_index < self.__columns - 1
-            else None
-        )
-        next_row_next_value = (
-            next_content_row[col_index + 1]
-            if next_content_row is not None and col_index < self.__columns - 1
-            else None
-        )
+        next_value = prev_row_next_value = next_row_next_value = None
+        if col_index < self.__columns - 1:
+            next_value = filler[col_index + 1] if isinstance(filler, list) else None
+            prev_row_next_value = previous_content_row[col_index + 1] if previous_content_row else None
+            next_row_next_value = next_content_row[col_index + 1] if next_content_row else None
         # column separator
         sep = column_separator
         # handle separators between rows when previous or next row is a merged cell
-        empty = (Merge.LEFT, None)  # values indicating a merged cell or end of the table
-        if isinstance(filler, str):
-            if top_tee and prev_row_next_value is Merge.LEFT:
-                sep = top_tee
-            if bottom_tee and next_row_next_value is Merge.LEFT:
-                sep = bottom_tee
-            if prev_row_next_value in empty and next_row_next_value in empty:
-                sep = filler
+        if top_tee and prev_row_next_value is Merge.LEFT:
+            sep = top_tee
+        if bottom_tee and next_row_next_value is Merge.LEFT:
+            sep = bottom_tee
+        if (
+            isinstance(filler, str)
+            and prev_row_next_value in (Merge.LEFT, None)
+            and next_row_next_value in (Merge.LEFT, None)
+        ):
+            sep = filler
         # use column heading if first or last column option is specified
         if (col_index == 0 and self.__first_col_heading) or (
             col_index == self.__columns - 2 and self.__last_col_heading
         ):
             sep = heading_col_sep
             # handle separators between rows when previous or next row is a merged cell
-            if isinstance(filler, str):
-                if heading_col_top_tee and prev_row_next_value is Merge.LEFT:
-                    sep = heading_col_top_tee
-                if heading_col_bottom_tee and next_row_next_value is Merge.LEFT:
-                    sep = heading_col_bottom_tee
+            if heading_col_top_tee and prev_row_next_value is Merge.LEFT:
+                sep = heading_col_top_tee
+            if heading_col_bottom_tee and next_row_next_value is Merge.LEFT:
+                sep = heading_col_bottom_tee
         # replace last separator with symbol for edge of the row
         elif col_index == self.__columns - 1:
             sep = right_edge
