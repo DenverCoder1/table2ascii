@@ -3,21 +3,57 @@ import pytest
 from table2ascii import Alignment, Merge, PresetStyle, table2ascii as t2a
 
 
-def test_merge():
+def test_merge_no_header_column():
     text = t2a(
-        header=["#", "G", "H", "Other", Merge.LEFT],
-        body=[["1", "60", "40", "45", "80"], ["2", "30", "20", "90", "50"]],
-        footer=["SUM", "Merged", Merge.LEFT, "135", "130"],
-        first_col_heading=True,
+        header=["#", "G", "Merge", Merge.LEFT, "S"],
+        body=[
+            [1, 5, 6, 200, Merge.LEFT],
+            [2, "E", "Long cell", Merge.LEFT, Merge.LEFT],
+            ["Bonus", Merge.LEFT, Merge.LEFT, "F", "G"],
+        ],
+        footer=["SUM", "100", "200", Merge.LEFT, "300"],
+        style=PresetStyle.double_thin_box,
     )
     expected = (
-        "╔═════╦═════════════════════╗\n"
-        "║  #  ║ G    H      Other   ║\n"
-        "╟─────╫─────────────────────╢\n"
-        "║  1  ║ 60   40   45    80  ║\n"
-        "║  2  ║ 30   20   90    50  ║\n"
-        "╟─────╫─────────────────────╢\n"
-        "║ SUM ║ Merged    135   130 ║\n"
-        "╚═════╩═════════════════════╝"
+        "╔═════╤═════╤═══════╤═════╗\n"
+        "║  #  │  G  │ Merge │  S  ║\n"
+        "╠═════╪═════╪═══╤═══╧═════╣\n"
+        "║  1  │  5  │ 6 │   200   ║\n"
+        "╟─────┼─────┼───┴─────────╢\n"
+        "║  2  │  E  │  Long cell  ║\n"
+        "╟─────┴─────┴───┬───┬─────╢\n"
+        "║     Bonus     │ F │  G  ║\n"
+        "╠═════╤═════╤═══╧═══╪═════╣\n"
+        "║ SUM │ 100 │  200  │ 300 ║\n"
+        "╚═════╧═════╧═══════╧═════╝"
+    )
+    assert text == expected
+
+
+def test_merge_line_wrap():
+    text = t2a(
+        header=["Name", "Price", "Category", "Stock", "Sku"],
+        body=[
+            ["test", 443, "test", 67, "test"],
+        ],
+        footer=[
+            "Description",
+            "Long cell value that is merge and wraps to multiple lines",
+            Merge.LEFT,
+            Merge.LEFT,
+            Merge.LEFT,
+        ],
+        alignments=[Alignment.LEFT] * 5,
+        style=PresetStyle.double_thin_box,
+    )
+    expected = (
+        "╔═════════════╤═══════╤══════════╤═══════╤══════╗\n"
+        "║ Name        │ Price │ Category │ Stock │ Sku  ║\n"
+        "╠═════════════╪═══════╪══════════╪═══════╪══════╣\n"
+        "║ test        │ 443   │ test     │ 67    │ test ║\n"
+        "╠═════════════╪═══════╧══════════╧═══════╧══════╣\n"
+        "║ Description │ Long cell value that is merge   ║\n"
+        "║             │ and wraps to multiple lines     ║\n"
+        "╚═════════════╧═════════════════════════════════╝"
     )
     assert text == expected
