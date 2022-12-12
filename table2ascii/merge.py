@@ -6,19 +6,22 @@ class Merge(Enum):
 
     Example::
 
+    from table2ascii import table2ascii
+    from table2ascii.merge import Merge
+
     output = table2ascii(
         body=[
-            ["a", "b", "c", "d"],
-            ["e", "Long cell value", Merge.LEFT, Merge.LEFT],
+            ["A", "B", "C", "D"],
+            ["E", "Long cell", Merge.LEFT, Merge.LEFT],
         ],
     )
 
     print(output)
 
-    ╔═════════════════════╗
-    ║ a    b        c   d ║
-    ║ e   Long cell value ║
-    ╚═════════════════════╝
+    ╔═══════════════╗
+    ║ A   B   C   D ║
+    ║ E   Long cell ║
+    ╚═══════════════╝
     """
 
     LEFT = 0
