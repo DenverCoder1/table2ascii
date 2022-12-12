@@ -96,7 +96,7 @@ setup(
     install_requires=requirements(),
     extras_require=extras_require,
     setup_requires=[
-        "flake8>=3.8,<4",
+        "flake8>=3.8,<7",
     ],
     tests_require=[
         "pytest>=6.2,<7",
