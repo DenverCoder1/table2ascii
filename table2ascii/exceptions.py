@@ -8,7 +8,7 @@ from .annotations import SupportsStr
 
 class Table2AsciiError(Exception):
     """Base class for all table2ascii exceptions"""
-    
+
     def _message(self):
         """Return the error message"""
         raise NotImplementedError
@@ -42,7 +42,7 @@ class FooterColumnCountMismatchError(ColumnCountMismatchError):
         footer (list[SupportsStr]): The footer that caused the error
         expected_columns (int): The number of columns that were expected
     """
-    
+
     def __init__(self, footer: list[SupportsStr], expected_columns: int):
         self.footer = footer
         self.expected_columns = expected_columns
@@ -66,7 +66,7 @@ class BodyColumnCountMismatchError(ColumnCountMismatchError):
         expected_columns (int): The number of columns that were expected
         first_invalid_row (list[SupportsStr]): The first row with an invalid column count
     """
-    
+
     def __init__(self, body: list[list[SupportsStr]], expected_columns: int):
         self.body = body
         self.expected_columns = expected_columns
@@ -92,7 +92,7 @@ class AlignmentCountMismatchError(ColumnCountMismatchError):
         alignments (list[Alignment]): The alignments that caused the error
         expected_columns (int): The number of columns that were expected
     """
-    
+
     def __init__(self, alignments: list[Alignment], expected_columns: int):
         self.alignments = alignments
         self.expected_columns = expected_columns
@@ -115,7 +115,7 @@ class ColumnWidthsCountMismatchError(ColumnCountMismatchError):
         column_widths (list[Optional[int]]): The column widths that caused the error
         expected_columns (int): The number of columns that were expected
     """
-    
+
     def __init__(self, column_widths: list[int | None], expected_columns: int):
         self.column_widths = column_widths
         self.expected_columns = expected_columns
@@ -136,7 +136,7 @@ class InvalidCellPaddingError(TableOptionError):
     Attributes:
         padding (int): The padding that caused the error
     """
-    
+
     def __init__(self, padding: int):
         self.padding = padding
         super().__init__(self._message())
@@ -156,7 +156,7 @@ class ColumnWidthTooSmallError(TableOptionError):
         column_width (int): The column width that caused the error
         min_width (int): The minimum width that is allowed
     """
-    
+
     def __init__(self, column_index: int, column_width: int, min_width: int):
         self.column_index = column_index
         self.column_width = column_width
