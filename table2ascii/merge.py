@@ -8,28 +8,30 @@ class Merge(Enum):
     with the cell to its left.
 
     In the case that the contents of the merged cell are longer than the
-    contents of the unmerged cells in the rows above and below, the merged
-    cell will be wrapped onto multiple lines.
+    combined widths of the unmerged cells in the rows above and below,
+    the merged cell will be wrapped onto multiple lines. The ``column_widths``
+    option can be used to control the widths of the unmerged cells.
 
     Example::
 
         from table2ascii import table2ascii, Merge, PresetStyle
 
         table2ascii(
-            body=[
-                ["A", "B", "C", "D"],
-                ["E", "Long cell contents", Merge.LEFT, Merge.LEFT],
-            ],
+            header=["Name", "Price", "Category", "Stock"],
+            body=[["Milk", "$2.99", "N/A", Merge.LEFT]],
+            footer=["Description", "Milk is a nutritious beverage", Merge.LEFT, Merge.LEFT],
             style=PresetStyle.double_box,
         )
 
         \"\"\"
-        ╔═══╦═══╦═══╦═══╗
-        ║ A ║ B ║ C ║ D ║
-        ╠═══╬═══╩═══╩═══╣
-        ║ E ║ Long cell ║
-        ║   ║ contents  ║
-        ╚═══╩═══════════╝
+        ╔═════════════╦═══════╦══════════╦═══════╗
+        ║    Name     ║ Price ║ Category ║ Stock ║
+        ╠═════════════╬═══════╬══════════╩═══════╣
+        ║    Milk     ║ $2.99 ║       N/A        ║
+        ╠═════════════╬═══════╩══════════════════╣
+        ║ Description ║   Milk is a nutritious   ║
+        ║             ║         beverage         ║
+        ╚═════════════╩══════════════════════════╝
         \"\"\"
 
     .. versionadded:: 1.0.0

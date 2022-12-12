@@ -95,7 +95,7 @@ def test_merge_line_wrap():
         ],
         footer=[
             "Description",
-            "Long cell value that is merge and wraps to multiple lines",
+            "Long cell value that is merged and wraps to multiple lines",
             Merge.LEFT,
             Merge.LEFT,
             Merge.LEFT,
@@ -109,7 +109,7 @@ def test_merge_line_wrap():
         "╠═════════════╪═══════╪══════════╪═══════╪══════╣\n"
         "║ test        │ 443   │ test     │ 67    │ test ║\n"
         "╠═════════════╪═══════╧══════════╧═══════╧══════╣\n"
-        "║ Description │ Long cell value that is merge   ║\n"
+        "║ Description │ Long cell value that is merged  ║\n"
         "║             │ and wraps to multiple lines     ║\n"
         "╚═════════════╧═════════════════════════════════╝"
     )

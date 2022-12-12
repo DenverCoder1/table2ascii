@@ -5,7 +5,7 @@ from dataclasses import dataclass
 class TableStyle:
     """Class for storing information about a table style
 
-    Parts of the table labeled alphabetically:
+    Parts of the table labeled alphabetically from A to V:
 
     .. code-block::
 
@@ -58,9 +58,10 @@ class TableStyle:
 
     .. versionchanged:: 1.0.0
 
-        Added fields for ``col_row_top_tee``, ``col_row_bottom_tee``, ``heading_row_top_tee``,
-        ``heading_row_bottom_tee``, ``heading_col_body_row_top_tee``, ``heading_col_body_row_bottom_tee``,
-        ``heading_col_heading_row_top_tee``, ``heading_col_heading_row_bottom_tee``
+        Added fields for edges of merged cells -- ``col_row_top_tee``, ``col_row_bottom_tee``,
+        ``heading_row_top_tee``, ``heading_row_bottom_tee``, ``heading_col_body_row_top_tee``,
+        ``heading_col_body_row_bottom_tee``, ``heading_col_heading_row_top_tee``,
+        ``heading_col_heading_row_bottom_tee``
     """
 
     # parts of the table
