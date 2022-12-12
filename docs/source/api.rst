@@ -15,6 +15,12 @@ Alignment
 .. autoenum:: Alignment
     :members:
 
+Merge
+~~~~~
+
+.. autoenum:: Merge
+    :members:
+
 PresetStyle
 ~~~~~~~~~~~
 
