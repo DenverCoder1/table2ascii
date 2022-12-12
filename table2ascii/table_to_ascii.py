@@ -70,6 +70,9 @@ class TableToAscii:
         if self.__cell_padding < 0:
             raise InvalidCellPaddingError(self.__cell_padding)
 
+        # if any row starts with Merge.LEFT, replace it with an empty string
+        self.__fix_rows_beginning_with_merge()
+
     def __count_columns(self) -> int:
         """Get the number of columns in the table based on the provided header, footer, and body lists.
 
@@ -140,6 +143,17 @@ class TableToAscii:
                     raise ColumnWidthTooSmallError(i, option, minimum)
                 column_widths[i] = option
         return column_widths
+
+    def __fix_rows_beginning_with_merge(self) -> None:
+        """Fix rows that begin with Merge.LEFT by replacing the cell with an empty string."""
+        if self.__body:
+            for row_index, row in enumerate(self.__body):
+                if row and row[0] == Merge.LEFT:
+                    self.__body[row_index][0] = ""
+        if self.__header and self.__header[0] == Merge.LEFT:
+            self.__header[0] = ""
+        if self.__footer and self.__footer[0] == Merge.LEFT:
+            self.__footer[0] = ""
 
     def __pad(self, cell_value: SupportsStr, width: int, alignment: Alignment) -> str:
         """Pad a string of text to a given width with specified alignment

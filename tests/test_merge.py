@@ -125,8 +125,8 @@ def test_merge_compact():
             ["F", "G", "H", "I"],
             ["J", "K", "L", Merge.LEFT],
         ],
-        column_widths=[4, 4, None, None],
         footer=["Footer", Merge.LEFT, "A", "B"],
+        column_widths=[4, 4, None, None],
         style=PresetStyle.double_thin_compact,
         first_col_heading=True,
     )
@@ -141,5 +141,35 @@ def test_merge_compact():
         "╟────╨────────────╢\n"
         "║ Footer    A   B ║\n"
         "╚═════════════════╝"
+    )
+    assert text == expected
+
+
+def test_row_beginning_with_merge():
+    text = t2a(
+        header=[Merge.LEFT, "A", "B", Merge.LEFT],
+        body=[
+            [Merge.LEFT, "A", "B", "C"],
+            [Merge.LEFT, Merge.LEFT, Merge.LEFT, Merge.LEFT],
+            ["F", "G", "H", "I"],
+            ["J", "K", "L", Merge.LEFT],
+        ],
+        footer=[Merge.LEFT, Merge.LEFT, "A", "B"],
+        style=PresetStyle.double_thin_box,
+    )
+    expected = (
+        "╔═══╤═══╤═══════╗\n"
+        "║   │ A │   B   ║\n"
+        "╠═══╪═══╪═══╤═══╣\n"
+        "║   │ A │ B │ C ║\n"
+        "╟───┴───┴───┴───╢\n"
+        "║               ║\n"
+        "╟───┬───┬───┬───╢\n"
+        "║ F │ G │ H │ I ║\n"
+        "╟───┼───┼───┴───╢\n"
+        "║ J │ K │   L   ║\n"
+        "╠═══╧═══╪═══╤═══╣\n"
+        "║       │ A │ B ║\n"
+        "╚═══════╧═══╧═══╝"
     )
     assert text == expected
