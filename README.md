@@ -6,7 +6,7 @@
 [![license](https://img.shields.io/pypi/l/table2ascii)](https://github.com/DenverCoder1/table2ascii/blob/main/LICENSE)
 [![discord](https://img.shields.io/discord/819650821314052106?color=5865F2&logo=discord&logoColor=white "Dev Pro Tips Discussion & Support Server")](https://discord.gg/fPrdqh3Zfu)
 
-Library for converting 2D Python lists to fancy ASCII/Unicode tables
+An intuitive and type-safe library for converting 2D Python lists to fancy ASCII/Unicode tables
 
 Documentation and examples are available at [table2ascii.rtfd.io](https://table2ascii.readthedocs.io/)
 
@@ -193,7 +193,7 @@ See the [API Reference](https://table2ascii.readthedocs.io/en/latest/api.html) f
 -   Tables display nicely whenever monospace fonts are fully supported
 -   Tables make terminal outputs look more professional
 
-![image](https://user-images.githubusercontent.com/20955511/116204490-802dcf80-a745-11eb-9b4a-7cef49f23958.png)
+![image](https://user-images.githubusercontent.com/20955511/207134452-a1eb1b9f-e63b-459b-8feb-fc6c234e902e.png)
 
 ## 🤗 Contributing
 
