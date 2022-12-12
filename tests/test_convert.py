@@ -1,6 +1,7 @@
 import pytest
 
 from table2ascii import table2ascii as t2a
+from table2ascii.exceptions import BodyColumnCountMismatchError, FooterColumnCountMismatchError
 
 
 def test_header_body_footer():
@@ -117,7 +118,7 @@ def test_footer():
 
 
 def test_header_footer_unequal():
-    with pytest.raises(ValueError):
+    with pytest.raises(FooterColumnCountMismatchError):
         t2a(
             header=["H", "R", "S"],
             footer=["SUM", "130", "140", "135", "130"],
@@ -126,7 +127,7 @@ def test_header_footer_unequal():
 
 
 def test_header_body_unequal():
-    with pytest.raises(ValueError):
+    with pytest.raises(BodyColumnCountMismatchError):
         t2a(
             header=["#", "G", "H", "R", "S"],
             body=[
@@ -139,7 +140,7 @@ def test_header_body_unequal():
 
 
 def test_footer_body_unequal():
-    with pytest.raises(ValueError):
+    with pytest.raises(BodyColumnCountMismatchError):
         t2a(
             body=[
                 ["0", "45", "30", "32", "28"],

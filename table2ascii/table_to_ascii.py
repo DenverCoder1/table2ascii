@@ -4,6 +4,15 @@ from math import ceil, floor
 
 from .alignment import Alignment
 from .annotations import SupportsStr
+from .exceptions import (
+    AlignmentCountMismatchError,
+    BodyColumnCountMismatchError,
+    ColumnWidthTooSmallError,
+    ColumnWidthsCountMismatchError,
+    FooterColumnCountMismatchError,
+    InvalidAlignmentError,
+    InvalidCellPaddingError,
+)
 from .options import Options
 from .preset_style import PresetStyle
 from .table_style import TableStyle
@@ -41,12 +50,10 @@ class TableToAscii:
 
         # check if footer has a different number of columns
         if footer and len(footer) != self.__columns:
-            raise ValueError("Footer must have the same number of columns as the other rows")
+            raise FooterColumnCountMismatchError(footer, self.__columns)
         # check if any rows in body have a different number of columns
         if body and any(len(row) != self.__columns for row in body):
-            raise ValueError(
-                "All rows in body must have the same number of columns as the other rows"
-            )
+            raise BodyColumnCountMismatchError(body, self.__columns)
 
         # calculate or use given column widths
         self.__column_widths = self.__calculate_column_widths(options.column_widths)
@@ -55,11 +62,11 @@ class TableToAscii:
 
         # check if alignments specified have a different number of columns
         if options.alignments and len(options.alignments) != self.__columns:
-            raise ValueError("Length of `alignments` list must equal the number of columns")
+            raise AlignmentCountMismatchError(options.alignments, self.__columns)
 
         # check if the cell padding is valid
         if self.__cell_padding < 0:
-            raise ValueError("Cell padding must be greater than or equal to 0")
+            raise InvalidCellPaddingError(self.__cell_padding)
 
     def __count_columns(self) -> int:
         """Get the number of columns in the table based on the provided header, footer, and body lists.
@@ -112,7 +119,7 @@ class TableToAscii:
         if user_column_widths:
             # check that the right number of columns were specified
             if len(user_column_widths) != self.__columns:
-                raise ValueError("Length of `column_widths` list must equal the number of columns")
+                raise ColumnWidthsCountMismatchError(user_column_widths, self.__columns)
             # check that each column is at least as large as the minimum size
             for i in range(len(user_column_widths)):
                 option = user_column_widths[i]
@@ -120,9 +127,7 @@ class TableToAscii:
                 if option is None:
                     option = minimum
                 elif option < minimum:
-                    raise ValueError(
-                        f"The value at index {i} of `column_widths` is {option} which is less than the minimum {minimum}."
-                    )
+                    raise ColumnWidthTooSmallError(i, option, minimum)
                 column_widths[i] = option
         return column_widths
 
@@ -151,7 +156,7 @@ class TableToAscii:
         if alignment == Alignment.RIGHT:
             # pad with spaces at the beginning
             return (" " * (width - len(padded_text))) + padded_text
-        raise ValueError(f"The value '{alignment}' is not valid for alignment.")
+        raise InvalidAlignmentError(alignment)
 
     def __row_to_ascii(
         self,
