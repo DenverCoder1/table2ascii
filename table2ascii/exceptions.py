@@ -223,16 +223,20 @@ class TableStyleTooShortWarning(UserWarning):
     This class is a subclass of :class:`UserWarning`.
 
     It can be silenced using :func:`warnings.filterwarnings`.
+
+    Attributes:
+        string (str): The string that caused the warning
+        max_characters (int): The number of characters that :class:`TableStyle` accepts
     """
 
-    def __init__(self, string: str, min_characters: int):
+    def __init__(self, string: str, max_characters: int):
         self.string = string
-        self.min_characters = min_characters
+        self.max_characters = max_characters
         super().__init__(self._message())
 
     def _message(self):
         return (
             f"Too few characters for table style: {len(self.string)} characters "
-            f"found, but table styles can accept {self.min_characters} characters. "
+            f"found, but table styles can accept {self.max_characters} characters. "
             f"Missing characters will be replaced with spaces."
         )
