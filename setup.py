@@ -41,13 +41,12 @@ extras_require = {
         "sphinx-autobuild",
     ],
     "dev": [
-        "pre-commit==2.20.0",
-        "taskipy==1.10.1",
-        "slotscheck==0.14.0",
-        "pyright==1.1.244",
-        "tox==3.24.5",
-        "pytest==7.1.2",
-        "mypy==0.982",
+        "pre-commit>=2.20.0,<3",
+        "taskipy>=1.10.3,<2",
+        "slotscheck>=0.14.0,<1",
+        "pyright>=1.1.244,<2",
+        "tox>=4.0.0,<5",
+        "mypy>=0.982,<1",
     ],
 }
 
@@ -95,9 +94,7 @@ setup(
     python_requires=">=3.6",
     install_requires=requirements(),
     extras_require=extras_require,
-    setup_requires=[
-        "flake8>=3.8,<4",
-    ],
+    setup_requires=[],
     tests_require=[
         "pytest>=6.2,<7",
     ],
