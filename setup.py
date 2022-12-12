@@ -41,7 +41,7 @@ extras_require = {
         "sphinx-autobuild",
     ],
     "dev": [
-        "pre-commit==2.18.1",
+        "pre-commit==2.20.0",
         "taskipy==1.10.1",
         "slotscheck==0.14.0",
         "pyright==1.1.244",
