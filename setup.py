@@ -45,7 +45,7 @@ extras_require = {
         "taskipy==1.10.1",
         "slotscheck==0.14.0",
         "pyright==1.1.244",
-        "tox==3.24.5",
+        "tox==4.0.8",
         "pytest==7.1.2",
         "mypy==0.982",
     ],
