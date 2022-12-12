@@ -1,6 +1,7 @@
 import pytest
 
 from table2ascii import Alignment, table2ascii as t2a
+from table2ascii.exceptions import AlignmentCountMismatchError, InvalidAlignmentError
 
 
 def test_first_left_four_right():
@@ -25,7 +26,7 @@ def test_first_left_four_right():
 
 
 def test_wrong_number_alignments():
-    with pytest.raises(ValueError):
+    with pytest.raises(AlignmentCountMismatchError):
         t2a(
             header=["#", "G", "H", "R", "S"],
             body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
@@ -36,7 +37,7 @@ def test_wrong_number_alignments():
 
 
 def test_invalid_alignments():
-    with pytest.raises(ValueError):
+    with pytest.raises(InvalidAlignmentError):
         t2a(
             header=["#", "G", "H", "R", "S"],
             body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],

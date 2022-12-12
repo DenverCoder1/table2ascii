@@ -1,6 +1,7 @@
 import pytest
 
 from table2ascii import Alignment, table2ascii as t2a
+from table2ascii.exceptions import InvalidCellPaddingError
 
 
 def test_without_cell_padding():
@@ -72,7 +73,7 @@ def test_cell_padding_more_than_one():
 
 
 def test_negative_cell_padding():
-    with pytest.raises(ValueError):
+    with pytest.raises(InvalidCellPaddingError):
         t2a(
             header=["#", "G", "H", "R", "S"],
             body=[[1, 2, 3, 4, 5]],

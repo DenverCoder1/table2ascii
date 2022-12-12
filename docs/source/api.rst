@@ -28,3 +28,26 @@ TableStyle
 
 .. autoclass:: TableStyle
     :members:
+
+Exceptions
+~~~~~~~~~~
+
+.. autoexception:: table2ascii.exceptions.Table2AsciiError
+
+.. autoexception:: table2ascii.exceptions.TableOptionError
+
+.. autoexception:: table2ascii.exceptions.ColumnCountMismatchError
+
+.. autoexception:: table2ascii.exceptions.FooterColumnCountMismatchError
+
+.. autoexception:: table2ascii.exceptions.BodyColumnCountMismatchError
+
+.. autoexception:: table2ascii.exceptions.AlignmentCountMismatchError
+
+.. autoexception:: table2ascii.exceptions.InvalidCellPaddingError
+
+.. autoexception:: table2ascii.exceptions.ColumnWidthsCountMismatchError
+
+.. autoexception:: table2ascii.exceptions.ColumnWidthTooSmallError
+
+.. autoexception:: table2ascii.exceptions.InvalidAlignmentError
