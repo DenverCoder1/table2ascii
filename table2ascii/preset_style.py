@@ -31,6 +31,7 @@ class PresetStyle:
     double = TableStyle.from_string("╔═╦═╗║║ ╠═╬═╣╠═╬═╣╚╩═╝════")
     double_box = TableStyle.from_string("╔═╦╦╗║║║╠═╬╬╣╠═╬╬╣╚╩╩╝╦╩╦╩")
     double_compact = TableStyle.from_string("╔═╦═╗║║ ╠═╬═╣     ╚╩═╝  ══")
+    double_thin_box = TableStyle.from_string("╔═╦╤╗║║│╠═╬╪╣╟─╫┼╢╚╩╧╝┬┴╤╧")
     double_thin_compact = TableStyle.from_string("╔═╦═╗║║ ╟─╫─╢     ╚╩═╝  ──")
     minimalist = TableStyle.from_string(" ───  │  ━━━  ───  ── ──━━")
     borderless = TableStyle.from_string("      ┃  ━              ━━")

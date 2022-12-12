@@ -24,7 +24,7 @@ class TableStyle:
 
     .. code-block::
 
-        ╔═════╦═════╦═════╦═════╦═════╗
+        ╔═════╦═════╤═════╤═════╤═════╗
         ║  #  ║  G  │  H  │  R  │  S  ║
         ╠═════╬═════╪═════╪═════╪═════╣
         ║  1  ║ 30  │ 40  │ 35  │ 30  ║
@@ -32,7 +32,7 @@ class TableStyle:
         ║  2  ║ 30  │ 40  │ 35  │ 30  ║
         ╠═════╬═════╪═════╪═════╪═════╣
         ║ SUM ║ 130 │ 140 │ 135 │ 130 ║
-        ╚═════╩═════╩═════╩═════╩═════╝
+        ╚═════╩═════╧═════╧═════╧═════╝
 
     In addition to the parts above, W-Z are used for merged cells as follows:
 
@@ -90,7 +90,7 @@ class TableStyle:
 
         Example::
 
-            TableStyle.from_string("╔═╦═╗║║ ╟─╫─╢     ╚╩═╝  ──")
+            TableStyle.from_string("╔═╦╤╗║║│╠═╬╪╣╟─╫┼╢╚╩╧╝┬┴╤╧")
 
         Raises:
             ValueError: If the string is too long
