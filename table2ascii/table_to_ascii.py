@@ -316,7 +316,9 @@ class TableToAscii:
         next_value = prev_row_next_value = next_row_next_value = None
         if col_index < self.__columns - 1:
             next_value = filler[col_index + 1] if isinstance(filler, list) else None
-            prev_row_next_value = previous_content_row[col_index + 1] if previous_content_row else None
+            prev_row_next_value = (
+                previous_content_row[col_index + 1] if previous_content_row else None
+            )
             next_row_next_value = next_content_row[col_index + 1] if next_content_row else None
         # column separator
         sep = column_separator
