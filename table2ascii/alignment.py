@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import IntEnum
 
 
-class Alignment(Enum):
+class Alignment(IntEnum):
     """Enum for text alignment types within a table cell
 
     Example::
