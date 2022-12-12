@@ -400,6 +400,9 @@ def table2ascii(
 ) -> str:
     """Convert a 2D Python table to ASCII text
 
+    .. versionchanged:: 1.0.0
+        Added the ``use_wcwidth`` parameter defaulting to :py:obj:`True`.
+
     Args:
         header: List of column values in the table's header row. All values should be :class:`str`
             or support :class:`str` conversion. If not specified, the table will not have a header row.
