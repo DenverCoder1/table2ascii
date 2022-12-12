@@ -1,4 +1,7 @@
 from dataclasses import dataclass
+import warnings
+
+from .exceptions import TableStyleTooShortWarning, TableStyleTooLongError
 
 
 @dataclass
@@ -121,12 +124,11 @@ class TableStyle:
         num_params = len(cls.__dataclass_fields__)
         # if the string is too long, raise an error
         if len(string) > num_params:
-            raise ValueError(
-                f"Too many characters in string. Expected {num_params} but got {len(string)}."
-            )
-        # if the string is too short, pad it with spaces
+            raise TableStyleTooLongError(string, num_params)
+        # if the string is too short, show a warning and pad it with spaces
         elif len(string) < num_params:
             string += " " * (num_params - len(string))
+            warnings.warn(TableStyleTooShortWarning(string, num_params), stacklevel=2)
         return cls(*string)
 
     def set(self, **kwargs) -> "TableStyle":

@@ -58,3 +58,10 @@ Exceptions
 .. autoexception:: table2ascii.exceptions.ColumnWidthTooSmallError
 
 .. autoexception:: table2ascii.exceptions.InvalidAlignmentError
+
+.. autoexception:: table2ascii.exceptions.TableStyleTooLongError
+
+Warnings
+~~~~~~~~
+
+.. autoclass:: table2ascii.exceptions.TableStyleTooShortWarning
