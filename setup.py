@@ -32,22 +32,22 @@ def requirements():
 
 extras_require = {
     "docs": [
-        "sphinx",
         "enum-tools",
+        "sphinx",
+        "sphinx-autobuild",
+        "sphinx-rtd-theme",
         "sphinx-toolbox",
         "sphinxcontrib_trio",
-        "sphinx-rtd-theme",
         "sphinxext-opengraph",
-        "sphinx-autobuild",
     ],
     "dev": [
-        "pre-commit==2.20.0",
-        "taskipy==1.10.1",
-        "slotscheck==0.14.0",
-        "pyright==1.1.244",
-        "tox==3.24.5",
-        "pytest==7.1.2",
-        "mypy==0.982",
+        "mypy>=0.982,<1",
+        "pre-commit>=2.0.0,<3",
+        "pyright>=1.0.0,<2",
+        "pytest>=6.0.0,<8",
+        "slotscheck>=0.1.0,<1",
+        "taskipy>=1.0.0,<2",
+        "tox>=3.0.0,<5",
     ],
 }
 
@@ -95,9 +95,7 @@ setup(
     python_requires=">=3.6",
     install_requires=requirements(),
     extras_require=extras_require,
-    setup_requires=[
-        "flake8>=3.8,<4",
-    ],
+    setup_requires=[],
     tests_require=[
         "pytest>=6.2,<7",
     ],
