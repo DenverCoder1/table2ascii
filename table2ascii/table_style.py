@@ -106,7 +106,8 @@ class TableStyle:
         .. versionchanged:: 1.0.0
 
             The string will be padded on the right with spaces if it is too short
-            and :class:`TableStyleTooLongError` will be raised if it is too long.
+            and :class:`~table2ascii.exceptions.TableStyleTooLongError` will be
+            raised if it is too long.
 
         Args:
             string: The string to create the TableStyle from
