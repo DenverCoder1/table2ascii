@@ -202,6 +202,10 @@ class TableToAscii:
         column_separator: str,
         right_edge: str,
         filler: str | list[SupportsStr],
+        top_tee: str | None = None,
+        bottom_tee: str | None = None,
+        previous_content_row: list[SupportsStr] | None = None,
+        next_content_row: list[SupportsStr] | None = None,
     ) -> str:
         """Assembles a line of text in the ascii table
 
@@ -223,6 +227,10 @@ class TableToAscii:
                 column_separator,
                 right_edge,
                 filler,
+                top_tee,
+                bottom_tee,
+                previous_content_row,
+                next_content_row,
             )
         # don't use separation row if it's only space
         if isinstance(filler, str) and output.strip() == "":
@@ -237,6 +245,10 @@ class TableToAscii:
         column_separator: str,
         right_edge: str,
         filler: str | list[SupportsStr],
+        top_tee: str | None = None,
+        bottom_tee: str | None = None,
+        previous_content_row: list[SupportsStr] | None = None,
+        next_content_row: list[SupportsStr] | None = None,
     ) -> str:
         """Assembles a line of text in the ascii table
 
@@ -253,6 +265,10 @@ class TableToAscii:
                 column_separator,
                 right_edge,
                 filler,
+                top_tee,
+                bottom_tee,
+                previous_content_row,
+                next_content_row,
             )
         output += "\n"
         return output
@@ -265,6 +281,10 @@ class TableToAscii:
         column_separator: str,
         right_edge: str,
         filler: str | list[SupportsStr],
+        top_tee: str | None = None,
+        bottom_tee: str | None = None,
+        previous_content_row: list[SupportsStr] | None = None,
+        next_content_row: list[SupportsStr] | None = None,
     ) -> str:
         """Assembles a column of text in the ascii table
 
@@ -282,8 +302,36 @@ class TableToAscii:
             )
         )
         output += col_content
+        # check for merged cells
+        next_value = (
+            filler[col_index + 1]
+            if not isinstance(filler, str) and col_index < self.__columns - 1
+            else None
+        )
+        prev_row_next_value = (
+            previous_content_row[col_index + 1]
+            if previous_content_row is not None and col_index < self.__columns - 1
+            else None
+        )
+        next_row_next_value = (
+            next_content_row[col_index + 1]
+            if next_content_row is not None and col_index < self.__columns - 1
+            else None
+        )
         # column separator
         sep = column_separator
+        # if this is cell contents and the next column is Merge.LEFT, don't add a separator
+        if next_value is Merge.LEFT:
+            sep = ""
+        # handle separators between rows when previous or next row is a merged cell
+        elif isinstance(filler, str):
+            empty = (Merge.LEFT, None)  # values indicating a merged cell or end of the table
+            if top_tee and prev_row_next_value is Merge.LEFT:
+                sep = top_tee
+            if bottom_tee and next_row_next_value is Merge.LEFT:
+                sep = bottom_tee
+            if prev_row_next_value in empty and next_row_next_value in empty:
+                sep = filler
         # use column heading if first column option is specified
         if col_index == 0 and self.__first_col_heading:
             sep = heading_col_sep
@@ -293,15 +341,6 @@ class TableToAscii:
         # replace last separator with symbol for edge of the row
         elif col_index == self.__columns - 1:
             sep = right_edge
-        # if this is cell contents and the next column is Merge.LEFT, don't add a separator
-        next_value = (
-            filler[col_index + 1]
-            if not isinstance(filler, str) and col_index < self.__columns - 1
-            else None
-        )
-        if next_value is Merge.LEFT:
-            sep = ""
-        # TODO: handle alternate separators between rows when row above or below is merged
         return output + sep
 
     def __get_padded_cell_line_content(
@@ -333,12 +372,17 @@ class TableToAscii:
         Returns:
             The top edge of the ascii table
         """
+        first_row = self.__body[0] if self.__body else None
+        first_row = self.__header if self.__header else first_row
         return self.__row_to_ascii(
             left_edge=self.__style.top_left_corner,
             heading_col_sep=self.__style.heading_col_top_tee,
             column_separator=self.__style.top_tee,
             right_edge=self.__style.top_right_corner,
             filler=self.__style.top_and_bottom_edge,
+            top_tee=self.__style.col_row_top_tee,
+            bottom_tee=self.__style.col_row_bottom_tee,
+            next_content_row=first_row,
         )
 
     def __bottom_edge_to_ascii(self) -> str:
@@ -347,12 +391,17 @@ class TableToAscii:
         Returns:
             The bottom edge of the ascii table
         """
+        last_row = self.__body[-1] if self.__body else None
+        last_row = self.__footer if self.__footer else last_row
         return self.__row_to_ascii(
             left_edge=self.__style.bottom_left_corner,
             heading_col_sep=self.__style.heading_col_bottom_tee,
             column_separator=self.__style.bottom_tee,
             right_edge=self.__style.bottom_right_corner,
             filler=self.__style.top_and_bottom_edge,
+            top_tee=self.__style.col_row_top_tee,
+            bottom_tee=self.__style.col_row_bottom_tee,
+            previous_content_row=last_row,
         )
 
     def __content_row_to_ascii(self, row: list[SupportsStr]) -> str:
@@ -369,7 +418,11 @@ class TableToAscii:
             filler=row,
         )
 
-    def __heading_sep_to_ascii(self) -> str:
+    def __heading_sep_to_ascii(
+        self,
+        previous_content_row: list[SupportsStr] | None = None,
+        next_content_row: list[SupportsStr] | None = None,
+    ) -> str:
         """Assembles the separator below the header or above footer of the ascii table
 
         Returns:
@@ -381,6 +434,10 @@ class TableToAscii:
             column_separator=self.__style.heading_row_cross,
             right_edge=self.__style.heading_row_right_tee,
             filler=self.__style.heading_row_sep,
+            top_tee=self.__style.heading_row_top_tee,
+            bottom_tee=self.__style.heading_row_bottom_tee,
+            previous_content_row=previous_content_row,
+            next_content_row=next_content_row,
         )
 
     def __body_to_ascii(self, body: list[list[SupportsStr]]) -> str:
@@ -389,14 +446,24 @@ class TableToAscii:
         Returns:
             The body of the ascii table
         """
-        separation_row = self.__row_to_ascii(
-            left_edge=self.__style.row_left_tee,
-            heading_col_sep=self.__style.heading_col_row_cross,
-            column_separator=self.__style.col_row_cross,
-            right_edge=self.__style.row_right_tee,
-            filler=self.__style.row_sep,
-        )
-        return separation_row.join(self.__content_row_to_ascii(row) for row in body)
+        # first content row
+        output = self.__content_row_to_ascii(body[0]) if len(body) else ""
+        for row_index, row in enumerate(body[1:], 1):
+            # separator between rows
+            output += self.__row_to_ascii(
+                left_edge=self.__style.row_left_tee,
+                heading_col_sep=self.__style.heading_col_row_cross,
+                column_separator=self.__style.col_row_cross,
+                right_edge=self.__style.row_right_tee,
+                filler=self.__style.row_sep,
+                top_tee=self.__style.col_row_top_tee,
+                bottom_tee=self.__style.col_row_bottom_tee,
+                previous_content_row=body[row_index - 1],
+                next_content_row=row,
+            )
+            # content row
+            output += self.__content_row_to_ascii(row)
+        return output
 
     def to_ascii(self) -> str:
         """Generates a formatted ASCII table
@@ -409,13 +476,19 @@ class TableToAscii:
         # add table header
         if self.__header:
             table += self.__content_row_to_ascii(self.__header)
-            table += self.__heading_sep_to_ascii()
+            table += self.__heading_sep_to_ascii(
+                previous_content_row=self.__header,
+                next_content_row=self.__body[0] if self.__body else None,
+            )
         # add table body
         if self.__body:
             table += self.__body_to_ascii(self.__body)
         # add table footer
         if self.__footer:
-            table += self.__heading_sep_to_ascii()
+            table += self.__heading_sep_to_ascii(
+                previous_content_row=self.__body[-1] if self.__body else None,
+                next_content_row=self.__footer,
+            )
             table += self.__content_row_to_ascii(self.__footer)
         # bottom row of table
         table += self.__bottom_edge_to_ascii()

@@ -33,6 +33,23 @@ class TableStyle:
         ╠═════╬═════╪═════╪═════╪═════╣
         ║ SUM ║ 130 │ 140 │ 135 │ 130 ║
         ╚═════╩═════╩═════╩═════╩═════╝
+
+    In addition to the parts above, W-Z are used for merged cells as follows:
+
+    .. code-block::
+
+        +-----+-----+-------+-----+
+        |  #  |  G  | Merge |  S  |
+        +=====+=====+==[Y]==+=====+
+        |  1  |  5  | 6 | 4 |  5  |
+        +-----+-----+--[X]-[X]----+
+        |  2  |  E  |  Long cell  |
+        +----[X]---[X]-[W]--+-----+
+        |     Bonus     | F |  G  |
+        +====[Y]===[Y]=[Z]==+=====+
+        | SUM | 100 |  200  | 300 |
+        +-----+-----+-------+-----+
+
     """
 
     # parts of the table
@@ -58,6 +75,10 @@ class TableStyle:
     heading_col_bottom_tee: str  # T
     bottom_tee: str  # U
     bottom_right_corner: str  # V
+    col_row_top_tee: str  # W
+    col_row_bottom_tee: str  # X
+    heading_row_top_tee: str  # Y
+    heading_row_bottom_tee: str  # Z
 
     @classmethod
     def from_string(cls, string: str) -> "TableStyle":
@@ -72,7 +93,19 @@ class TableStyle:
         Example::
 
             TableStyle.from_string("╔═╦═╗║║ ╟─╫─╢     ╚╩═╝")
+
+        Raises:
+            ValueError: If the string is too long
         """
+        num_params = len(cls.__dataclass_fields__)
+        # if the string is too long, raise an error
+        if len(string) > num_params:
+            raise ValueError(
+                f"Too many characters in string. Expected {num_params} but got {len(string)}."
+            )
+        # if the string is too short, pad it with spaces
+        elif len(string) < num_params:
+            string = f"{string}{' ' * (num_params - len(string))}"
         return cls(*string)
 
     def set(self, **kwargs) -> "TableStyle":
