@@ -3,14 +3,10 @@
 API Reference
 =============
 
-.. _table2ascii:
-
 table2ascii
 ~~~~~~~~~~~
 
 .. autofunction:: table2ascii
-
-.. _Alignment:
 
 Alignment
 ~~~~~~~~~
@@ -25,8 +21,6 @@ Merge
 
 .. autoenum:: Merge
     :members:
-
-.. _PresetStyle:
 
 PresetStyle
 ~~~~~~~~~~~
