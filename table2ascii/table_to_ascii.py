@@ -420,10 +420,10 @@ class TableToAscii:
         )
 
     def __content_row_to_ascii(self, row: list[SupportsStr]) -> str:
-        """Assembles the header or footer row line of the ascii table
+        """Assembles a row of cell values into a single line of the ascii table
 
         Returns:
-            The header or footer row line of the ascii table
+            The row of the ascii table
         """
         return self.__row_to_ascii(
             left_edge=self.__style.left_and_right_edge,
