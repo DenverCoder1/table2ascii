@@ -32,22 +32,22 @@ def requirements():
 
 extras_require = {
     "docs": [
-        "sphinx",
         "enum-tools",
+        "sphinx",
+        "sphinx-autobuild",
+        "sphinx-rtd-theme",
         "sphinx-toolbox",
         "sphinxcontrib_trio",
-        "sphinx-rtd-theme",
         "sphinxext-opengraph",
-        "sphinx-autobuild",
     ],
     "dev": [
-        "pre-commit>=2.0.0,<3",
-        "taskipy>=1.0.0,<2",
-        "slotscheck>=0.1.0,<1",
-        "pyright>=1.0.0,<2",
-        "tox>=3.0.0,<5",
         "mypy>=0.982,<1",
+        "pre-commit>=2.0.0,<3",
+        "pyright>=1.0.0,<2",
         "pytest>=6.0.0,<8",
+        "slotscheck>=0.1.0,<1",
+        "taskipy>=1.0.0,<2",
+        "tox>=3.0.0,<5",
     ],
 }
 
