@@ -8,12 +8,21 @@ class PresetStyle:
 
     Example::
 
-        from table2ascii import PresetStyle
+        from table2ascii import PresetStyle, table2ascii
 
-        output = table2ascii(
-            ...
-            style=PresetStyle.ascii_box
+        table2ascii(
+            header=["Name", "Price", "Category", "Stock"],
+            body=[["Milk", "$2.99", "Dairy", 10]],
+            style=PresetStyle.ascii_double,  # Use any available preset style
         )
+
+        \"\"\"
+        +---------------------------------+
+        | Name   Price   Category   Stock |
+        +=================================+
+        | Milk   $2.99    Dairy      10   |
+        +---------------------------------+
+        \"\"\"
     """
 
     thin = TableStyle.from_string("┌─┬─┐││ ├─┼─┤├─┼─┤└┴─┘────┬┴┬┴")

@@ -35,10 +35,10 @@ extras_require = {
         "enum-tools",
         "sphinx",
         "sphinx-autobuild",
-        "sphinx-rtd-theme",
         "sphinx-toolbox",
         "sphinxcontrib_trio",
         "sphinxext-opengraph",
+        "sphinx-book-theme==0.3.3",
     ],
     "dev": [
         "mypy>=0.982,<1",

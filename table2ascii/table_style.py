@@ -61,8 +61,10 @@ class TableStyle:
 
     .. versionchanged:: 1.0.0
 
-        Added fields for edges of merged cells -- ``col_row_top_tee``, ``col_row_bottom_tee``,
-        ``heading_row_top_tee``, ``heading_row_bottom_tee``, ``heading_col_body_row_top_tee``,
+        Added fields for edges of merged cells:
+
+        ``col_row_top_tee``, ``col_row_bottom_tee``, ``heading_row_top_tee``,
+        ``heading_row_bottom_tee``, ``heading_col_body_row_top_tee``,
         ``heading_col_body_row_bottom_tee``, ``heading_col_heading_row_top_tee``,
         ``heading_col_heading_row_bottom_tee``
     """

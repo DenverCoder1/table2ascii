@@ -1,36 +1,21 @@
-/* Make the title bigger */
-.wy-side-nav-search > a {
-    font-size: 160%;
+/* Hack font */
+@import url('https://cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css');
+
+#site-navigation h1.site-logo {
+    font-size: 1.5em;
 }
 
-/* Search box adjustments */
-.wy-side-nav-search input[type="text"] {
-    padding: 10px 15px;
-    font-size: 100%;
-    border-radius: 10px;
+#site-navigation .bd-sidebar__top nav ul li a {
+    font-size: 1.25em;
 }
 
-/* Set visited links to blue */
-.section a:visited,
-footer a:visited {
-    color: #2980b9;
-}
-
-/* Make home icon black instead of purple */
-a.icon.icon-home:visited {
-    color: unset;
-}
-
-/* Change code highlight background on dark mode */
-@media (prefers-color-scheme: dark) {
-    .rst-content .highlight {
-        background: #26292b;
-    }
+#site-navigation .bd-sidebar__bottom .navbar_extra_footer {
+    color: #999;
+    opacity: 0.8;
+    font-size: 0.85em;
 }
 
 /* Change code block font */
-.rst-content .linenodiv pre,
-.rst-content div[class^="highlight"] pre,
-.rst-content pre.literal-block {
-    font-family: Source Code Pro, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, Courier, monospace;
+:root {
+    --pst-font-family-monospace: "Hack", "Source Code Pro", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "Courier", monospace;
 }
