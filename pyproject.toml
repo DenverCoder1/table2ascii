@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "table2ascii"
 authors = [{name = "Jonah Lawrence", email = "jonah@freshidea.com"}]
-dynamic = ["version", "description", "readme", "classifiers", "dependencies", "optional-dependencies"]
+dynamic = ["version", "description", "readme", "dependencies", "optional-dependencies"]
 requires-python = ">=3.7"
 license = {file = "LICENSE"}
 keywords = ["table", "ascii", "unicode", "formatter"]
