@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from math import ceil, floor
 
+from wcwidth import wcswidth
+
 from .alignment import Alignment
 from .annotations import SupportsStr
 from .exceptions import (
@@ -44,6 +46,7 @@ class TableToAscii:
         self.__first_col_heading = options.first_col_heading
         self.__last_col_heading = options.last_col_heading
         self.__cell_padding = options.cell_padding
+        self.__use_wcwidth = options.use_wcwidth
 
         # calculate number of columns
         self.__columns = self.__count_columns()
@@ -93,7 +96,7 @@ class TableToAscii:
         def widest_line(value: SupportsStr) -> int:
             """Returns the width of the longest line in a multi-line string"""
             text = str(value)
-            return max(len(line) for line in text.splitlines()) if len(text) else 0
+            return max(self.__str_width(line) for line in text.splitlines()) if len(text) else 0
 
         column_widths = []
         # get the width necessary for each column
@@ -145,17 +148,18 @@ class TableToAscii:
         text = str(cell_value)
         padding = " " * self.__cell_padding
         padded_text = f"{padding}{text}{padding}"
+        text_width = self.__str_width(padded_text)
         if alignment == Alignment.LEFT:
             # pad with spaces on the end
-            return padded_text + (" " * (width - len(padded_text)))
+            return padded_text + (" " * (width - text_width))
         if alignment == Alignment.CENTER:
             # pad with spaces, half on each side
-            before = " " * floor((width - len(padded_text)) / 2)
-            after = " " * ceil((width - len(padded_text)) / 2)
+            before = " " * floor((width - text_width) / 2)
+            after = " " * ceil((width - text_width) / 2)
             return before + padded_text + after
         if alignment == Alignment.RIGHT:
             # pad with spaces at the beginning
-            return (" " * (width - len(padded_text))) + padded_text
+            return (" " * (width - text_width)) + padded_text
         raise InvalidAlignmentError(alignment)
 
     def __row_to_ascii(
@@ -344,6 +348,23 @@ class TableToAscii:
             for row in body
         )
 
+    def __str_width(self, text: str) -> int:
+        """
+        Returns the width of the string in characters for the purposes of monospace
+        formatting. This is usually the same as the length of the string, but can be
+        different for double-width characters (East Asian Wide and East Asian Fullwidth)
+        or zero-width characters (combining characters, zero-width space, etc.)
+
+        Args:
+            text: The text to measure
+
+        Returns:
+            The width of the string in characters
+        """
+        width = wcswidth(text) if self.__use_wcwidth else -1
+        # if use_wcwidth is False or wcswidth fails, fall back to len
+        return width if width >= 0 else len(text)
+
     def to_ascii(self) -> str:
         """Generates a formatted ASCII table
 
@@ -380,8 +401,12 @@ def table2ascii(
     alignments: list[Alignment] | None = None,
     cell_padding: int = 1,
     style: TableStyle = PresetStyle.double_thin_compact,
+    use_wcwidth: bool = True,
 ) -> str:
     """Convert a 2D Python table to ASCII text
+
+    .. versionchanged:: 1.0.0
+        Added the ``use_wcwidth`` parameter defaulting to :py:obj:`True`.
 
     Args:
         header: List of column values in the table's header row. All values should be :class:`str`
@@ -396,7 +421,7 @@ def table2ascii(
             Defaults to :py:obj:`False`.
         column_widths: List of widths in characters for each column. Any value of :py:obj:`None`
             indicates that the column width should be determined automatically. If :py:obj:`None`
-            is passed instead of a :py:obj:`~typing.List`, all columns will be automatically sized.
+            is passed instead of a :class:`list`, all columns will be automatically sized.
             Defaults to :py:obj:`None`.
         alignments: List of alignments for each column
             (ex. ``[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]``). If not specified or set to
@@ -406,6 +431,11 @@ def table2ascii(
             Defaults to ``1``.
         style: Table style to use for styling (preset styles can be imported).
             Defaults to :ref:`PresetStyle.double_thin_compact <PresetStyle.double_thin_compact>`.
+        use_wcwidth: Whether to use :func:`wcwidth.wcswidth` to determine the width of each cell instead of
+            :func:`len`. The :func:`~wcwidth.wcswidth` function takes into account double-width characters
+            (East Asian Wide and East Asian Fullwidth) and zero-width characters (combining characters,
+            zero-width space, etc.), whereas :func:`len` determines the width solely based on the number of
+            characters in the string. Defaults to :py:obj:`True`.
 
     Returns:
         The generated ASCII table
@@ -421,5 +451,6 @@ def table2ascii(
             alignments=alignments,
             cell_padding=cell_padding,
             style=style,
+            use_wcwidth=use_wcwidth,
         ),
     ).to_ascii()
