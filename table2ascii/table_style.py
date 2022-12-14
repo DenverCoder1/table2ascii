@@ -1,11 +1,14 @@
 from dataclasses import dataclass
+import warnings
+
+from .exceptions import TableStyleTooShortWarning, TableStyleTooLongError
 
 
 @dataclass
 class TableStyle:
     """Class for storing information about a table style
 
-    Parts of the table labeled alphabetically:
+    Parts of the table labeled alphabetically from A to V:
 
     .. code-block::
 
@@ -19,12 +22,12 @@ class TableStyle:
         F     G     H     H     H     F
         SBBBBBTBBBBBUBBBBBUBBBBBUBBBBBV
 
-    How the theme is displayed with double thickness for
-    heading rows and columns and thin for normal rows and columns:
+    How the theme is displayed using :ref:`PresetStyle.double_thin_box`
+    as an example:
 
     .. code-block::
 
-        ╔═════╦═════╦═════╦═════╦═════╗
+        ╔═════╦═════╤═════╤═════╤═════╗
         ║  #  ║  G  │  H  │  R  │  S  ║
         ╠═════╬═════╪═════╪═════╪═════╣
         ║  1  ║ 30  │ 40  │ 35  │ 30  ║
@@ -32,7 +35,36 @@ class TableStyle:
         ║  2  ║ 30  │ 40  │ 35  │ 30  ║
         ╠═════╬═════╪═════╪═════╪═════╣
         ║ SUM ║ 130 │ 140 │ 135 │ 130 ║
-        ╚═════╩═════╩═════╩═════╩═════╝
+        ╚═════╩═════╧═════╧═════╧═════╝
+
+    In addition to the parts above, W-Z and the four fields that follow
+    (labeled 0-3) are used for top and bottom edges of merged cells as shown:
+
+    .. code-block::
+
+        ╔══════════════╤══════╤══════╗
+        ║    Header    │      │      ║
+        ╠══════[2]═════╪═════[Z]═════╣
+        ║       ║      │             ║
+        ╟──────[1]─────┼─────────────╢
+        ║              │             ║
+        ╟──────[0]─────┼─────[W]─────╢
+        ║       ║      │      │      ║
+        ╟───────╫──────┼─────[X]─────╢
+        ║       ║      │             ║
+        ╠══════[3]═════╪═════[Y]═════╣
+        ║    Footer    │      │      ║
+        ╚══════════════╧══════╧══════╝
+
+        [W] = ┬ [X] = ┴ [Y] = ╤ [Z] = ╧
+        [0] = ╥ [1] = ╨ [2] = ╦ [3] = ╩
+
+    .. versionchanged:: 1.0.0
+
+        Added fields for edges of merged cells -- ``col_row_top_tee``, ``col_row_bottom_tee``,
+        ``heading_row_top_tee``, ``heading_row_bottom_tee``, ``heading_col_body_row_top_tee``,
+        ``heading_col_body_row_bottom_tee``, ``heading_col_heading_row_top_tee``,
+        ``heading_col_heading_row_bottom_tee``
     """
 
     # parts of the table
@@ -58,10 +90,24 @@ class TableStyle:
     heading_col_bottom_tee: str  # T
     bottom_tee: str  # U
     bottom_right_corner: str  # V
+    col_row_top_tee: str  # W
+    col_row_bottom_tee: str  # X
+    heading_row_top_tee: str  # Y
+    heading_row_bottom_tee: str  # Z
+    heading_col_body_row_top_tee: str  # 0
+    heading_col_body_row_bottom_tee: str  # 1
+    heading_col_heading_row_top_tee: str  # 2
+    heading_col_heading_row_bottom_tee: str  # 3
 
     @classmethod
     def from_string(cls, string: str) -> "TableStyle":
         """Create a TableStyle from a string
+
+        .. versionchanged:: 1.0.0
+
+            The string will be padded on the right with spaces if it is too short
+            and :class:`~table2ascii.exceptions.TableStyleTooLongError` will be
+            raised if it is too long.
 
         Args:
             string: The string to create the TableStyle from
@@ -71,8 +117,19 @@ class TableStyle:
 
         Example::
 
-            TableStyle.from_string("╔═╦═╗║║ ╟─╫─╢     ╚╩═╝")
+            TableStyle.from_string("╔═╦╤╗║║│╠═╬╪╣╟─╫┼╢╚╩╧╝┬┴╤╧╥╨╦╩")
+
+        Raises:
+            TableStyleTooLongError: If the string is too long
         """
+        num_params = len(cls.__dataclass_fields__)
+        # if the string is too long, raise an error
+        if len(string) > num_params:
+            raise TableStyleTooLongError(string, num_params)
+        # if the string is too short, show a warning and pad it with spaces
+        elif len(string) < num_params:
+            string += " " * (num_params - len(string))
+            warnings.warn(TableStyleTooShortWarning(string, num_params), stacklevel=2)
         return cls(*string)
 
     def set(self, **kwargs) -> "TableStyle":

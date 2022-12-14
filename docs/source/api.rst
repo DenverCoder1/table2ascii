@@ -8,11 +8,18 @@ table2ascii
 
 .. autofunction:: table2ascii
 
-
 Alignment
 ~~~~~~~~~
 
 .. autoenum:: Alignment
+    :members:
+
+.. _Merge:
+
+Merge
+~~~~~
+
+.. autoenum:: Merge
     :members:
 
 PresetStyle
@@ -51,3 +58,10 @@ Exceptions
 .. autoexception:: table2ascii.exceptions.ColumnWidthTooSmallError
 
 .. autoexception:: table2ascii.exceptions.InvalidAlignmentError
+
+.. autoexception:: table2ascii.exceptions.TableStyleTooLongError
+
+Warnings
+~~~~~~~~
+
+.. autoclass:: table2ascii.exceptions.TableStyleTooShortWarning

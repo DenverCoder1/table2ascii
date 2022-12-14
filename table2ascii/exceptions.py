@@ -189,3 +189,54 @@ class InvalidAlignmentError(TableOptionError):
             f"Invalid alignment: {self.alignment!r} is not a valid alignment. "
             f"Valid alignments are: {', '.join(a.__repr__() for a in Alignment)}"
         )
+
+
+class TableStyleTooLongError(Table2AsciiError, ValueError):
+    """Exception raised when the number of characters passed in the string
+    for creating the table style exceeds the number of parameters that the
+    table style accepts
+
+    This class is a subclass of :class:`Table2AsciiError` and :class:`ValueError`.
+
+    Attributes:
+        string (str): The string that caused the error
+        max_characters (int): The maximum number of characters that are allowed
+    """
+
+    def __init__(self, string: str, max_characters: int):
+        self.string = string
+        self.max_characters = max_characters
+        super().__init__(self._message())
+
+    def _message(self):
+        return (
+            f"Too many characters for table style: {len(self.string)} characters "
+            f"found, but the maximum number of characters allowed is {self.max_characters}."
+        )
+
+
+class TableStyleTooShortWarning(UserWarning):
+    """Warning raised when the number of characters passed in the string
+    for creating the table style is fewer than the number of parameters
+    that the table style accepts
+
+    This class is a subclass of :class:`UserWarning`.
+
+    It can be silenced using :func:`warnings.filterwarnings`.
+
+    Attributes:
+        string (str): The string that caused the warning
+        max_characters (int): The number of characters that :class:`TableStyle` accepts
+    """
+
+    def __init__(self, string: str, max_characters: int):
+        self.string = string
+        self.max_characters = max_characters
+        super().__init__(self._message())
+
+    def _message(self):
+        return (
+            f"Too few characters for table style: {len(self.string)} characters "
+            f"found, but table styles can accept {self.max_characters} characters. "
+            f"Missing characters will be replaced with spaces."
+        )

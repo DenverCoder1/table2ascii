@@ -159,6 +159,40 @@ print(output)
 """
 ```
 
+### 🪄 Merge adjacent cells
+
+```py
+from table2ascii import table2ascii, Merge, PresetStyle
+
+output = table2ascii(
+    header=["#", "G", "Merge", Merge.LEFT, "S"],
+    body=[
+        [1, 5, 6, 200, Merge.LEFT],
+        [2, "E", "Long cell", Merge.LEFT, Merge.LEFT],
+        ["Bonus", Merge.LEFT, Merge.LEFT, "F", "G"],
+    ],
+    footer=["SUM", "100", "200", Merge.LEFT, "300"],
+    style=PresetStyle.double_thin_box,
+    first_col_heading=True,
+)
+
+print(output)
+
+"""
+╔═════╦═════╤═══════╤═════╗
+║  #  ║  G  │ Merge │  S  ║
+╠═════╬═════╪═══╤═══╧═════╣
+║  1  ║  5  │ 6 │   200   ║
+╟─────╫─────┼───┴─────────╢
+║  2  ║  E  │  Long cell  ║
+╟─────╨─────┴───┬───┬─────╢
+║     Bonus     │ F │  G  ║
+╠═════╦═════╤═══╧═══╪═════╣
+║ SUM ║ 100 │  200  │ 300 ║
+╚═════╩═════╧═══════╧═════╝
+"""
+```
+
 ## ⚙️ Options
 
 All parameters are optional.
