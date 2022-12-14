@@ -39,5 +39,5 @@ class Merge(Enum):
 
     LEFT = 0
 
-    def __str__(self):
+    def __str__(self) -> str:
         return ""

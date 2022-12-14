@@ -128,11 +128,11 @@ class TableStyle:
             raise TableStyleTooLongError(string, num_params)
         # if the string is too short, show a warning and pad it with spaces
         elif len(string) < num_params:
-            string += " " * (num_params - len(string))
             warnings.warn(TableStyleTooShortWarning(string, num_params), stacklevel=2)
+            string += " " * (num_params - len(string))
         return cls(*string)
 
-    def set(self, **kwargs) -> "TableStyle":
+    def set(self, **kwargs: str) -> "TableStyle":
         """Set attributes of the TableStyle
 
         Args:

@@ -1,15 +1,16 @@
 from __future__ import annotations
+
+from collections.abc import Sequence
 from typing import Any
 
 from .alignment import Alignment
-
 from .annotations import SupportsStr
 
 
 class Table2AsciiError(Exception):
     """Base class for all table2ascii exceptions"""
 
-    def _message(self):
+    def _message(self) -> str:
         """Return the error message"""
         raise NotImplementedError
 
@@ -39,16 +40,16 @@ class FooterColumnCountMismatchError(ColumnCountMismatchError):
     This class is a subclass of :class:`ColumnCountMismatchError`.
 
     Attributes:
-        footer (list[SupportsStr]): The footer that caused the error
+        footer (Sequence[SupportsStr]): The footer that caused the error
         expected_columns (int): The number of columns that were expected
     """
 
-    def __init__(self, footer: list[SupportsStr], expected_columns: int):
+    def __init__(self, footer: Sequence[SupportsStr], expected_columns: int):
         self.footer = footer
         self.expected_columns = expected_columns
         super().__init__(self._message())
 
-    def _message(self):
+    def _message(self) -> str:
         return (
             f"Footer column count mismatch: {len(self.footer)} columns "
             f"found, expected {self.expected_columns}."
@@ -62,12 +63,12 @@ class BodyColumnCountMismatchError(ColumnCountMismatchError):
     This class is a subclass of :class:`ColumnCountMismatchError`.
 
     Attributes:
-        body (list[list[SupportsStr]]): The body that caused the error
+        body (Sequence[Sequence[SupportsStr]]): The body that caused the error
         expected_columns (int): The number of columns that were expected
-        first_invalid_row (list[SupportsStr]): The first row with an invalid column count
+        first_invalid_row (Sequence[SupportsStr]): The first row with an invalid column count
     """
 
-    def __init__(self, body: list[list[SupportsStr]], expected_columns: int):
+    def __init__(self, body: Sequence[Sequence[SupportsStr]], expected_columns: int):
         self.body = body
         self.expected_columns = expected_columns
         self.first_invalid_row = next(
@@ -75,7 +76,7 @@ class BodyColumnCountMismatchError(ColumnCountMismatchError):
         )
         super().__init__(self._message())
 
-    def _message(self):
+    def _message(self) -> str:
         return (
             f"Body column count mismatch: A row with {len(self.first_invalid_row)} "
             f"columns was found, expected {self.expected_columns}."
@@ -89,16 +90,16 @@ class AlignmentCountMismatchError(ColumnCountMismatchError):
     This class is a subclass of :class:`ColumnCountMismatchError`.
 
     Attributes:
-        alignments (list[Alignment]): The alignments that caused the error
+        alignments (Sequence[Alignment]): The alignments that caused the error
         expected_columns (int): The number of columns that were expected
     """
 
-    def __init__(self, alignments: list[Alignment], expected_columns: int):
+    def __init__(self, alignments: Sequence[Alignment], expected_columns: int):
         self.alignments = alignments
         self.expected_columns = expected_columns
         super().__init__(self._message())
 
-    def _message(self):
+    def _message(self) -> str:
         return (
             f"Alignment count mismatch: {len(self.alignments)} alignments "
             f"found, expected {self.expected_columns}."
@@ -112,20 +113,33 @@ class ColumnWidthsCountMismatchError(ColumnCountMismatchError):
     This class is a subclass of :class:`ColumnCountMismatchError`.
 
     Attributes:
-        column_widths (list[Optional[int]]): The column widths that caused the error
+        column_widths (Sequence[Optional[int]]): The column widths that caused the error
         expected_columns (int): The number of columns that were expected
     """
 
-    def __init__(self, column_widths: list[int | None], expected_columns: int):
+    def __init__(self, column_widths: Sequence[int | None], expected_columns: int):
         self.column_widths = column_widths
         self.expected_columns = expected_columns
         super().__init__(self._message())
 
-    def _message(self):
+    def _message(self) -> str:
         return (
             f"Column widths count mismatch: {len(self.column_widths)} column widths "
             f"found, expected {self.expected_columns}."
         )
+
+
+class NoHeaderBodyOrFooterError(TableOptionError):
+    """Exception raised when no header, body or footer is provided
+
+    This class is a subclass of :class:`TableOptionError`.
+    """
+
+    def __init__(self):
+        super().__init__(self._message())
+
+    def _message(self) -> str:
+        return "At least one of header, body or footer must be provided."
 
 
 class InvalidCellPaddingError(TableOptionError):
@@ -141,7 +155,7 @@ class InvalidCellPaddingError(TableOptionError):
         self.padding = padding
         super().__init__(self._message())
 
-    def _message(self):
+    def _message(self) -> str:
         return f"Invalid cell padding: {self.padding} is not a positive integer."
 
 
@@ -163,7 +177,7 @@ class ColumnWidthTooSmallError(TableOptionError):
         self.min_width = min_width
         super().__init__(self._message())
 
-    def _message(self):
+    def _message(self) -> str:
         return (
             f"Column width too small: The column width for column index {self.column_index} "
             f" of `column_widths` is {self.column_width}, but the minimum width "
@@ -184,7 +198,7 @@ class InvalidAlignmentError(TableOptionError):
         self.alignment = alignment
         super().__init__(self._message())
 
-    def _message(self):
+    def _message(self) -> str:
         return (
             f"Invalid alignment: {self.alignment!r} is not a valid alignment. "
             f"Valid alignments are: {', '.join(a.__repr__() for a in Alignment)}"
@@ -208,7 +222,7 @@ class TableStyleTooLongError(Table2AsciiError, ValueError):
         self.max_characters = max_characters
         super().__init__(self._message())
 
-    def _message(self):
+    def _message(self) -> str:
         return (
             f"Too many characters for table style: {len(self.string)} characters "
             f"found, but the maximum number of characters allowed is {self.max_characters}."
@@ -234,7 +248,7 @@ class TableStyleTooShortWarning(UserWarning):
         self.max_characters = max_characters
         super().__init__(self._message())
 
-    def _message(self):
+    def _message(self) -> str:
         return (
             f"Too few characters for table style: {len(self.string)} characters "
             f"found, but table styles can accept {self.max_characters} characters. "

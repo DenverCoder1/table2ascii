@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
 
 from .alignment import Alignment
@@ -17,8 +18,8 @@ class Options:
 
     first_col_heading: bool
     last_col_heading: bool
-    column_widths: list[int | None] | None
-    alignments: list[Alignment] | None
+    column_widths: Sequence[int | None] | None
+    alignments: Sequence[Alignment] | None
     cell_padding: int
     style: TableStyle
     use_wcwidth: bool
