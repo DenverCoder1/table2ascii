@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import textwrap
 from math import ceil, floor
+from collections.abc import Sequence
 
 from wcwidth import wcswidth
 
@@ -15,6 +16,7 @@ from .exceptions import (
     FooterColumnCountMismatchError,
     InvalidAlignmentError,
     InvalidCellPaddingError,
+    NoHeaderBodyOrFooterError,
 )
 from .merge import Merge
 from .options import Options
@@ -27,9 +29,9 @@ class TableToAscii:
 
     def __init__(
         self,
-        header: list[SupportsStr] | None,
-        body: list[list[SupportsStr]] | None,
-        footer: list[SupportsStr] | None,
+        header: Sequence[SupportsStr] | None,
+        body: Sequence[Sequence[SupportsStr]] | None,
+        footer: Sequence[SupportsStr] | None,
         options: Options,
     ):
         """Validate arguments and initialize fields
@@ -41,9 +43,9 @@ class TableToAscii:
             options: The options for the table
         """
         # initialize fields
-        self.__header = header
-        self.__body = body
-        self.__footer = footer
+        self.__header = list(header) if header else None
+        self.__body = list([list(row) for row in body]) if body else None
+        self.__footer = list(footer) if footer else None
         self.__style = options.style
         self.__first_col_heading = options.first_col_heading
         self.__last_col_heading = options.last_col_heading
@@ -59,6 +61,10 @@ class TableToAscii:
         # check if any rows in body have a different number of columns
         if body and any(len(row) != self.__columns for row in body):
             raise BodyColumnCountMismatchError(body, self.__columns)
+
+        # check that at least one of header, body, or footer is not None
+        if not header and not body and not footer:
+            raise NoHeaderBodyOrFooterError()
 
         # calculate or use given column widths
         self.__column_widths = self.__calculate_column_widths(options.column_widths)
@@ -103,7 +109,7 @@ class TableToAscii:
             text = str(value)
             return max(self.__str_width(line) for line in text.splitlines()) if len(text) else 0
 
-        def get_column_width(row: list[SupportsStr], column: int) -> int:
+        def get_column_width(row: Sequence[SupportsStr], column: int) -> int:
             """Get the width of a cell in a column"""
             value = row[column]
             next_value = row[column + 1] if column < self.__columns - 1 else None
@@ -122,7 +128,9 @@ class TableToAscii:
             column_widths.append(max(header_size, body_size, footer_size) + self.__cell_padding * 2)
         return column_widths
 
-    def __calculate_column_widths(self, user_column_widths: list[int | None] | None) -> list[int]:
+    def __calculate_column_widths(
+        self, user_column_widths: Sequence[int | None] | None
+    ) -> list[int]:
         """Calculate the width of each column in the table based on the cell values and provided column widths.
 
         Args:
@@ -187,7 +195,7 @@ class TableToAscii:
         raise InvalidAlignmentError(alignment)
 
     def __wrap_long_lines_in_merged_cells(
-        self, row: list[SupportsStr], column_separator: str
+        self, row: Sequence[SupportsStr], column_separator: str
     ) -> list[SupportsStr]:
         """Wrap long lines in merged cells to the width of the merged cell
 
@@ -219,9 +227,9 @@ class TableToAscii:
         heading_col_sep: str,
         column_separator: str,
         right_edge: str,
-        filler: str | list[SupportsStr],
-        previous_content_row: list[SupportsStr] | None = None,
-        next_content_row: list[SupportsStr] | None = None,
+        filler: str | Sequence[SupportsStr],
+        previous_content_row: Sequence[SupportsStr] | None = None,
+        next_content_row: Sequence[SupportsStr] | None = None,
         top_tee: str | None = None,
         bottom_tee: str | None = None,
         heading_col_top_tee: str | None = None,
@@ -266,9 +274,9 @@ class TableToAscii:
         heading_col_sep: str,
         column_separator: str,
         right_edge: str,
-        filler: str | list[SupportsStr],
-        previous_content_row: list[SupportsStr] | None = None,
-        next_content_row: list[SupportsStr] | None = None,
+        filler: str | Sequence[SupportsStr],
+        previous_content_row: Sequence[SupportsStr] | None = None,
+        next_content_row: Sequence[SupportsStr] | None = None,
         top_tee: str | None = None,
         bottom_tee: str | None = None,
         heading_col_top_tee: str | None = None,
@@ -306,9 +314,9 @@ class TableToAscii:
         heading_col_sep: str,
         column_separator: str,
         right_edge: str,
-        filler: str | list[SupportsStr],
-        previous_content_row: list[SupportsStr] | None = None,
-        next_content_row: list[SupportsStr] | None = None,
+        filler: str | Sequence[SupportsStr],
+        previous_content_row: Sequence[SupportsStr] | None = None,
+        next_content_row: Sequence[SupportsStr] | None = None,
         top_tee: str | None = None,
         bottom_tee: str | None = None,
         heading_col_top_tee: str | None = None,
@@ -373,7 +381,7 @@ class TableToAscii:
         return output + sep
 
     def __get_padded_cell_line_content(
-        self, line_index: int, col_index: int, column_separator: str, filler: list[SupportsStr]
+        self, line_index: int, col_index: int, column_separator: str, filler: Sequence[SupportsStr]
     ) -> str:
         # If this is a merge cell, merge with the previous column
         if filler[col_index] is Merge.LEFT:
@@ -437,7 +445,7 @@ class TableToAscii:
             heading_col_bottom_tee=self.__style.heading_col_bottom_tee,
         )
 
-    def __content_row_to_ascii(self, row: list[SupportsStr]) -> str:
+    def __content_row_to_ascii(self, row: Sequence[SupportsStr]) -> str:
         """Assembles a row of cell values into a single line of the ascii table
 
         Returns:
@@ -453,8 +461,8 @@ class TableToAscii:
 
     def __heading_sep_to_ascii(
         self,
-        previous_content_row: list[SupportsStr] | None = None,
-        next_content_row: list[SupportsStr] | None = None,
+        previous_content_row: Sequence[SupportsStr] | None = None,
+        next_content_row: Sequence[SupportsStr] | None = None,
     ) -> str:
         """Assembles the separator below the header or above footer of the ascii table
 
@@ -475,7 +483,7 @@ class TableToAscii:
             heading_col_bottom_tee=self.__style.heading_col_heading_row_bottom_tee,
         )
 
-    def __body_to_ascii(self, body: list[list[SupportsStr]]) -> str:
+    def __body_to_ascii(self, body: Sequence[Sequence[SupportsStr]]) -> str:
         """Assembles the body of the ascii table
 
         Returns:
@@ -551,14 +559,14 @@ class TableToAscii:
 
 
 def table2ascii(
-    header: list[SupportsStr] | None = None,
-    body: list[list[SupportsStr]] | None = None,
-    footer: list[SupportsStr] | None = None,
+    header: Sequence[SupportsStr] | None = None,
+    body: Sequence[Sequence[SupportsStr]] | None = None,
+    footer: Sequence[SupportsStr] | None = None,
     *,
     first_col_heading: bool = False,
     last_col_heading: bool = False,
-    column_widths: list[int | None] | None = None,
-    alignments: list[Alignment] | None = None,
+    column_widths: Sequence[int | None] | None = None,
+    alignments: Sequence[Alignment] | None = None,
     cell_padding: int = 1,
     style: TableStyle = PresetStyle.double_thin_compact,
     use_wcwidth: bool = True,
@@ -581,8 +589,8 @@ def table2ascii(
             Defaults to :py:obj:`False`.
         column_widths: List of widths in characters for each column. Any value of :py:obj:`None`
             indicates that the column width should be determined automatically. If :py:obj:`None`
-            is passed instead of a :class:`list`, all columns will be automatically sized.
-            Defaults to :py:obj:`None`.
+            is passed instead of a :class:`~collections.abc.Sequence`, all columns will be automatically
+            sized. Defaults to :py:obj:`None`.
         alignments: List of alignments for each column
             (ex. ``[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]``). If not specified or set to
             :py:obj:`None`, all columns will be center-aligned. Defaults to :py:obj:`None`.
