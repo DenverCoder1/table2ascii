@@ -132,7 +132,7 @@ class TableStyle:
             string += " " * (num_params - len(string))
         return cls(*string)
 
-    def set(self, **kwargs) -> "TableStyle":
+    def set(self, **kwargs: str) -> "TableStyle":
         """Set attributes of the TableStyle
 
         Args:

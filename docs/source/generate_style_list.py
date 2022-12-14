@@ -4,12 +4,12 @@ __import__("sys").path.append(os.path.join(os.path.dirname(__file__), "..", ".."
 from table2ascii import PresetStyle, table2ascii
 
 
-def indent_all_lines(text, number_of_spaces=3):
+def indent_all_lines(text: str, number_of_spaces: int = 3) -> str:
     """Indent all lines in a string by a certain number of spaces"""
     return "\n".join(number_of_spaces * " " + line for line in text.split("\n"))
 
 
-def generate_style_list():
+def generate_style_list() -> str:
     """Generate README.rst the style list"""
     # get attributes in PresetStyle
     attribute_names = [attr for attr in dir(PresetStyle) if not attr.startswith("__")]
@@ -43,7 +43,7 @@ def generate_style_list():
     return f"{heading}\n\n{table_of_contents}\n{style_list}"
 
 
-def write_to_file(filename, content):
+def write_to_file(filename: str, content: str) -> None:
     """Write content to filename"""
     with open(filename, "w") as f:
         f.write(content)
