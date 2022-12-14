@@ -8,7 +8,12 @@ from .table_style import TableStyle
 
 @dataclass
 class Options:
-    """Class for storing options that the user sets"""
+    """Class for storing options that the user sets
+
+    .. versionchanged:: 1.0.0
+
+        Added ``use_wcwidth`` option
+    """
 
     first_col_heading: bool
     last_col_heading: bool
@@ -16,3 +21,4 @@ class Options:
     alignments: list[Alignment] | None
     cell_padding: int
     style: TableStyle
+    use_wcwidth: bool
