@@ -9,7 +9,41 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "table2ascii"
 authors = [{name = "Jonah Lawrence", email = "jonah@freshidea.com"}]
-dynamic = ["version", "description"]
+dynamic = ["version", "description", "readme", "dependencies", "optional-dependencies"]
+requires-python = ">=3.7"
+license = {file = "LICENSE"}
+keywords = ["table", "ascii", "unicode", "formatter"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Multimedia :: Graphics :: Presentation",
+    "Topic :: Utilities",
+    "Topic :: Text Processing :: General",
+    "Topic :: Printing",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+
+
+[project.urls]
+documentation = "https://table2ascii.rtfd.io"
+issue-tracker = "https://github.com/DenverCoder1/table2ascii/issues"
+repository = "https://github.com/DenverCoder1/table2ascii"
 
 
 [tool.black]
