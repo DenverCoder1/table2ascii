@@ -1,7 +1,11 @@
 import pytest
 
 from table2ascii import table2ascii as t2a
-from table2ascii.exceptions import BodyColumnCountMismatchError, FooterColumnCountMismatchError
+from table2ascii.exceptions import (
+    BodyColumnCountMismatchError,
+    FooterColumnCountMismatchError,
+    NoHeaderBodyOrFooterError,
+)
 
 
 def test_header_body_footer():
@@ -115,6 +119,11 @@ def test_footer():
         "╚═════╩═══════════════════════╝"
     )
     assert text == expected
+
+
+def test_no_header_body_or_footer():
+    with pytest.raises(NoHeaderBodyOrFooterError):
+        t2a()
 
 
 def test_header_footer_unequal():

@@ -128,6 +128,19 @@ class ColumnWidthsCountMismatchError(ColumnCountMismatchError):
         )
 
 
+class NoHeaderBodyOrFooterError(TableOptionError):
+    """Exception raised when no header, body or footer is provided
+
+    This class is a subclass of :class:`TableOptionError`.
+    """
+
+    def __init__(self):
+        super().__init__(self._message())
+
+    def _message(self) -> str:
+        return "At least one of header, body or footer must be provided."
+
+
 class InvalidCellPaddingError(TableOptionError):
     """Exception raised when the cell padding is invalid
 
