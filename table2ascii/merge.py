@@ -14,7 +14,7 @@ class Merge(Enum):
 
     Example::
 
-        from table2ascii import table2ascii, Merge, PresetStyle
+        from table2ascii import Merge, PresetStyle, table2ascii
 
         table2ascii(
             header=["Name", "Price", "Category", "Stock"],

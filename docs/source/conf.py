@@ -41,14 +41,13 @@ extensions = [
     "enum_tools.autoenum",
     "sphinxext.opengraph",
     "sphinx_toolbox.more_autodoc.typehints",
+    "sphinx_book_theme",
 ]
 
 intersphinx_mapping = {
     "py": ("https://docs.python.org/3", None),
+    "wcwidth": ("https://wcwidth.readthedocs.io/en/latest/", None),
 }
-
-# Add any paths that contain templates here, relative to this directory.
-templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -57,10 +56,20 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # -- Options for HTML output
 
+html_title = "table2ascii"
+
+html_theme_options = {
+    "repository_url": "https://github.com/DenverCoder1/table2ascii",
+    "path_to_docs": "docs",
+    "use_repository_button": True,
+    "use_issues_button": True,
+    "use_edit_page_button": True,
+}
+
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "sphinx_rtd_theme"
+html_theme = "sphinx_book_theme"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -69,3 +78,16 @@ html_static_path = ["_static"]
 
 # -- Options for EPUB output
 epub_show_urls = "footnote"
+
+
+def uncached(directory, files):
+    """Append last modified date to filenames in order to prevent caching old versions"""
+    return [
+        f'{directory}/{filename}?v={os.path.getmtime(os.path.join("_static", directory, filename))}'
+        for filename in files
+    ]
+
+
+html_css_files = uncached("css", ["custom.css"])
+
+html_js_files = uncached("js", ["darkreader.min.js", "toggleDarkMode.js"])
