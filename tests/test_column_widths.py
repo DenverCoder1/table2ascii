@@ -1,7 +1,11 @@
 import pytest
 
 from table2ascii import table2ascii as t2a
-from table2ascii.exceptions import ColumnWidthsCountMismatchError, ColumnWidthTooSmallError
+from table2ascii.exceptions import (
+    ColumnWidthsCountMismatchError,
+    ColumnWidthTooSmallError,
+    InvalidColumnWidthError,
+)
 
 
 def test_column_widths():
@@ -83,7 +87,7 @@ def test_wrong_number_column_widths():
 
 
 def test_negative_column_widths():
-    with pytest.raises(ColumnWidthTooSmallError):
+    with pytest.raises(InvalidColumnWidthError):
         t2a(
             header=["#", "G", "H", "R", "S"],
             body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
