@@ -1,6 +1,6 @@
 # table2ascii
 
-[![build](https://img.shields.io/github/workflow/status/DenverCoder1/table2ascii/Python%20application/main)](https://github.com/DenverCoder1/table2ascii/actions/workflows/python-app.yml)
+[![build](https://img.shields.io/github/actions/workflow/status/DenverCoder1/table2ascii/python-test.yml?branch=main)](https://github.com/DenverCoder1/table2ascii/actions/workflows/python-app.yml)
 [![version](https://img.shields.io/pypi/v/table2ascii)](https://pypi.org/project/table2ascii/)
 [![downloads](https://static.pepy.tech/personalized-badge/table2ascii?period=total&left_color=grey&right_color=blue&left_text=downloads)](https://pepy.tech/project/table2ascii)
 [![license](https://img.shields.io/pypi/l/table2ascii)](https://github.com/DenverCoder1/table2ascii/blob/main/LICENSE)
