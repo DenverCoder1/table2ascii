@@ -27,7 +27,7 @@ Contents
    styles
 
 
-.. |build| image:: https://img.shields.io/github/workflow/status/DenverCoder1/table2ascii/Python%20application/main
+.. |build| image:: https://img.shields.io/github/actions/workflow/status/DenverCoder1/table2ascii/python-test.yml?branch=main
    :target: https://github.com/DenverCoder1/table2ascii/actions/workflows/python-app.yml
 .. |version| image:: https://img.shields.io/pypi/v/table2ascii
    :target: https://pypi.org/project/table2ascii/
