@@ -256,5 +256,3 @@ def test_multiline_cells():
         "╚═══════════════════════════════════════════╝"
     )
     assert text == expected
-
-
