@@ -16,6 +16,7 @@ from .exceptions import (
     FooterColumnCountMismatchError,
     InvalidAlignmentError,
     InvalidCellPaddingError,
+    InvalidColumnWidthError,
     NoHeaderBodyOrFooterError,
 )
 from .merge import Merge
@@ -150,6 +151,8 @@ class TableToAscii:
                 minimum = column_widths[i]
                 if option is None:
                     option = minimum
+                elif option < 0:
+                    raise InvalidColumnWidthError(i, option)
                 elif option < minimum:
                     raise ColumnWidthTooSmallError(i, option, minimum)
                 column_widths[i] = option

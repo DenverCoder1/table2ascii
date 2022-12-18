@@ -156,7 +156,10 @@ class InvalidCellPaddingError(TableOptionError):
         super().__init__(self._message())
 
     def _message(self) -> str:
-        return f"Invalid cell padding: {self.padding} is not a positive integer."
+        return (
+            f"Invalid cell padding: The cell padding provided was {self.padding} "
+            f"but it must be a non-negative integer."
+        )
 
 
 class ColumnWidthTooSmallError(TableOptionError):
@@ -171,7 +174,7 @@ class ColumnWidthTooSmallError(TableOptionError):
         min_width (int): The minimum width that is allowed
     """
 
-    def __init__(self, column_index: int, column_width: int, min_width: int):
+    def __init__(self, column_index: int, column_width: int, min_width: int | None = None):
         self.column_index = column_index
         self.column_width = column_width
         self.min_width = min_width
@@ -179,9 +182,23 @@ class ColumnWidthTooSmallError(TableOptionError):
 
     def _message(self) -> str:
         return (
-            f"Column width too small: The column width for column index {self.column_index} "
-            f" of `column_widths` is {self.column_width}, but the minimum width "
+            f"Column width too small: The column width for index {self.column_index} "
+            f"of `column_widths` is {self.column_width}, but the minimum width "
             f"required to display the content is {self.min_width}."
+        )
+
+
+class InvalidColumnWidthError(ColumnWidthTooSmallError):
+    """Exception raised when the column width is invalid
+
+    This class is a subclass of :class:`ColumnWidthTooSmallError`.
+    """
+
+    def _message(self) -> str:
+        return (
+            f"Invalid column width: The column width for index {self.column_index} "
+            f"of `column_widths` is {self.column_width}, but the column width "
+            f"must be a positive integer."
         )
 
 
