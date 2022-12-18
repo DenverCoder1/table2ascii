@@ -156,7 +156,10 @@ class InvalidCellPaddingError(TableOptionError):
         super().__init__(self._message())
 
     def _message(self) -> str:
-        return f"Invalid cell padding: {self.padding} is not a positive integer."
+        return (
+            f"Invalid cell padding: The cell padding provided was {self.padding} "
+            f"but it must be a non-negative integer."
+        )
 
 
 class ColumnWidthTooSmallError(TableOptionError):
