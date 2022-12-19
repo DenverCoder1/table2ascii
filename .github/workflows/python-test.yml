@@ -13,7 +13,7 @@ on:
       - main
 
 jobs:
-  build-ubuntu:
+  test-ubuntu:
     runs-on: ubuntu-latest
 
     strategy:
@@ -36,7 +36,7 @@ jobs:
           # remove '.' in python-version and prepend with 'py' to get the correct tox env
           tox -e py$(echo ${{ matrix.python-version }} | sed 's/\.//g')
 
-  build-windows:
+  test-windows:
     runs-on: windows-latest
 
     steps:
