@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "table2ascii"
 authors = [{name = "Jonah Lawrence", email = "jonah@freshidea.com"}]
-dynamic = ["version"]
+version = "1.0.5"
 description = "Convert 2D Python lists into Unicode/ASCII tables"
 readme = "README.md"
 requires-python = ">=3.7"

@@ -24,6 +24,18 @@ Install documentation dependencies with:
 pip install -e ".[docs]"
 ```
 
+Install runtime dependencies with:
+
+```bash
+pip install -e .
+```
+
+All dependencies can be installed at once with:
+
+```bash
+pip install -e ".[dev,docs]"
+```
+
 ### Running the Tests
 
 Run the following command to run the [Tox](https://github.com/tox-dev/tox) test script which will verify that the tested functionality is still working.
