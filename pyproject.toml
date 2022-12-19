@@ -39,7 +39,7 @@ classifiers = [
 ]
 dependencies = [
     "typing-extensions>=3.7.4; python_version<'3.8'",
-    "importlib-metadata>=4.0.1; python_version<'3.8'",
+    "importlib-metadata<5,>=1; python_version<'3.8'",
     "wcwidth<1",
 ]
 
