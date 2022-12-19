@@ -1,15 +1,14 @@
 [build-system]
-requires = [
-    "setuptools>=42",
-    "wheel"
-]
+requires = ["setuptools>=42"]
 build-backend = "setuptools.build_meta"
 
 
 [project]
 name = "table2ascii"
 authors = [{name = "Jonah Lawrence", email = "jonah@freshidea.com"}]
-dynamic = ["version", "description", "readme", "dependencies", "optional-dependencies"]
+dynamic = ["version"]
+description = "Convert 2D Python lists into Unicode/ASCII tables"
+readme = "README.md"
 requires-python = ">=3.7"
 license = {file = "LICENSE"}
 keywords = ["table", "ascii", "unicode", "formatter"]
@@ -38,7 +37,30 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Typing :: Typed",
 ]
+dependencies = [
+    "typing-extensions>=3.7.4; python_version<'3.8'",
+    "wcwidth<1",
+]
 
+[project.optional-dependencies]
+docs = [
+    "enum-tools",
+    "sphinx",
+    "sphinx-autobuild",
+    "sphinx-toolbox",
+    "sphinxcontrib_trio",
+    "sphinxext-opengraph",
+    "sphinx-book-theme==0.3.3",
+]
+dev = [
+    "mypy>=0.982,<1",
+    "pre-commit>=2.0.0,<3",
+    "pyright>=1.0.0,<2",
+    "pytest>=6.0.0,<8",
+    "slotscheck>=0.1.0,<1",
+    "taskipy>=1.0.0,<2",
+    "tox>=3.0.0,<5",
+]
 
 [project.urls]
 documentation = "https://table2ascii.rtfd.io"

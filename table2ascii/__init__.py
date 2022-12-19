@@ -8,7 +8,7 @@ from .preset_style import PresetStyle
 from .table_style import TableStyle
 from .table_to_ascii import table2ascii
 
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 
 __all__ = [
     "Alignment",
