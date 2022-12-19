@@ -18,7 +18,7 @@ def long_description():
     # check if README.md exists
     if not os.path.exists("README.md"):
         return ""
-    with open("README.md", "r") as fh:
+    with open("README.md", "r", encoding="utf-8") as fh:
         return fh.read()
 
 
