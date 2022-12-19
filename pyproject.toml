@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "table2ascii"
 authors = [{name = "Jonah Lawrence", email = "jonah@freshidea.com"}]
-dynamic = ["version", "description", "readme", "dependencies", "optional-dependencies"]
+dynamic = ["version", "description", "readme", "optional-dependencies"]
 requires-python = ">=3.7"
 license = {file = "LICENSE"}
 keywords = ["table", "ascii", "unicode", "formatter"]
@@ -37,6 +37,10 @@ classifiers = [
     "Topic :: Printing",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Typing :: Typed",
+]
+dependencies = [
+    "typing-extensions >= 3.7.4; python_version < '3.8'",
+    "wcwidth < 1",
 ]
 
 
