@@ -15,16 +15,16 @@ class Alignment(IntEnum):
                 ["Cheese", "Dairy", "$10.99", "No"],
                 ["Apples", "Produce", "$0.99", "Yes"],
             ],
-            alignments=[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT, Alignment.LEFT],
+            alignments=[Alignment.LEFT, Alignment.CENTER, Alignment.DECIMAL, Alignment.RIGHT],
         )
 
         \"\"\"
         ╔════════════════════════════════════════╗
         ║ Product   Category    Price   In Stock ║
         ╟────────────────────────────────────────╢
-        ║ Milk       Dairy      $2.99   Yes      ║
-        ║ Cheese     Dairy     $10.99   No       ║
-        ║ Apples    Produce     $0.99   Yes      ║
+        ║ Milk       Dairy      $2.99        Yes ║
+        ║ Cheese     Dairy     $10.99         No ║
+        ║ Apples    Produce     $0.99        Yes ║
         ╚════════════════════════════════════════╝
         \"\"\"
     """
@@ -32,3 +32,4 @@ class Alignment(IntEnum):
     LEFT = 0
     CENTER = 1
     RIGHT = 2
+    DECIMAL = 3

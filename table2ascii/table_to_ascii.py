@@ -67,14 +67,18 @@ class TableToAscii:
         if not header and not body and not footer:
             raise NoHeaderBodyOrFooterError()
 
-        # calculate or use given column widths
-        self.__column_widths = self.__calculate_column_widths(options.column_widths)
-
         self.__alignments = options.alignments or [Alignment.CENTER] * self.__columns
 
         # check if alignments specified have a different number of columns
         if options.alignments and len(options.alignments) != self.__columns:
             raise AlignmentCountMismatchError(options.alignments, self.__columns)
+
+        # keep track of the positions of the decimal points for decimal alignment
+        # this will be calculated and set when __calculate_column_widths() is called
+        self.__decimal_positions = [0] * self.__columns
+
+        # calculate or use given column widths
+        self.__column_widths = self.__calculate_column_widths(options.column_widths)
 
         # check if the cell padding is valid
         if self.__cell_padding < 0:
@@ -125,8 +129,30 @@ class TableToAscii:
             header_size = get_column_width(self.__header, i) if self.__header else 0
             body_size = max(get_column_width(row, i) for row in self.__body) if self.__body else 0
             footer_size = get_column_width(self.__footer, i) if self.__footer else 0
+            min_text_width = max(header_size, body_size, footer_size)
+            # if any columns have Alignment.DECIMAL, calculate based on text before and after the decimal point
+            if self.__alignments[i] == Alignment.DECIMAL:
+                # values in the i-th column of header, body, and footer
+                values = [str(self.__header[i])] if self.__header else []
+                values += [str(row[i]) for row in self.__body] if self.__body else []
+                values += [str(self.__footer[i])] if self.__footer else []
+                # filter out values that are not numbers and split at the decimal point
+                split_values = [
+                    self.__split_decimal(value) for value in values if self.__is_number(value)
+                ]
+                # get the max digits before and after the decimal point, skip if there are no decimal values
+                if len(split_values) > 0:
+                    max_before_decimal = max(self.__str_width(parts[0]) for parts in split_values)
+                    max_after_decimal = max(self.__str_width(parts[1]) for parts in split_values)
+                    # add 1 for the decimal point if there are any decimal point values
+                    has_decimal = any(value.count(".") == 1 for value in values)
+                    decimal_size = max_before_decimal + max_after_decimal + int(has_decimal)
+                    # store the max digits before the decimal point for decimal alignment
+                    self.__decimal_positions[i] = max_before_decimal
+                    # update the min text width if the decimal size is larger
+                    min_text_width = max(min_text_width, decimal_size)
             # get the max and add 2 for padding each side with a space depending on cell padding
-            column_widths.append(max(header_size, body_size, footer_size) + self.__cell_padding * 2)
+            column_widths.append(min_text_width + self.__cell_padding * 2)
         return column_widths
 
     def __calculate_column_widths(
@@ -169,32 +195,44 @@ class TableToAscii:
         if self.__footer and self.__footer[0] == Merge.LEFT:
             self.__footer[0] = ""
 
-    def __pad(self, cell_value: SupportsStr, width: int, alignment: Alignment) -> str:
+    def __pad(self, cell_value: SupportsStr, width: int, col_index: int) -> str:
         """Pad a string of text to a given width with specified alignment
 
         Args:
             cell_value: The text in the cell to pad
             width: The width in characters to pad to
-            alignment: The alignment to use
+            col_index: The index of the column
 
         Returns:
             The padded text
         """
+        alignment = self.__alignments[col_index]
         text = str(cell_value)
         padding = " " * self.__cell_padding
         padded_text = f"{padding}{text}{padding}"
         text_width = self.__str_width(padded_text)
+        # change alignment if decimal alignment is specified and the cell is not a number
+        if alignment == Alignment.DECIMAL and not self.__is_number(text):
+            alignment = Alignment.CENTER
+        # pad the text based on the alignment
         if alignment == Alignment.LEFT:
             # pad with spaces on the end
             return padded_text + (" " * (width - text_width))
-        if alignment == Alignment.CENTER:
+        elif alignment == Alignment.CENTER:
             # pad with spaces, half on each side
             before = " " * floor((width - text_width) / 2)
             after = " " * ceil((width - text_width) / 2)
             return before + padded_text + after
-        if alignment == Alignment.RIGHT:
+        elif alignment == Alignment.RIGHT:
             # pad with spaces at the beginning
             return (" " * (width - text_width)) + padded_text
+        elif alignment == Alignment.DECIMAL:
+            # pad such that the decimal point is aligned to the column's decimal position
+            decimal_position = self.__decimal_positions[col_index]
+            text_before_decimal = self.__split_decimal(text)[0]
+            before = " " * (decimal_position - self.__str_width(text_before_decimal))
+            after = " " * (width - text_width - len(before))
+            return before + padded_text + after
         raise InvalidAlignmentError(alignment)
 
     def __wrap_long_lines_in_merged_cells(
@@ -403,7 +441,7 @@ class TableToAscii:
         return self.__pad(
             cell_value=col_content,
             width=pad_width,
-            alignment=self.__alignments[col_index],
+            col_index=col_index,
         )
 
     def __top_edge_to_ascii(self) -> str:
@@ -529,6 +567,16 @@ class TableToAscii:
         width = wcswidth(text) if self.__use_wcwidth else -1
         # if use_wcwidth is False or wcswidth fails, fall back to len
         return width if width >= 0 else len(text)
+
+    @staticmethod
+    def __is_number(text: str) -> bool:
+        """Returns True if the string is a number, with or without a decimal point"""
+        return text.replace(".", "", 1).isdecimal()
+
+    @staticmethod
+    def __split_decimal(text: str) -> tuple[str, str]:
+        """Splits a string into a tuple of the integer and decimal parts"""
+        return tuple(text.split(".", 1)) if "." in text else (text, "")
 
     def to_ascii(self) -> str:
         """Generates a formatted ASCII table
