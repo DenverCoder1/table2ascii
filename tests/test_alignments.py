@@ -1,6 +1,6 @@
 import pytest
 
-from table2ascii import Alignment, table2ascii as t2a
+from table2ascii import Alignment, PresetStyle, table2ascii as t2a
 from table2ascii.exceptions import AlignmentCountMismatchError, InvalidAlignmentError
 
 
@@ -95,5 +95,28 @@ def test_alignments_multiline_data():
         "║              Break           Cell         ║\n"
         "║                              Broken       ║\n"
         "╚═══════════════════════════════════════════╝"
+    )
+    assert text == expected
+
+
+def test_decimal_alignment():
+    text = t2a(
+        header=["1.1.1", "G", "Long Header", "H", "R", "３.８"],
+        body=[[100.00001, 2, 3.14, 33, "AB", "1.5"], [10.0001, 22.0, 2.718, 3, "CD", "３.０３"]],
+        footer=[10000.01, "123", 10.0, 0, "E", "A"],
+        alignments=[Alignment.DECIMAL] * 6,
+        first_col_heading=True,
+        style=PresetStyle.double_thin_box,
+    )
+    expected = (
+        "╔═════════════╦═══════╤═════════════╤════╤════╤═════════╗\n"
+        "║    1.1.1    ║   G   │ Long Header │ H  │ R  │ ３.８   ║\n"
+        "╠═════════════╬═══════╪═════════════╪════╪════╪═════════╣\n"
+        "║   100.00001 ║   2   │    3.14     │ 33 │ AB │  1.5    ║\n"
+        "╟─────────────╫───────┼─────────────┼────┼────┼─────────╢\n"
+        "║    10.0001  ║  22.0 │    2.718    │  3 │ CD │ ３.０３ ║\n"
+        "╠═════════════╬═══════╪═════════════╪════╪════╪═════════╣\n"
+        "║ 10000.01    ║ 123   │   10.0      │  0 │ E  │    A    ║\n"
+        "╚═════════════╩═══════╧═════════════╧════╧════╧═════════╝"
     )
     assert text == expected
