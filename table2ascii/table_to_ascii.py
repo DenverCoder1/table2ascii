@@ -163,11 +163,10 @@ class TableToAscii:
             max_after_decimal = max(self.__str_width(parts[1]) for parts in split_values)
             # add 1 for the decimal point if there are any decimal point values
             has_decimal = any(self.__is_number(value) and "." in value for value in values)
-            decimal_size = max_before_decimal + max_after_decimal + int(has_decimal)
+            # store the total width of the decimal numbers in the column
+            decimal_widths[i] = max_before_decimal + max_after_decimal + int(has_decimal)
             # store the max digits before the decimal point for decimal alignment
             decimal_positions[i] = max_before_decimal
-            # store the total width of the decimal numbers in the column
-            decimal_widths[i] = decimal_size
         return decimal_widths, decimal_positions
 
     def __calculate_column_widths(
