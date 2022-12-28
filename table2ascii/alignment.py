@@ -4,7 +4,7 @@ from enum import IntEnum
 class Alignment(IntEnum):
     """Enum for text alignment types within a table cell
 
-    Example::
+    A list of alignment types can be used to align each column individually::
 
         from table2ascii import Alignment, table2ascii
 
@@ -15,6 +15,8 @@ class Alignment(IntEnum):
                 ["Cheese", "Dairy", "$10.99", "8.2"],
                 ["Apples", "Produce", "$0.99", "10.00"],
             ],
+            # Align the first column to the left, the second to the center,
+            # the third to the right, and the fourth to the decimal point
             alignments=[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT, Alignment.DECIMAL],
         )
 
@@ -26,6 +28,27 @@ class Alignment(IntEnum):
         ║ Cheese     Dairy     $10.99    8.2     ║
         ║ Apples    Produce     $0.99   10.00    ║
         ╚════════════════════════════════════════╝
+        \"\"\"
+
+    A single alignment type can be used for all columns::
+
+        table2ascii(
+            header=["First Name", "Last Name", "Age"],
+            body=[
+                ["John", "Smith", 30],
+                ["Jane", "Doe", 28],
+            ],
+            # Align all columns to the left
+            alignments=Alignment.LEFT,
+        )
+
+        \"\"\"
+        ╔══════════════════════════════╗
+        ║ First Name   Last Name   Age ║
+        ╟──────────────────────────────╢
+        ║ John         Smith       30  ║
+        ║ Jane         Doe         28  ║
+        ╚══════════════════════════════╝
         \"\"\"
 
     .. note::

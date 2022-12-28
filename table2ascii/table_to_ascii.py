@@ -67,11 +67,16 @@ class TableToAscii:
         if not header and not body and not footer:
             raise NoHeaderBodyOrFooterError()
 
-        self.__alignments = options.alignments or [Alignment.CENTER] * self.__columns
+        alignments = options.alignments if options.alignments is not None else Alignment.CENTER
+
+        # if alignments is a single Alignment, convert it to a list of that Alignment
+        self.__alignments: list[Alignment] = (
+            [alignments] * self.__columns if isinstance(alignments, Alignment) else list(alignments)
+        )
 
         # check if alignments specified have a different number of columns
-        if options.alignments and len(options.alignments) != self.__columns:
-            raise AlignmentCountMismatchError(options.alignments, self.__columns)
+        if len(self.__alignments) != self.__columns:
+            raise AlignmentCountMismatchError(self.__alignments, self.__columns)
 
         # keep track of the number widths and positions of the decimal points for decimal alignment
         decimal_widths, decimal_positions = self.__calculate_decimal_widths_and_positions()
@@ -634,15 +639,12 @@ def table2ascii(
     first_col_heading: bool = False,
     last_col_heading: bool = False,
     column_widths: Sequence[int | None] | None = None,
-    alignments: Sequence[Alignment] | None = None,
+    alignments: Sequence[Alignment] | Alignment | None = None,
     cell_padding: int = 1,
     style: TableStyle = PresetStyle.double_thin_compact,
     use_wcwidth: bool = True,
 ) -> str:
     """Convert a 2D Python table to ASCII text
-
-    .. versionchanged:: 1.0.0
-        Added the ``use_wcwidth`` parameter defaulting to :py:obj:`True`.
 
     Args:
         header: List of column values in the table's header row. All values should be :class:`str`
@@ -660,8 +662,10 @@ def table2ascii(
             is passed instead of a :class:`~collections.abc.Sequence`, all columns will be automatically
             sized. Defaults to :py:obj:`None`.
         alignments: List of alignments for each column
-            (ex. ``[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]``). If not specified or set to
-            :py:obj:`None`, all columns will be center-aligned. Defaults to :py:obj:`None`.
+            (ex. ``[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT, Alignment.DECIMAL]``)
+            or a single alignment to apply to all columns (ex. ``Alignment.LEFT``).
+            If not specified or set to :py:obj:`None`, all columns will be center-aligned.
+            Defaults to :py:obj:`None`.
         cell_padding: The minimum number of spaces to add between the cell content and the column
             separator. If set to ``0``, the cell content will be flush against the column separator.
             Defaults to ``1``.
@@ -672,6 +676,14 @@ def table2ascii(
             (East Asian Wide and East Asian Fullwidth) and zero-width characters (combining characters,
             zero-width space, etc.), whereas :func:`len` determines the width solely based on the number of
             characters in the string. Defaults to :py:obj:`True`.
+
+    .. versionchanged:: 1.1.0
+
+        ``alignments`` can now also be specified as a single :class:`Alignment` value to apply to all columns.
+
+    .. versionchanged:: 1.0.0
+
+        Added the ``use_wcwidth`` parameter defaulting to :py:obj:`True`.
 
     Returns:
         The generated ASCII table

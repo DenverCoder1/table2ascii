@@ -120,3 +120,37 @@ def test_decimal_alignment():
         "╚═════════════╩═══════╧═════════════╧════╧════╧═════════╝"
     )
     assert text == expected
+
+
+def test_single_decimal_alignment():
+    text = t2a(
+        header=["1.1.1", "G", "Long Header"],
+        body=[[100.00001, 2, 3.14], [10.0001, 22.0, 2.718]],
+        alignments=Alignment.DECIMAL,
+    )
+    expected = (
+        "╔════════════════════════════════╗\n"
+        "║   1.1.1      G     Long Header ║\n"
+        "╟────────────────────────────────╢\n"
+        "║ 100.00001    2        3.14     ║\n"
+        "║  10.0001    22.0      2.718    ║\n"
+        "╚════════════════════════════════╝"
+    )
+    assert text == expected
+
+
+def test_single_left_alignment():
+    text = t2a(
+        header=["1.1.1", "G", "Long Header"],
+        body=[[100.00001, 2, 3.14], [10.0001, 22.0, 2.718]],
+        alignments=Alignment.LEFT,
+    )
+    expected = (
+        "╔════════════════════════════════╗\n"
+        "║ 1.1.1       G      Long Header ║\n"
+        "╟────────────────────────────────╢\n"
+        "║ 100.00001   2      3.14        ║\n"
+        "║ 10.0001     22.0   2.718       ║\n"
+        "╚════════════════════════════════╝"
+    )
+    assert text == expected

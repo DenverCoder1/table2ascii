@@ -109,7 +109,7 @@ Use a preset style
         body=[["10", "30", "40", "35"], ["20", "10", "20", "5"]],
         style=PresetStyle.plain,
         cell_padding=0,
-        alignments=[Alignment.LEFT] * 4,
+        alignments=Alignment.LEFT,
     )
 
     print(output)
