@@ -591,7 +591,10 @@ class TableToAscii:
     @staticmethod
     def __split_decimal(text: str) -> tuple[str, str]:
         """Splits a string into a tuple of the integer and decimal parts"""
-        return tuple(text.split(".", 1)) if "." in text else (text, "")
+        if "." in text:
+            before, after = text.split(".", 1)
+            return before, after
+        return text, ""
 
     def to_ascii(self) -> str:
         """Generates a formatted ASCII table
