@@ -661,8 +661,9 @@ def table2ascii(
             indicates that the column width should be determined automatically. If :py:obj:`None`
             is passed instead of a :class:`~collections.abc.Sequence`, all columns will be automatically
             sized. Defaults to :py:obj:`None`.
-        alignments: List of alignments for each column or a single alignment to apply to all columns
-            (ex. ``[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT, Alignment.DECIMAL]``).
+        alignments: List of alignments for each column
+            (ex. ``[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT, Alignment.DECIMAL]``)
+            or a single alignment to apply to all columns (ex. ``Alignment.LEFT``).
             If not specified or set to :py:obj:`None`, all columns will be center-aligned.
             Defaults to :py:obj:`None`.
         cell_padding: The minimum number of spaces to add between the cell content and the column
