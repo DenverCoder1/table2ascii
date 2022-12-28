@@ -9,24 +9,33 @@ class Alignment(IntEnum):
         from table2ascii import Alignment, table2ascii
 
         table2ascii(
-            header=["Product", "Category", "Price", "In Stock"],
+            header=["Product", "Category", "Price", "Rating"],
             body=[
-                ["Milk", "Dairy", "$2.99", "Yes"],
-                ["Cheese", "Dairy", "$10.99", "No"],
-                ["Apples", "Produce", "$0.99", "Yes"],
+                ["Milk", "Dairy", "$2.99", "6.28318"],
+                ["Cheese", "Dairy", "$10.99", "8.2"],
+                ["Apples", "Produce", "$0.99", "10.00"],
             ],
-            alignments=[Alignment.LEFT, Alignment.CENTER, Alignment.DECIMAL, Alignment.RIGHT],
+            alignments=[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT, Alignment.DECIMAL],
         )
 
         \"\"\"
         ╔════════════════════════════════════════╗
-        ║ Product   Category    Price   In Stock ║
+        ║ Product   Category    Price    Rating  ║
         ╟────────────────────────────────────────╢
-        ║ Milk       Dairy      $2.99        Yes ║
-        ║ Cheese     Dairy     $10.99         No ║
-        ║ Apples    Produce     $0.99        Yes ║
+        ║ Milk       Dairy      $2.99    6.28318 ║
+        ║ Cheese     Dairy     $10.99    8.2     ║
+        ║ Apples    Produce     $0.99   10.00    ║
         ╚════════════════════════════════════════╝
         \"\"\"
+
+    .. note::
+
+        If the :attr:`DECIMAL` alignment type is used, any cell values that are
+        not valid decimal numbers will be aligned to the center.
+
+    .. versionchanged:: 1.1.0
+
+        Added :attr:`DECIMAL` alignment type
     """
 
     LEFT = 0

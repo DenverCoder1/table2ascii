@@ -73,9 +73,10 @@ class TableToAscii:
         if options.alignments and len(options.alignments) != self.__columns:
             raise AlignmentCountMismatchError(options.alignments, self.__columns)
 
-        # keep track of the positions of the decimal points for decimal alignment
-        # this will be calculated and set when __calculate_column_widths() is called
-        self.__decimal_positions = [0] * self.__columns
+        # keep track of the number widths and positions of the decimal points for decimal alignment
+        decimal_widths, decimal_positions = self.__calculate_decimal_widths_and_positions()
+        self.__decimal_widths: list[int] = decimal_widths
+        self.__decimal_positions: list[int] = decimal_positions
 
         # calculate or use given column widths
         self.__column_widths = self.__calculate_column_widths(options.column_widths)
@@ -129,31 +130,45 @@ class TableToAscii:
             header_size = get_column_width(self.__header, i) if self.__header else 0
             body_size = max(get_column_width(row, i) for row in self.__body) if self.__body else 0
             footer_size = get_column_width(self.__footer, i) if self.__footer else 0
-            min_text_width = max(header_size, body_size, footer_size)
-            # if any columns have Alignment.DECIMAL, calculate based on text before and after the decimal point
-            if self.__alignments[i] == Alignment.DECIMAL:
-                # values in the i-th column of header, body, and footer
-                values = [str(self.__header[i])] if self.__header else []
-                values += [str(row[i]) for row in self.__body] if self.__body else []
-                values += [str(self.__footer[i])] if self.__footer else []
-                # filter out values that are not numbers and split at the decimal point
-                split_values = [
-                    self.__split_decimal(value) for value in values if self.__is_number(value)
-                ]
-                # get the max digits before and after the decimal point, skip if there are no decimal values
-                if len(split_values) > 0:
-                    max_before_decimal = max(self.__str_width(parts[0]) for parts in split_values)
-                    max_after_decimal = max(self.__str_width(parts[1]) for parts in split_values)
-                    # add 1 for the decimal point if there are any decimal point values
-                    has_decimal = any(value.count(".") == 1 for value in values)
-                    decimal_size = max_before_decimal + max_after_decimal + int(has_decimal)
-                    # store the max digits before the decimal point for decimal alignment
-                    self.__decimal_positions[i] = max_before_decimal
-                    # update the min text width if the decimal size is larger
-                    min_text_width = max(min_text_width, decimal_size)
+            min_text_width = max(header_size, body_size, footer_size, self.__decimal_widths[i])
             # get the max and add 2 for padding each side with a space depending on cell padding
             column_widths.append(min_text_width + self.__cell_padding * 2)
         return column_widths
+
+    def __calculate_decimal_widths_and_positions(self) -> tuple[list[int], list[int]]:
+        """Calculate the positions of the decimal points for decimal alignment.
+
+        Returns:
+            A tuple of the widths of the decimal numbers in each column
+            and the positions of the decimal points in each column
+        """
+        decimal_widths: list[int] = [0] * self.__columns
+        decimal_positions: list[int] = [0] * self.__columns
+        for i in range(self.__columns):
+            if self.__alignments[i] != Alignment.DECIMAL:
+                continue
+            # list all values in the i-th column of header, body, and footer
+            values = [str(self.__header[i])] if self.__header else []
+            values += [str(row[i]) for row in self.__body] if self.__body else []
+            values += [str(self.__footer[i])] if self.__footer else []
+            # filter out values that are not numbers and split at the decimal point
+            split_values = [
+                self.__split_decimal(value) for value in values if self.__is_number(value)
+            ]
+            # skip if there are no decimal values
+            if len(split_values) == 0:
+                continue
+            # get the max number of digits before and after the decimal point
+            max_before_decimal = max(self.__str_width(parts[0]) for parts in split_values)
+            max_after_decimal = max(self.__str_width(parts[1]) for parts in split_values)
+            # add 1 for the decimal point if there are any decimal point values
+            has_decimal = any(self.__is_number(value) and "." in value for value in values)
+            decimal_size = max_before_decimal + max_after_decimal + int(has_decimal)
+            # store the max digits before the decimal point for decimal alignment
+            decimal_positions[i] = max_before_decimal
+            # store the total width of the decimal numbers in the column
+            decimal_widths[i] = decimal_size
+        return decimal_widths, decimal_positions
 
     def __calculate_column_widths(
         self, user_column_widths: Sequence[int | None] | None
@@ -208,17 +223,24 @@ class TableToAscii:
         """
         alignment = self.__alignments[col_index]
         text = str(cell_value)
+        # if using decimal alignment, pad such that the decimal point
+        # is aligned to the column's decimal position
+        if alignment == Alignment.DECIMAL and self.__is_number(text):
+            decimal_position = self.__decimal_positions[col_index]
+            decimal_max_width = self.__decimal_widths[col_index]
+            text_before_decimal = self.__split_decimal(text)[0]
+            before = " " * (decimal_position - self.__str_width(text_before_decimal))
+            after = " " * (decimal_max_width - self.__str_width(text) - len(before))
+            text = f"{before}{text}{after}"
+        # add minimum cell padding around the text
         padding = " " * self.__cell_padding
         padded_text = f"{padding}{text}{padding}"
         text_width = self.__str_width(padded_text)
-        # change alignment if decimal alignment is specified and the cell is not a number
-        if alignment == Alignment.DECIMAL and not self.__is_number(text):
-            alignment = Alignment.CENTER
         # pad the text based on the alignment
         if alignment == Alignment.LEFT:
             # pad with spaces on the end
             return padded_text + (" " * (width - text_width))
-        elif alignment == Alignment.CENTER:
+        elif alignment in (Alignment.CENTER, Alignment.DECIMAL):
             # pad with spaces, half on each side
             before = " " * floor((width - text_width) / 2)
             after = " " * ceil((width - text_width) / 2)
@@ -226,13 +248,6 @@ class TableToAscii:
         elif alignment == Alignment.RIGHT:
             # pad with spaces at the beginning
             return (" " * (width - text_width)) + padded_text
-        elif alignment == Alignment.DECIMAL:
-            # pad such that the decimal point is aligned to the column's decimal position
-            decimal_position = self.__decimal_positions[col_index]
-            text_before_decimal = self.__split_decimal(text)[0]
-            before = " " * (decimal_position - self.__str_width(text_before_decimal))
-            after = " " * (width - text_width - len(before))
-            return before + padded_text + after
         raise InvalidAlignmentError(alignment)
 
     def __wrap_long_lines_in_merged_cells(
