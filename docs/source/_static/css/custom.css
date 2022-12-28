@@ -19,3 +19,8 @@
 :root {
     --pst-font-family-monospace: "Hack", "Source Code Pro", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "Courier", monospace;
 }
+
+/* Adjust margin on version directives within parameter lists */
+div.versionchanged p, div.versionadded p {
+    margin-bottom: 10px;
+}

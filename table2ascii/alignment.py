@@ -53,10 +53,12 @@ class Alignment(IntEnum):
 
     .. note::
 
-        If the :attr:`DECIMAL` alignment type is used, any cell values that are
-        not valid decimal numbers will be aligned to the center. Decimal numbers
-        include integers, floats, and strings containing only
-        :meth:`decimal <str.isdecimal>` characters and at most one decimal point.
+        If :attr:`DECIMAL` is used in the ``number_alignments`` argument to :func:`table2ascii`,
+        all non-numeric values will be aligned according to the ``alignments`` argument.
+        If the :attr:`DECIMAL` alignment type is used in the ``alignments`` argument,
+        all non-numeric values will be aligned to the center.
+        Numeric values include integers, floats, and strings containing only :meth:`decimal <str.isdecimal>`
+        characters and at most one decimal point.
 
     .. versionchanged:: 1.1.0
 
