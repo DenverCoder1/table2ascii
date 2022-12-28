@@ -9,9 +9,9 @@ from .preset_style import PresetStyle
 from .table_style import TableStyle
 from .table_to_ascii import table2ascii
 
-if sys.version_info >= (3, 8):
+try:
     from importlib import metadata
-else:
+except ImportError:  # Python < 3.8
     import importlib_metadata as metadata
 
 __version__ = metadata.version(__name__)

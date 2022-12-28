@@ -2,9 +2,9 @@ import sys
 from abc import abstractmethod
 from typing import TYPE_CHECKING
 
-if sys.version_info >= (3, 8):
+try:
     from typing import Protocol, runtime_checkable
-else:
+except ImportError:  # Python < 3.8
     from typing_extensions import Protocol, runtime_checkable
 
 if TYPE_CHECKING:
