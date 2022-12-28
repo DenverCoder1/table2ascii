@@ -31,11 +31,15 @@ class Alignment(IntEnum):
     .. note::
 
         If the :attr:`DECIMAL` alignment type is used, any cell values that are
-        not valid decimal numbers will be aligned to the center.
+        not valid decimal numbers will be aligned to the center. Decimal numbers
+        include integers, floats, and strings containing only
+        :meth:`decimal <str.isdecimal>` characters and at most one decimal point.
 
     .. versionchanged:: 1.1.0
 
-        Added :attr:`DECIMAL` alignment type
+        Added :attr:`DECIMAL` alignment -- align decimal numbers such that
+        the decimal point is aligned with the decimal point of all other numbers
+        in the same column.
     """
 
     LEFT = 0
