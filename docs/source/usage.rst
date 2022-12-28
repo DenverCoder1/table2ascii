@@ -6,115 +6,119 @@ Convert lists to ASCII tables
 
 .. code:: py
 
-   from table2ascii import table2ascii
+    from table2ascii import table2ascii
 
-   output = table2ascii(
-       header=["#", "G", "H", "R", "S"],
-       body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
-       footer=["SUM", "130", "140", "135", "130"],
-   )
+    output = table2ascii(
+        header=["#", "G", "H", "R", "S"],
+        body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
+        footer=["SUM", "130", "140", "135", "130"],
+    )
 
-   print(output)
+    print(output)
 
-   """
-   ╔═════════════════════════════╗
-   ║  #     G     H     R     S  ║
-   ╟─────────────────────────────╢
-   ║  1    30    40    35    30  ║
-   ║  2    30    40    35    30  ║
-   ╟─────────────────────────────╢
-   ║ SUM   130   140   135   130 ║
-   ╚═════════════════════════════╝
-   """
+    """
+    ╔═════════════════════════════╗
+    ║  #     G     H     R     S  ║
+    ╟─────────────────────────────╢
+    ║  1    30    40    35    30  ║
+    ║  2    30    40    35    30  ║
+    ╟─────────────────────────────╢
+    ║ SUM   130   140   135   130 ║
+    ╚═════════════════════════════╝
+    """
 
 Set first or last column headings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: py
 
-   from table2ascii import table2ascii
+    from table2ascii import table2ascii
 
-   output = table2ascii(
-       body=[["Assignment", "30", "40", "35", "30"], ["Bonus", "10", "20", "5", "10"]],
-       first_col_heading=True,
-   )
+    output = table2ascii(
+        body=[["Assignment", "30", "40", "35", "30"], ["Bonus", "10", "20", "5", "10"]],
+        first_col_heading=True,
+    )
 
-   print(output)
+    print(output)
 
-   """
-   ╔════════════╦═══════════════════╗
-   ║ Assignment ║ 30   40   35   30 ║
-   ║    Bonus   ║ 10   20    5   10 ║
-   ╚════════════╩═══════════════════╝
-   """
+    """
+    ╔════════════╦═══════════════════╗
+    ║ Assignment ║ 30   40   35   30 ║
+    ║    Bonus   ║ 10   20    5   10 ║
+    ╚════════════╩═══════════════════╝
+    """
 
 Set column widths and alignments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: py
 
-   from table2ascii import table2ascii, Alignment
+    from table2ascii import table2ascii, Alignment
 
-   output = table2ascii(
-       header=["#", "G", "H", "R", "S"],
-       body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
-       first_col_heading=True,
-       column_widths=[5, 5, 5, 5, 5],
-       alignments=[Alignment.LEFT] + [Alignment.RIGHT] * 4,
-   )
+    output = table2ascii(
+        header=["Product", "Category", "Price", "Rating"],
+        body=[
+            ["Milk", "Dairy", "$2.99", "6.283"],
+            ["Cheese", "Dairy", "$10.99", "8.2"],
+            ["Apples", "Produce", "$0.99", "10.00"],
+        ],
+        column_widths=[12, 12, 12, 12],
+        alignments=[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT, Alignment.DECIMAL],
+    )
 
-   print(output)
+    print(output)
 
-   """
-   ╔═════╦═══════════════════════╗
-   ║ #   ║   G     H     R     S ║
-   ╟─────╫───────────────────────╢
-   ║ 1   ║  30    40    35    30 ║
-   ║ 2   ║  30    40    35    30 ║
-   ╚═════╩═══════════════════════╝
-   """
+    """
+    ╔═══════════════════════════════════════════════════╗
+    ║ Product       Category         Price     Rating   ║
+    ╟───────────────────────────────────────────────────╢
+    ║ Milk           Dairy           $2.99      6.283   ║
+    ║ Cheese         Dairy          $10.99      8.2     ║
+    ║ Apples        Produce          $0.99     10.00    ║
+    ╚═══════════════════════════════════════════════════╝
+    """
 
 Use a preset style
 ~~~~~~~~~~~~~~~~~~
 
 .. code:: py
 
-   from table2ascii import table2ascii, Alignment, PresetStyle
+    from table2ascii import table2ascii, Alignment, PresetStyle
 
-   output = table2ascii(
-       header=["First", "Second", "Third", "Fourth"],
-       body=[["10", "30", "40", "35"], ["20", "10", "20", "5"]],
-       column_widths=[10, 10, 10, 10],
-       style=PresetStyle.ascii_box
-   )
+    output = table2ascii(
+        header=["First", "Second", "Third", "Fourth"],
+        body=[["10", "30", "40", "35"], ["20", "10", "20", "5"]],
+        column_widths=[10, 10, 10, 10],
+        style=PresetStyle.ascii_box
+    )
 
-   print(output)
+    print(output)
 
-   """
-   +----------+----------+----------+----------+
-   |  First   |  Second  |  Third   |  Fourth  |
-   +----------+----------+----------+----------+
-   |    10    |    30    |    40    |    35    |
-   +----------+----------+----------+----------+
-   |    20    |    10    |    20    |    5     |
-   +----------+----------+----------+----------+
-   """
+    """
+    +----------+----------+----------+----------+
+    |  First   |  Second  |  Third   |  Fourth  |
+    +----------+----------+----------+----------+
+    |    10    |    30    |    40    |    35    |
+    +----------+----------+----------+----------+
+    |    20    |    10    |    20    |    5     |
+    +----------+----------+----------+----------+
+    """
 
-   output = table2ascii(
-       header=["First", "Second", "Third", "Fourth"],
-       body=[["10", "30", "40", "35"], ["20", "10", "20", "5"]],
-       style=PresetStyle.plain,
-       cell_padding=0,
-       alignments=[Alignment.LEFT] * 4,
-   )
+    output = table2ascii(
+        header=["First", "Second", "Third", "Fourth"],
+        body=[["10", "30", "40", "35"], ["20", "10", "20", "5"]],
+        style=PresetStyle.plain,
+        cell_padding=0,
+        alignments=[Alignment.LEFT] * 4,
+    )
 
-   print(output)
+    print(output)
 
-   """
-   First Second Third Fourth
-   10    30     40    35
-   20    10     20    5
-   """
+    """
+    First Second Third Fourth
+    10    30     40    35
+    20    10     20    5
+    """
 
 Define a custom style
 ~~~~~~~~~~~~~~~~~~~~~
@@ -123,27 +127,27 @@ Check :ref:`TableStyle` for more info.
 
 .. code:: py
 
-   from table2ascii import table2ascii, TableStyle
+    from table2ascii import table2ascii, TableStyle
 
-   my_style = TableStyle.from_string("*-..*||:+-+:+     *''*")
+    my_style = TableStyle.from_string("*-..*||:+-+:+     *''*")
 
-   output = table2ascii(
-       header=["First", "Second", "Third"],
-       body=[["10", "30", "40"], ["20", "10", "20"], ["30", "20", "30"]],
-       style=my_style,
-   )
+    output = table2ascii(
+        header=["First", "Second", "Third"],
+        body=[["10", "30", "40"], ["20", "10", "20"], ["30", "20", "30"]],
+        style=my_style,
+    )
 
-   print(output)
+    print(output)
 
-   """
-   *-------.--------.-------*
-   | First : Second : Third |
-   +-------:--------:-------+
-   |  10   :   30   :  40   |
-   |  20   :   10   :  20   |
-   |  30   :   20   :  30   |
-   *-------'--------'-------*
-   """
+    """
+    *-------.--------.-------*
+    | First : Second : Third |
+    +-------:--------:-------+
+    |  10   :   30   :  40   |
+    |  20   :   10   :  20   |
+    |  30   :   20   :  30   |
+    *-------'--------'-------*
+    """
 
 Merge adjacent cells
 ~~~~~~~~~~~~~~~~~~~~

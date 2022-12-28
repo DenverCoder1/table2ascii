@@ -69,22 +69,26 @@ print(output)
 from table2ascii import table2ascii, Alignment
 
 output = table2ascii(
-    header=["#", "G", "H", "R", "S"],
-    body=[["1", "30", "40", "35", "30"], ["2", "30", "40", "35", "30"]],
-    first_col_heading=True,
-    column_widths=[5, 5, 5, 5, 5],
-    alignments=[Alignment.LEFT] + [Alignment.RIGHT] * 4,
+    header=["Product", "Category", "Price", "Rating"],
+    body=[
+        ["Milk", "Dairy", "$2.99", "6.283"],
+        ["Cheese", "Dairy", "$10.99", "8.2"],
+        ["Apples", "Produce", "$0.99", "10.00"],
+    ],
+    column_widths=[12, 12, 12, 12],
+    alignments=[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT, Alignment.DECIMAL],
 )
 
 print(output)
 
 """
-╔═════╦═══════════════════════╗
-║ #   ║   G     H     R     S ║
-╟─────╫───────────────────────╢
-║ 1   ║  30    40    35    30 ║
-║ 2   ║  30    40    35    30 ║
-╚═════╩═══════════════════════╝
+╔═══════════════════════════════════════════════════╗
+║ Product       Category         Price     Rating   ║
+╟───────────────────────────────────────────────────╢
+║ Milk           Dairy           $2.99      6.283   ║
+║ Cheese         Dairy          $10.99      8.2     ║
+║ Apples        Produce          $0.99     10.00    ║
+╚═══════════════════════════════════════════════════╝
 """
 ```
 
@@ -199,18 +203,18 @@ All parameters are optional. At least one of `header`, `body`, and `footer` must
 
 Refer to the [documentation](https://table2ascii.readthedocs.io/en/stable/api.html#table2ascii) for more information.
 
-|       Option        |              Type              |        Default        |                                    Description                                    |
-| :-----------------: | :----------------------------: | :-------------------: | :-------------------------------------------------------------------------------: |
-|      `header`       |    `Sequence[SupportsStr]`     |        `None`         | First table row seperated by header row separator. Values should support `str()`  |
-|       `body`        | `Sequence[Sequence[Sequence]]` |        `None`         | 2D List of rows for the main section of the table. Values should support `str()`  |
-|      `footer`       |      `Sequence[Sequence]`      |        `None`         |  Last table row seperated by header row separator. Values should support `str()`  |
-|   `column_widths`   |   `Sequence[Optional[int]]`    |  `None` (automatic)   |                List of column widths in characters for each column                |
-|    `alignments`     |     `Sequence[Alignment]`      | `None` (all centered) | Column alignments<br/>(ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT]`) |
-|       `style`       |          `TableStyle`          | `double_thin_compact` |                        Table style to use for the table\*                         |
-| `first_col_heading` |             `bool`             |        `False`        |         Whether to add a heading column separator after the first column          |
-| `last_col_heading`  |             `bool`             |        `False`        |         Whether to add a heading column separator before the last column          |
-|   `cell_padding`    |             `int`              |          `1`          | The minimum number of spaces to add between the cell content and the cell border  |
-|    `use_wcwidth`    |             `bool`             |        `True`         |   Whether to use [wcwidth][wcwidth] instead of `len()` to calculate cell width    |
+|       Option        |              Type              |        Default        |                                             Description                                              |
+| :-----------------: | :----------------------------: | :-------------------: | :--------------------------------------------------------------------------------------------------: |
+|      `header`       |    `Sequence[SupportsStr]`     |        `None`         |           First table row seperated by header row separator. Values should support `str()`           |
+|       `body`        | `Sequence[Sequence[Sequence]]` |        `None`         |           2D List of rows for the main section of the table. Values should support `str()`           |
+|      `footer`       |      `Sequence[Sequence]`      |        `None`         |           Last table row seperated by header row separator. Values should support `str()`            |
+|   `column_widths`   |   `Sequence[Optional[int]]`    |  `None` (automatic)   |                         List of column widths in characters for each column                          |
+|    `alignments`     |     `Sequence[Alignment]`      | `None` (all centered) | Column alignments<br/>(ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT, Alignment.DECIMAL]`) |
+|       `style`       |          `TableStyle`          | `double_thin_compact` |                                  Table style to use for the table\*                                  |
+| `first_col_heading` |             `bool`             |        `False`        |                   Whether to add a heading column separator after the first column                   |
+| `last_col_heading`  |             `bool`             |        `False`        |                   Whether to add a heading column separator before the last column                   |
+|   `cell_padding`    |             `int`              |          `1`          |           The minimum number of spaces to add between the cell content and the cell border           |
+|    `use_wcwidth`    |             `bool`             |        `True`         |             Whether to use [wcwidth][wcwidth] instead of `len()` to calculate cell width             |
 
 [wcwidth]: https://pypi.org/project/wcwidth/
 
