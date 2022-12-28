@@ -67,9 +67,11 @@ class TableToAscii:
         if not header and not body and not footer:
             raise NoHeaderBodyOrFooterError()
 
-        self.__alignments = self.__calculate_alignments(options.alignments, Alignment.CENTER)
-        self.__number_alignments = self.__calculate_alignments(
-            options.number_alignments, self.__alignments
+        self.__alignments = self.__determine_alignments(
+            options.alignments, default=Alignment.CENTER
+        )
+        self.__number_alignments = self.__determine_alignments(
+            options.number_alignments, default=self.__alignments
         )
 
         # keep track of the number widths and positions of the decimal points for decimal alignment
@@ -101,21 +103,22 @@ class TableToAscii:
             return len(self.__body[0])
         return 0
 
-    def __calculate_alignments(
+    def __determine_alignments(
         self,
         user_alignments: Sequence[Alignment] | Alignment | None,
-        default_alignments: Sequence[Alignment] | Alignment,
+        *,
+        default: Sequence[Alignment] | Alignment,
     ) -> list[Alignment]:
         """Determine the alignments for each column based on the user provided alignments option.
 
         Args:
             user_alignments: The alignments specified by the user
-            default_alignments: The default alignments to use if user_alignments is None
+            default: The default alignments to use if user_alignments is None
 
         Returns:
             The alignments for each column in the table
         """
-        alignments = user_alignments if user_alignments is not None else default_alignments
+        alignments = user_alignments if user_alignments is not None else default
 
         # if alignments is a single Alignment, convert it to a list of that Alignment
         if isinstance(alignments, Alignment):
