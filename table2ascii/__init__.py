@@ -2,6 +2,7 @@
 table2ascii - Library for converting 2D Python lists to fancy ASCII/Unicode tables
 """
 import sys
+from typing import TYPE_CHECKING
 
 from .alignment import Alignment
 from .merge import Merge
@@ -9,9 +10,9 @@ from .preset_style import PresetStyle
 from .table_style import TableStyle
 from .table_to_ascii import table2ascii
 
-try:
+if TYPE_CHECKING or sys.version_info >= (3, 8):
     from importlib import metadata
-except ImportError:  # Python < 3.8
+else:
     import importlib_metadata as metadata
 
 __version__ = metadata.version(__name__)
