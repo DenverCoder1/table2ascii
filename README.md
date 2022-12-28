@@ -203,18 +203,18 @@ All parameters are optional. At least one of `header`, `body`, and `footer` must
 
 Refer to the [documentation](https://table2ascii.readthedocs.io/en/stable/api.html#table2ascii) for more information.
 
-|       Option        |                            Supported Types                             |                                             Description                                              |
-| :-----------------: | :--------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------: |
-|      `header`       |         `Sequence[SupportsStr]`, `None`<br/>(Default: `None`)          |           First table row seperated by header row separator. Values should support `str()`           |
-|       `body`        |    `Sequence[Sequence[SupportsStr]]`, `None`<br/>(Default: `None`)     |           2D List of rows for the main section of the table. Values should support `str()`           |
-|      `footer`       |         `Sequence[SupportsStr]`, `None`<br/>(Default: `None`)          |           Last table row seperated by header row separator. Values should support `str()`            |
-|   `column_widths`   |       `Sequence[Optional[int]]`, `None`<br/>(Default: automatic)       |                         List of column widths in characters for each column                          |
-|    `alignments`     | `Sequence[Alignment]`, `Alignment`, `None`<br/>(Default: all centered) | Column alignments<br/>(ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT, Alignment.DECIMAL]`) |
-|       `style`       |     `TableStyle`<br/>(Default: `PresetStyle.double_thin_compact`)      |                                  Table style to use for the table\*                                  |
-| `first_col_heading` |                     `bool`<br/>(Default: `False`)                      |                   Whether to add a heading column separator after the first column                   |
-| `last_col_heading`  |                     `bool`<br/>(Default: `False`)                      |                   Whether to add a heading column separator before the last column                   |
-|   `cell_padding`    |                        `int`<br/>(Default: `1`)                        |           The minimum number of spaces to add between the cell content and the cell border           |
-|    `use_wcwidth`    |                        `bool`<br/>(Default: `True`)                        |             Whether to use [wcwidth][wcwidth] instead of `len()` to calculate cell width             |
+|       Option        |                                 Supported Types                                 |                                             Description                                              |
+| :-----------------: | :-----------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------: |
+|      `header`       |              `Sequence[SupportsStr]`, `None`<br/>(Default: `None`)              |           First table row seperated by header row separator. Values should support `str()`           |
+|       `body`        |         `Sequence[Sequence[SupportsStr]]`, `None`<br/>(Default: `None`)         |           2D List of rows for the main section of the table. Values should support `str()`           |
+|      `footer`       |              `Sequence[SupportsStr]`, `None`<br/>(Default: `None`)              |           Last table row seperated by header row separator. Values should support `str()`            |
+|   `column_widths`   |       `Sequence[Optional[int]]`, `None`<br/>(Default: `None` / automatic)       |                         List of column widths in characters for each column                          |
+|    `alignments`     | `Sequence[Alignment]`, `Alignment`, `None`<br/>(Default: `None` / all centered) | Column alignments<br/>(ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT, Alignment.DECIMAL]`) |
+|       `style`       |                `TableStyle`<br/>(Default: `double_thin_compact`)                |                                  Table style to use for the table\*                                  |
+| `first_col_heading` |                          `bool`<br/>(Default: `False`)                          |                   Whether to add a heading column separator after the first column                   |
+| `last_col_heading`  |                          `bool`<br/>(Default: `False`)                          |                   Whether to add a heading column separator before the last column                   |
+|   `cell_padding`    |                            `int`<br/>(Default: `1`)                             |           The minimum number of spaces to add between the cell content and the cell border           |
+|    `use_wcwidth`    |                          `bool`<br/>(Default: `True`)                           |             Whether to use [wcwidth][wcwidth] instead of `len()` to calculate cell width             |
 
 [wcwidth]: https://pypi.org/project/wcwidth/
 
