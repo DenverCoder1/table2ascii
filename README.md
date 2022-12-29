@@ -210,6 +210,7 @@ Refer to the [documentation](https://table2ascii.readthedocs.io/en/stable/api.ht
 |      `footer`       |              `Sequence[SupportsStr]`, `None`<br/>(Default: `None`)              |           Last table row seperated by header row separator. Values should support `str()`            |
 |   `column_widths`   |       `Sequence[Optional[int]]`, `None`<br/>(Default: `None` / automatic)       |                         List of column widths in characters for each column                          |
 |    `alignments`     | `Sequence[Alignment]`, `Alignment`, `None`<br/>(Default: `None` / all centered) | Column alignments<br/>(ex. `[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT, Alignment.DECIMAL]`) |
+| `number_alignments` |        `Sequence[Alignment]`, `Alignment`, `None`<br/>(Default: `None`)         |          Column alignments for numeric values. `alignments` will be used if not specified.           |
 |       `style`       |                `TableStyle`<br/>(Default: `double_thin_compact`)                |                                  Table style to use for the table\*                                  |
 | `first_col_heading` |                          `bool`<br/>(Default: `False`)                          |                   Whether to add a heading column separator after the first column                   |
 | `last_col_heading`  |                          `bool`<br/>(Default: `False`)                          |                   Whether to add a heading column separator before the last column                   |
