@@ -701,8 +701,10 @@ def table2ascii(
                 ``alignments`` can now also be specified as a single :class:`Alignment` value to apply to all columns.
         number_alignments: List of alignments for numeric values in each column or a single alignment
             to apply to all columns. This argument can be used to override the alignment of numbers and
-            is ignored for non-numeric values. If not specified or set to :py:obj:`None`, numbers will be
-            aligned based on the ``alignments`` argument. Defaults to :py:obj:`None`.
+            is ignored for non-numeric values. Numeric values include integers, floats, and strings containing only
+            :meth:`decimal <str.isdecimal>` characters and at most one decimal point.
+            If not specified or set to :py:obj:`None`, numbers will be aligned based on the ``alignments`` argument.
+            Defaults to :py:obj:`None`.
 
             .. versionadded:: 1.1.0
         cell_padding: The minimum number of spaces to add between the cell content and the column
