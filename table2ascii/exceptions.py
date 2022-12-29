@@ -40,7 +40,8 @@ class FooterColumnCountMismatchError(ColumnCountMismatchError):
     This class is a subclass of :class:`ColumnCountMismatchError`.
 
     Attributes:
-        footer (:class:`Sequence <collections.abc.Sequence>`\ [:class:`SupportsStr`]): The footer that caused the error
+        footer (:class:`Sequence <collections.abc.Sequence>`\ [:class:`SupportsStr`]):
+            The footer that caused the error
         expected_columns (:class:`int`): The number of columns that were expected
     """
 
@@ -63,9 +64,11 @@ class BodyColumnCountMismatchError(ColumnCountMismatchError):
     This class is a subclass of :class:`ColumnCountMismatchError`.
 
     Attributes:
-        body (:class:`Sequence <collections.abc.Sequence>`\ [\ :class:`Sequence <collections.abc.Sequence>`\ [:class:`SupportsStr`]]): The body that caused the error
+        body (:class:`Sequence <collections.abc.Sequence>`\ [\ :class:`Sequence <collections.abc.Sequence>`\ [:class:`SupportsStr`]]):
+            The body that caused the error
         expected_columns (:class:`int`): The number of columns that were expected
-        first_invalid_row (:class:`Sequence <collections.abc.Sequence>`\ [:class:`SupportsStr`]): The first row with an invalid column count
+        first_invalid_row (:class:`Sequence <collections.abc.Sequence>`\ [:class:`SupportsStr`]):
+            The first row with an invalid column count
     """
 
     def __init__(self, body: Sequence[Sequence[SupportsStr]], expected_columns: int):
@@ -90,7 +93,8 @@ class AlignmentCountMismatchError(ColumnCountMismatchError):
     This class is a subclass of :class:`ColumnCountMismatchError`.
 
     Attributes:
-        alignments (:class:`Sequence <collections.abc.Sequence>`\ [:class:`Alignment`]): The alignments that caused the error
+        alignments (:class:`Sequence <collections.abc.Sequence>`\ [:class:`Alignment`]):
+            The alignments that caused the error
         expected_columns (:class:`int`): The number of columns that were expected
     """
 

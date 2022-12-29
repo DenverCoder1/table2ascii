@@ -677,11 +677,14 @@ def table2ascii(
     """Convert a 2D Python table to ASCII text
 
     Args:
-        header: List of column values in the table's header row. All values should be :class:`str`
+        header (:data:`Optional <typing.Optional>`\ [:class:`Sequence <collections.abc.Sequence>`\ [:class:`SupportsStr`]]):
+            List of column values in the table's header row. All values should be :class:`str`
             or support :class:`str` conversion. If not specified, the table will not have a header row.
-        body: 2-dimensional list of values in the table's body. All values should be :class:`str`
+        body (:data:`Optional <typing.Optional>`\ [:class:`Sequence <collections.abc.Sequence>`\ [:class:`Sequence <collections.abc.Sequence>`\ [:class:`SupportsStr`]]]):
+            2-dimensional list of values in the table's body. All values should be :class:`str`
             or support :class:`str` conversion. If not specified, the table will not have a body.
-        footer: List of column values in the table's footer row. All values should be :class:`str`
+        footer (:data:`Optional <typing.Optional>`\ [:class:`Sequence <collections.abc.Sequence>`\ [:class:`SupportsStr`]]):
+            List of column values in the table's footer row. All values should be :class:`str`
             or support :class:`str` conversion. If not specified, the table will not have a footer row.
         first_col_heading: Whether to add a header column separator after the first column.
             Defaults to :py:obj:`False`.
@@ -693,8 +696,8 @@ def table2ascii(
             is passed instead of a :class:`~collections.abc.Sequence`, all columns will be automatically
             sized. Defaults to :py:obj:`None`.
         alignments: List of alignments for each column
-            (ex. ``[Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT, Alignment.DECIMAL]``)
-            or a single alignment to apply to all columns (ex. ``Alignment.LEFT``).
+            (ex. [:attr:`Alignment.LEFT`, :attr:`Alignment.CENTER`, :attr:`Alignment.RIGHT`, :attr:`Alignment.DECIMAL`])
+            or a single alignment to apply to all columns (ex. :attr:`Alignment.LEFT`).
             If not specified or set to :py:obj:`None`, all columns will be center-aligned.
             Defaults to :py:obj:`None`.
 
