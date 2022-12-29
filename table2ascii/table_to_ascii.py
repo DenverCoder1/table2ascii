@@ -687,7 +687,8 @@ def table2ascii(
             Defaults to :py:obj:`False`.
         last_col_heading: Whether to add a header column separator before the last column.
             Defaults to :py:obj:`False`.
-        column_widths: List of widths in characters for each column. Any value of :py:obj:`None`
+        column_widths (:data:`Optional <typing.Optional>`\ [:class:`Sequence <collections.abc.Sequence>`\ [:data:`Optional <typing.Optional>`\ [:class:`int`]]]):
+            List of widths in characters for each column. Any value of :py:obj:`None`
             indicates that the column width should be determined automatically. If :py:obj:`None`
             is passed instead of a :class:`~collections.abc.Sequence`, all columns will be automatically
             sized. Defaults to :py:obj:`None`.

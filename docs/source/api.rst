@@ -39,31 +39,38 @@ TableStyle
 Exceptions
 ~~~~~~~~~~
 
-.. autoexception:: table2ascii.exceptions.Table2AsciiError
+.. autoexception:: Table2AsciiError
 
-.. autoexception:: table2ascii.exceptions.TableOptionError
+.. autoexception:: TableOptionError
 
-.. autoexception:: table2ascii.exceptions.ColumnCountMismatchError
+.. autoexception:: ColumnCountMismatchError
 
-.. autoexception:: table2ascii.exceptions.FooterColumnCountMismatchError
+.. autoexception:: FooterColumnCountMismatchError
 
-.. autoexception:: table2ascii.exceptions.BodyColumnCountMismatchError
+.. autoexception:: BodyColumnCountMismatchError
 
-.. autoexception:: table2ascii.exceptions.AlignmentCountMismatchError
+.. autoexception:: AlignmentCountMismatchError
 
-.. autoexception:: table2ascii.exceptions.InvalidCellPaddingError
+.. autoexception:: InvalidCellPaddingError
 
-.. autoexception:: table2ascii.exceptions.ColumnWidthsCountMismatchError
+.. autoexception:: ColumnWidthsCountMismatchError
 
-.. autoexception:: table2ascii.exceptions.ColumnWidthTooSmallError
+.. autoexception:: ColumnWidthTooSmallError
 
-.. autoexception:: table2ascii.exceptions.InvalidColumnWidthError
+.. autoexception:: InvalidColumnWidthError
 
-.. autoexception:: table2ascii.exceptions.InvalidAlignmentError
+.. autoexception:: InvalidAlignmentError
 
-.. autoexception:: table2ascii.exceptions.TableStyleTooLongError
+.. autoexception:: TableStyleTooLongError
 
 Warnings
 ~~~~~~~~
 
-.. autoclass:: table2ascii.exceptions.TableStyleTooShortWarning
+.. autoclass:: TableStyleTooShortWarning
+
+Annotations
+~~~~~~~~~~~
+
+.. autoclass:: SupportsStr
+    
+    .. automethod:: SupportsStr.__str__
