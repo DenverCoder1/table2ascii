@@ -145,7 +145,7 @@ class TableStyle:
 
         Example::
 
-            TableStyle().set(top_left_corner="╔", top_and_bottom_edge="═")
+            TableStyle.from_string("~" * 30).set(left_and_right_edge="", col_sep="")
         """
         for key, value in kwargs.items():
             setattr(self, key, value)

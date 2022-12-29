@@ -10,8 +10,9 @@ else:
 
 @runtime_checkable
 class SupportsStr(Protocol):
-    """An ABC with one abstract method __str__."""
+    """An abstract base class (ABC) with one abstract method :meth:`__str__`"""
 
     @abstractmethod
     def __str__(self) -> str:
+        """Return a string representation of the object"""
         pass

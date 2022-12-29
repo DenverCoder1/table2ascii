@@ -40,8 +40,9 @@ class FooterColumnCountMismatchError(ColumnCountMismatchError):
     This class is a subclass of :class:`ColumnCountMismatchError`.
 
     Attributes:
-        footer (Sequence[SupportsStr]): The footer that caused the error
-        expected_columns (int): The number of columns that were expected
+        footer (:class:`Sequence <collections.abc.Sequence>`\ [:class:`SupportsStr`]):
+            The footer that caused the error
+        expected_columns (:class:`int`): The number of columns that were expected
     """
 
     def __init__(self, footer: Sequence[SupportsStr], expected_columns: int):
@@ -63,9 +64,11 @@ class BodyColumnCountMismatchError(ColumnCountMismatchError):
     This class is a subclass of :class:`ColumnCountMismatchError`.
 
     Attributes:
-        body (Sequence[Sequence[SupportsStr]]): The body that caused the error
-        expected_columns (int): The number of columns that were expected
-        first_invalid_row (Sequence[SupportsStr]): The first row with an invalid column count
+        body (:class:`Sequence <collections.abc.Sequence>`\ [\ :class:`Sequence <collections.abc.Sequence>`\ [:class:`SupportsStr`]]):
+            The body that caused the error
+        expected_columns (:class:`int`): The number of columns that were expected
+        first_invalid_row (:class:`Sequence <collections.abc.Sequence>`\ [:class:`SupportsStr`]):
+            The first row with an invalid column count
     """
 
     def __init__(self, body: Sequence[Sequence[SupportsStr]], expected_columns: int):
@@ -90,8 +93,9 @@ class AlignmentCountMismatchError(ColumnCountMismatchError):
     This class is a subclass of :class:`ColumnCountMismatchError`.
 
     Attributes:
-        alignments (Sequence[Alignment]): The alignments that caused the error
-        expected_columns (int): The number of columns that were expected
+        alignments (:class:`Sequence <collections.abc.Sequence>`\ [:class:`Alignment`]):
+            The alignments that caused the error
+        expected_columns (:class:`int`): The number of columns that were expected
     """
 
     def __init__(self, alignments: Sequence[Alignment], expected_columns: int):
@@ -113,8 +117,9 @@ class ColumnWidthsCountMismatchError(ColumnCountMismatchError):
     This class is a subclass of :class:`ColumnCountMismatchError`.
 
     Attributes:
-        column_widths (Sequence[Optional[int]]): The column widths that caused the error
-        expected_columns (int): The number of columns that were expected
+        column_widths (:class:`Sequence <collections.abc.Sequence>`\ [:data:`Optional <typing.Optional>`\ [:class:`int`]]):
+            The column widths that caused the error
+        expected_columns (:class:`int`): The number of columns that were expected
     """
 
     def __init__(self, column_widths: Sequence[int | None], expected_columns: int):
@@ -148,7 +153,7 @@ class InvalidCellPaddingError(TableOptionError):
     This class is a subclass of :class:`TableOptionError`.
 
     Attributes:
-        padding (int): The padding that caused the error
+        padding (:class:`int`): The padding that caused the error
     """
 
     def __init__(self, padding: int):
@@ -169,9 +174,9 @@ class ColumnWidthTooSmallError(TableOptionError):
     This class is a subclass of :class:`TableOptionError`.
 
     Attributes:
-        column_index (int): The index of the column that caused the error
-        column_width (int): The column width that caused the error
-        min_width (int): The minimum width that is allowed
+        column_index (:class:`int`): The index of the column that caused the error
+        column_width (:class:`int`): The column width that caused the error
+        min_width (:class:`int`): The minimum width that is allowed
     """
 
     def __init__(self, column_index: int, column_width: int, min_width: int | None = None):
@@ -208,7 +213,7 @@ class InvalidAlignmentError(TableOptionError):
     This class is a subclass of :class:`TableOptionError`.
 
     Attributes:
-        alignment (Any): The alignment value that caused the error
+        alignment (:data:`Any <typing.Any>`): The alignment value that caused the error
     """
 
     def __init__(self, alignment: Any):
@@ -230,8 +235,8 @@ class TableStyleTooLongError(Table2AsciiError, ValueError):
     This class is a subclass of :class:`Table2AsciiError` and :class:`ValueError`.
 
     Attributes:
-        string (str): The string that caused the error
-        max_characters (int): The maximum number of characters that are allowed
+        string (:class:`str`): The string that caused the error
+        max_characters (:class:`int`): The maximum number of characters that are allowed
     """
 
     def __init__(self, string: str, max_characters: int):
@@ -256,8 +261,8 @@ class TableStyleTooShortWarning(UserWarning):
     It can be silenced using :func:`warnings.filterwarnings`.
 
     Attributes:
-        string (str): The string that caused the warning
-        max_characters (int): The number of characters that :class:`TableStyle` accepts
+        string (:class:`str`): The string that caused the warning
+        max_characters (:class:`int`): The number of characters that :class:`TableStyle` accepts
     """
 
     def __init__(self, string: str, max_characters: int):
