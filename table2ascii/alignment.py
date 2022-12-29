@@ -30,7 +30,7 @@ class Alignment(IntEnum):
         ╚════════════════════════════════════════╝
         \"\"\"
 
-    A single alignment type can be used for all columns::
+    A single alignment type can be used to align all columns::
 
         table2ascii(
             header=["First Name", "Last Name", "Age"],
@@ -38,16 +38,16 @@ class Alignment(IntEnum):
                 ["John", "Smith", 30],
                 ["Jane", "Doe", 28],
             ],
-            # Align all columns to the left
-            alignments=Alignment.LEFT,
+            alignments=Alignment.LEFT,  # Align all columns to the left
+            number_alignments=Alignment.RIGHT,  # Align all numeric values to the right
         )
 
         \"\"\"
         ╔══════════════════════════════╗
         ║ First Name   Last Name   Age ║
         ╟──────────────────────────────╢
-        ║ John         Smith       30  ║
-        ║ Jane         Doe         28  ║
+        ║ John         Smith        30 ║
+        ║ Jane         Doe          28 ║
         ╚══════════════════════════════╝
         \"\"\"
 
