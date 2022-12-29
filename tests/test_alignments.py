@@ -25,7 +25,7 @@ def test_first_left_four_right():
     assert text == expected
 
 
-def test_wrong_number_alignments():
+def test_wrong_number_of_alignments():
     with pytest.raises(AlignmentCountMismatchError):
         t2a(
             header=["#", "G", "H", "R", "S"],
@@ -152,5 +152,41 @@ def test_single_left_alignment():
         "║ 100.00001   2      3.14        ║\n"
         "║ 10.0001     22.0   2.718       ║\n"
         "╚════════════════════════════════╝"
+    )
+    assert text == expected
+
+
+def test_number_alignments():
+    text = t2a(
+        header=["1.1.1", "G", "Long Header", "Another Long Header"],
+        body=[[100.00001, 2, 3.14, 6.28], [10.0001, 22.0, 2.718, 1.618]],
+        alignments=[Alignment.LEFT, Alignment.RIGHT, Alignment.CENTER, Alignment.RIGHT],
+        number_alignments=[Alignment.DECIMAL, Alignment.LEFT, Alignment.RIGHT, Alignment.DECIMAL],
+    )
+    expected = (
+        "╔══════════════════════════════════════════════════════╗\n"
+        "║ 1.1.1          G   Long Header   Another Long Header ║\n"
+        "╟──────────────────────────────────────────────────────╢\n"
+        "║ 100.00001   2             3.14                 6.28  ║\n"
+        "║  10.0001    22.0         2.718                 1.618 ║\n"
+        "╚══════════════════════════════════════════════════════╝"
+    )
+    assert text == expected
+
+
+def test_single_number_alignments():
+    text = t2a(
+        header=["1.1.1", "G", "Long Header", "S"],
+        body=[[100.00001, 2, 3.14, 6.28], [10.0001, 22.0, 2.718, 1.618]],
+        alignments=[Alignment.LEFT, Alignment.CENTER, Alignment.CENTER, Alignment.RIGHT],
+        number_alignments=Alignment.RIGHT,
+    )
+    expected = (
+        "╔════════════════════════════════════════╗\n"
+        "║ 1.1.1        G     Long Header       S ║\n"
+        "╟────────────────────────────────────────╢\n"
+        "║ 100.00001      2          3.14    6.28 ║\n"
+        "║   10.0001   22.0         2.718   1.618 ║\n"
+        "╚════════════════════════════════════════╝"
     )
     assert text == expected

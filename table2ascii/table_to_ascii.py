@@ -67,16 +67,12 @@ class TableToAscii:
         if not header and not body and not footer:
             raise NoHeaderBodyOrFooterError()
 
-        alignments = options.alignments if options.alignments is not None else Alignment.CENTER
-
-        # if alignments is a single Alignment, convert it to a list of that Alignment
-        self.__alignments: list[Alignment] = (
-            [alignments] * self.__columns if isinstance(alignments, Alignment) else list(alignments)
+        self.__alignments = self.__determine_alignments(
+            options.alignments, default=Alignment.CENTER
         )
-
-        # check if alignments specified have a different number of columns
-        if len(self.__alignments) != self.__columns:
-            raise AlignmentCountMismatchError(self.__alignments, self.__columns)
+        self.__number_alignments = self.__determine_alignments(
+            options.number_alignments, default=self.__alignments
+        )
 
         # keep track of the number widths and positions of the decimal points for decimal alignment
         decimal_widths, decimal_positions = self.__calculate_decimal_widths_and_positions()
@@ -106,6 +102,33 @@ class TableToAscii:
         if self.__body and len(self.__body) > 0:
             return len(self.__body[0])
         return 0
+
+    def __determine_alignments(
+        self,
+        user_alignments: Sequence[Alignment] | Alignment | None,
+        *,
+        default: Sequence[Alignment] | Alignment,
+    ) -> list[Alignment]:
+        """Determine the alignments for each column based on the user provided alignments option.
+
+        Args:
+            user_alignments: The alignments specified by the user
+            default: The default alignments to use if user_alignments is None
+
+        Returns:
+            The alignments for each column in the table
+        """
+        alignments = user_alignments if user_alignments is not None else default
+
+        # if alignments is a single Alignment, convert it to a list of that Alignment
+        if isinstance(alignments, Alignment):
+            alignments = [alignments] * self.__columns
+
+        # check if alignments specified have a different number of columns
+        if len(alignments) != self.__columns:
+            raise AlignmentCountMismatchError(alignments, self.__columns)
+
+        return list(alignments)
 
     def __auto_column_widths(self) -> list[int]:
         """Get the minimum number of characters needed for the values in each column in the table
@@ -150,7 +173,8 @@ class TableToAscii:
         decimal_widths: list[int] = [0] * self.__columns
         decimal_positions: list[int] = [0] * self.__columns
         for i in range(self.__columns):
-            if self.__alignments[i] != Alignment.DECIMAL:
+            # skip if the column is not decimal aligned
+            if self.__number_alignments[i] != Alignment.DECIMAL:
                 continue
             # list all values in the i-th column of header, body, and footer
             values = [str(self.__header[i])] if self.__header else []
@@ -227,15 +251,20 @@ class TableToAscii:
         """
         alignment = self.__alignments[col_index]
         text = str(cell_value)
-        # if using decimal alignment, pad such that the decimal point
-        # is aligned to the column's decimal position
-        if alignment == Alignment.DECIMAL and self.__is_number(text):
-            decimal_position = self.__decimal_positions[col_index]
-            decimal_max_width = self.__decimal_widths[col_index]
-            text_before_decimal = self.__split_decimal(text)[0]
-            before = " " * (decimal_position - self.__str_width(text_before_decimal))
-            after = " " * (decimal_max_width - self.__str_width(text) - len(before))
-            text = f"{before}{text}{after}"
+        # set alignment for numeric values
+        if self.__is_number(text):
+            # if the number alignment is decimal, pad such that the decimal point
+            # is aligned to the column's decimal position and use the default alignment
+            if self.__number_alignments[col_index] == Alignment.DECIMAL:
+                decimal_position = self.__decimal_positions[col_index]
+                decimal_max_width = self.__decimal_widths[col_index]
+                text_before_decimal = self.__split_decimal(text)[0]
+                before = " " * (decimal_position - self.__str_width(text_before_decimal))
+                after = " " * (decimal_max_width - self.__str_width(text) - len(before))
+                text = f"{before}{text}{after}"
+            # otherwise use the number alignment as the alignment for the cell
+            else:
+                alignment = self.__number_alignments[col_index]
         # add minimum cell padding around the text
         padding = " " * self.__cell_padding
         padded_text = f"{padding}{text}{padding}"
@@ -640,6 +669,7 @@ def table2ascii(
     last_col_heading: bool = False,
     column_widths: Sequence[int | None] | None = None,
     alignments: Sequence[Alignment] | Alignment | None = None,
+    number_alignments: Sequence[Alignment] | Alignment | None = None,
     cell_padding: int = 1,
     style: TableStyle = PresetStyle.double_thin_compact,
     use_wcwidth: bool = True,
@@ -666,6 +696,17 @@ def table2ascii(
             or a single alignment to apply to all columns (ex. ``Alignment.LEFT``).
             If not specified or set to :py:obj:`None`, all columns will be center-aligned.
             Defaults to :py:obj:`None`.
+
+            .. versionchanged:: 1.1.0
+                ``alignments`` can now also be specified as a single :class:`Alignment` value to apply to all columns.
+        number_alignments: List of alignments for numeric values in each column or a single alignment
+            to apply to all columns. This argument can be used to override the alignment of numbers and
+            is ignored for non-numeric values. Numeric values include integers, floats, and strings containing only
+            :meth:`decimal <str.isdecimal>` characters and at most one decimal point.
+            If not specified or set to :py:obj:`None`, numbers will be aligned based on the ``alignments`` argument.
+            Defaults to :py:obj:`None`.
+
+            .. versionadded:: 1.1.0
         cell_padding: The minimum number of spaces to add between the cell content and the column
             separator. If set to ``0``, the cell content will be flush against the column separator.
             Defaults to ``1``.
@@ -677,13 +718,7 @@ def table2ascii(
             zero-width space, etc.), whereas :func:`len` determines the width solely based on the number of
             characters in the string. Defaults to :py:obj:`True`.
 
-    .. versionchanged:: 1.1.0
-
-        ``alignments`` can now also be specified as a single :class:`Alignment` value to apply to all columns.
-
-    .. versionchanged:: 1.0.0
-
-        Added the ``use_wcwidth`` parameter defaulting to :py:obj:`True`.
+            .. versionadded:: 1.0.0
 
     Returns:
         The generated ASCII table
@@ -697,6 +732,7 @@ def table2ascii(
             last_col_heading=last_col_heading,
             column_widths=column_widths,
             alignments=alignments,
+            number_alignments=number_alignments,
             cell_padding=cell_padding,
             style=style,
             use_wcwidth=use_wcwidth,
