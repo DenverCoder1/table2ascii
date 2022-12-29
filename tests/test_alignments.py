@@ -172,3 +172,21 @@ def test_number_alignments():
         "╚══════════════════════════════════════════════════════╝"
     )
     assert text == expected
+
+
+def test_single_number_alignments():
+    text = t2a(
+        header=["1.1.1", "G", "Long Header", "S"],
+        body=[[100.00001, 2, 3.14, 6.28], [10.0001, 22.0, 2.718, 1.618]],
+        alignments=[Alignment.LEFT, Alignment.CENTER, Alignment.CENTER, Alignment.RIGHT],
+        number_alignments=Alignment.RIGHT,
+    )
+    expected = (
+        "╔════════════════════════════════════════╗\n"
+        "║ 1.1.1        G     Long Header       S ║\n"
+        "╟────────────────────────────────────────╢\n"
+        "║ 100.00001      2          3.14    6.28 ║\n"
+        "║   10.0001   22.0         2.718   1.618 ║\n"
+        "╚════════════════════════════════════════╝"
+    )
+    assert text == expected
