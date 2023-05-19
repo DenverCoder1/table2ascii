@@ -37,36 +37,45 @@ class TableStyle:
         ║ SUM ║ 130 │ 140 │ 135 │ 130 ║
         ╚═════╩═════╧═════╧═════╧═════╝
 
-    In addition to the parts above, W-Z and the four fields that follow
-    (labeled 0-3) are used for top and bottom edges of merged cells as shown:
+    In addition to the parts above, W-Z and 0-3 are used for top and bottom
+    edges of merged-left cells, and 4-7 are used for left and right edges
+    of merged-up cells, as shown:
 
     .. code-block::
 
-        ╔══════════════╤══════╤══════╗
-        ║    Header    │      │      ║
-        ╠══════[2]═════╪═════[Z]═════╣
-        ║       ║      │             ║
-        ╟──────[1]─────┼─────────────╢
-        ║              │             ║
-        ╟──────[0]─────┼─────[W]─────╢
-        ║       ║      │      │      ║
-        ╟───────╫──────┼─────[X]─────╢
-        ║       ║      │             ║
-        ╠══════[3]═════╪═════[Y]═════╣
-        ║    Footer    │      │      ║
-        ╚══════════════╧══════╧══════╝
+        ╔═════════╤════╤════╤═══╤═══╗
+        ║ Header  │    │    │   │   ║
+        ╠═══[2]═══╪═══[Z]═══╡  [6]══╣
+        ║    ║    │         │   │   ║
+        ╟───[1]──[5]       [4]──┼───╢
+        ║         │         │   │   ║
+        ╟───[0]───┼───[W]───┼───┼───╢
+        ║    ║    │    │    │   │   ║
+        ╟────╫────┼───[X]───┼───┼───╢
+        ║    ║    │         │   │   ║
+        ╠═══[3]═══╪═══[Y]══[7]  ├───╢
+        ║ Footer  │    │    │   │   ║
+        ╚═════════╧════╧════╧═══╧═══╝
 
         [W] = ┬ [X] = ┴ [Y] = ╤ [Z] = ╧
         [0] = ╥ [1] = ╨ [2] = ╦ [3] = ╩
+        [4] = ├ [5] = ┤ [6] = ╞ [7] = ╡
 
     .. versionchanged:: 1.0.0
 
-        Added fields for edges of merged cells:
+        Added fields for edges of merged-left cells:
 
         ``col_row_top_tee``, ``col_row_bottom_tee``, ``heading_row_top_tee``,
         ``heading_row_bottom_tee``, ``heading_col_body_row_top_tee``,
         ``heading_col_body_row_bottom_tee``, ``heading_col_heading_row_top_tee``,
         ``heading_col_heading_row_bottom_tee``
+
+    .. versionchanged:: 2.0.0
+
+        Added fields for edges of merged-up cells:
+
+        ``col_row_left_tee``, ``col_row_right_tee``, ``col_heading_row_left_tee``,
+        ``col_heading_row_right_tee``
     """
 
     # parts of the table
@@ -100,6 +109,10 @@ class TableStyle:
     heading_col_body_row_bottom_tee: str  # 1
     heading_col_heading_row_top_tee: str  # 2
     heading_col_heading_row_bottom_tee: str  # 3
+    col_row_left_tee: str  # 4
+    col_row_right_tee: str  # 5
+    col_heading_row_left_tee: str  # 6
+    col_heading_row_right_tee: str  # 7
 
     @classmethod
     def from_string(cls, string: str) -> "TableStyle":
@@ -119,7 +132,7 @@ class TableStyle:
 
         Example::
 
-            TableStyle.from_string("╔═╦╤╗║║│╠═╬╪╣╟─╫┼╢╚╩╧╝┬┴╤╧╥╨╦╩")
+            TableStyle.from_string("╔═╦╤╗║║│╠═╬╪╣╟─╫┼╢╚╩╧╝┬┴╤╧╥╨╦╩├┤╞╡")
 
         Raises:
             TableStyleTooLongError: If the string is too long

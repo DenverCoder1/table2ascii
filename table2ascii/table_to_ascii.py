@@ -416,6 +416,43 @@ class TableToAscii:
         Returns:
             The column in the ascii table
         """
+        # set values for checking for merged cells
+        next_value = prev_row_next_value = next_row_next_value = None
+        next_row_value = next_content_row[col_index] if next_content_row else None
+        if col_index < self.__columns - 1:
+            next_value = filler[col_index + 1] if isinstance(filler, list) else None
+            prev_row_next_value = (
+                previous_content_row[col_index + 1] if previous_content_row else None
+            )
+            next_row_next_value = next_content_row[col_index + 1] if next_content_row else None
+
+        # change separators and fillers if the cell below is merged up
+        above_merged_up_cell = False
+        next_column_above_merged_up_cell = False
+        is_heading_column = (col_index == 0 and self.__first_col_heading) or (
+            col_index == self.__columns - 2 and self.__last_col_heading
+        )
+        is_heading_row = previous_content_row == self.__header or next_content_row == self.__footer
+        if column_separator != " " and next_row_value is Merge.UP:
+            above_merged_up_cell = True
+            filler = " "
+            column_separator = self.__style.col_row_left_tee
+            if is_heading_row:
+                column_separator = self.__style.col_heading_row_left_tee
+        if column_separator != " " and next_row_next_value is Merge.UP:
+            next_column_above_merged_up_cell = True
+            column_separator = self.__style.col_row_right_tee
+            if is_heading_row and is_heading_column:
+                column_separator = self.__style.heading_row_right_tee
+            elif is_heading_column:
+                column_separator = self.__style.row_right_tee
+            elif is_heading_row:
+                column_separator = self.__style.col_heading_row_right_tee
+        if column_separator != " " and above_merged_up_cell and next_column_above_merged_up_cell:
+            column_separator = self.__style.col_sep
+            if is_heading_column:
+                column_separator = self.__style.heading_col_sep
+
         output = ""
         col_content = (
             # if filler is a separator character, repeat it for the full width of the column
@@ -430,17 +467,9 @@ class TableToAscii:
             )
         )
         output += col_content
-        # check for merged cells
-        next_value = prev_row_next_value = next_row_next_value = None
-        if col_index < self.__columns - 1:
-            next_value = filler[col_index + 1] if isinstance(filler, list) else None
-            prev_row_next_value = (
-                previous_content_row[col_index + 1] if previous_content_row else None
-            )
-            next_row_next_value = next_content_row[col_index + 1] if next_content_row else None
         # column separator
         sep = column_separator
-        # handle separators between rows when previous or next row is a merged cell
+        # handle separators between rows when previous or next row is a merged-left cell
         if top_tee and prev_row_next_value is Merge.LEFT:
             sep = top_tee
         if bottom_tee and next_row_next_value is Merge.LEFT:
@@ -452,9 +481,7 @@ class TableToAscii:
         ):
             sep = filler
         # use column heading if first or last column option is specified
-        if (col_index == 0 and self.__first_col_heading) or (
-            col_index == self.__columns - 2 and self.__last_col_heading
-        ):
+        if is_heading_column and not next_column_above_merged_up_cell:
             sep = heading_col_sep
             # handle separators between rows when previous or next row is a merged cell
             if heading_col_top_tee and prev_row_next_value is Merge.LEFT:
@@ -464,6 +491,8 @@ class TableToAscii:
         # replace last separator with symbol for edge of the row
         elif col_index == self.__columns - 1:
             sep = right_edge
+            if above_merged_up_cell:
+                sep = self.__style.left_and_right_edge
         # if this is cell contents and the next column is Merge.LEFT, don't add a separator
         if next_value is Merge.LEFT:
             sep = ""

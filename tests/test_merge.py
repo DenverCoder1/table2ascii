@@ -173,3 +173,69 @@ def test_row_beginning_with_merge():
         "╚═══════╧═══╧═══╝"
     )
     assert text == expected
+
+
+def test_merge_up():
+    text = t2a(
+        header=["0", "1", "A", "B", "C", "D"],
+        body=[
+            ["A", Merge.UP, "C", Merge.UP, Merge.UP, Merge.UP],
+            ["D", Merge.LEFT, "E", Merge.LEFT, "F", "G"],
+            ["F", "G", "H", "I", "J", "K"],
+            ["J", Merge.UP, "L", "M", Merge.UP, Merge.UP],
+        ],
+        column_widths=[5] * 6,
+        footer=["Footer", Merge.LEFT, Merge.UP, "N", "O", Merge.UP],
+        first_col_heading=True,
+        last_col_heading=True,
+        style=PresetStyle.double_thin_box,
+    )
+    expected = (
+        "╔═════╦═════╤═════╤═════╤═════╦═════╗\n"
+        "║  0  ║  1  │  A  │  B  │  C  ║  D  ║\n"
+        "╠═════╣     ╞═════╡     │     ║     ║\n"
+        "║  A  ║     │  C  │     │     ║     ║\n"
+        "╟─────╨─────┼─────┴─────┼─────╫─────╢\n"
+        "║     D     │     E     │  F  ║  G  ║\n"
+        "╟─────╥─────┼─────┬─────┼─────╫─────╢\n"
+        "║  F  ║  G  │  H  │  I  │  J  ║  K  ║\n"
+        "╟─────╢     ├─────┼─────┤     ║     ║\n"
+        "║  J  ║     │  L  │  M  │     ║     ║\n"
+        "╠═════╩═════╡     ╞═════╪═════╣     ║\n"
+        "║  Footer   │     │  N  │  O  ║     ║\n"
+        "╚═══════════╧═════╧═════╧═════╩═════╝"
+    )
+    assert text == expected
+
+
+def test_merge_left_and_up_square():
+    text = t2a(
+        header=["0", "1", "A", "B", "C", "D"],
+        body=[
+            ["A", Merge.UP, "C", Merge.UP, Merge.UP, Merge.UP],
+            ["D", Merge.LEFT, "E", Merge.LEFT, "F", "G"],
+            ["F", "G", Merge.UP, Merge.UP, "J", "K"],
+            ["J", Merge.UP, "L", "M", Merge.UP, Merge.UP],
+        ],
+        column_widths=[5] * 6,
+        footer=["Footer", Merge.LEFT, Merge.UP, "N", "O", Merge.UP],
+        first_col_heading=True,
+        last_col_heading=True,
+        style=PresetStyle.double_thin_box,
+    )
+    expected = (
+        "╔═════╦═════╤═════╤═════╤═════╦═════╗\n"
+        "║  0  ║  1  │  A  │  B  │  C  ║  D  ║\n"
+        "╠═════╣     ╞═════╡     │     ║     ║\n"
+        "║  A  ║     │  C  │     │     ║     ║\n"
+        "╟─────╨─────┼─────┴─────┼─────╫─────╢\n"
+        "║     D     │     E     │  F  ║  G  ║\n"
+        "╟─────╥─────┤           ├─────╫─────╢\n"
+        "║  F  ║  G  │           │  J  ║  K  ║\n"
+        "╟─────╢     ├─────┬─────┤     ║     ║\n"
+        "║  J  ║     │  L  │  M  │     ║     ║\n"
+        "╠═════╩═════╡     ╞═════╪═════╣     ║\n"
+        "║  Footer   │     │  N  │  O  ║     ║\n"
+        "╚═══════════╧═════╧═════╧═════╩═════╝"
+    )
+    assert text == expected

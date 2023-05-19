@@ -12,6 +12,9 @@ class Merge(Enum):
     the merged cell will be wrapped onto multiple lines. The ``column_widths``
     option can be used to control the widths of the unmerged cells.
 
+    Using :attr:`Merge.UP` in a table cell will merge the cell it is used in
+    with the cell above it.
+
     Example::
 
         from table2ascii import Merge, PresetStyle, table2ascii
@@ -35,9 +38,14 @@ class Merge(Enum):
         \"\"\"
 
     .. versionadded:: 1.0.0
+
+    .. versionchanged:: 2.0.0
+
+        Added :attr:`Merge.UP` option.
     """
 
     LEFT = 0
+    UP = 1
 
     def __str__(self) -> str:
         return ""
