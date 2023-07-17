@@ -37,7 +37,6 @@ def get_dependencies():
 try:
     # check if pyproject.toml can be used to install dependencies and set the version
     setup(
-        name=get_name(),
         packages=[get_name()],
         package_data={get_name(): ["py.typed"]},
     )
