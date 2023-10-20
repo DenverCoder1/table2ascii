@@ -307,10 +307,11 @@ class TableToAscii:
                     break
                 merged_width += self.__column_widths[other_col_index] + len(column_separator)
             cell = str(cell)
-            widest_line_width = self.__widest_line(cell)
-            max_content_width = merged_width - self.__cell_padding * 2
-            if widest_line_width > max_content_width:
-                cell = textwrap.fill(cell, max_content_width)
+            # if the text is too wide, wrap it
+            max_text_width = merged_width - self.__cell_padding * 2
+            if self.__widest_line(cell) > max_text_width:
+                cell = textwrap.fill(cell, max_text_width)
+            # add the wrapped cell to the row
             wrapped_row.append(cell)
         return wrapped_row
 
