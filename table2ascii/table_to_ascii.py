@@ -130,6 +130,11 @@ class TableToAscii:
 
         return list(alignments)
 
+    def __widest_line(self, value: SupportsStr) -> int:
+        """Returns the width of the longest line in a multi-line string"""
+        text = str(value)
+        return max(self.__str_width(line) for line in text.splitlines()) if len(text) else 0
+
     def __auto_column_widths(self) -> list[int]:
         """Get the minimum number of characters needed for the values in each column in the table
         with 1 space of padding on each side.
@@ -138,18 +143,13 @@ class TableToAscii:
             The minimum number of characters needed for each column
         """
 
-        def widest_line(value: SupportsStr) -> int:
-            """Returns the width of the longest line in a multi-line string"""
-            text = str(value)
-            return max(self.__str_width(line) for line in text.splitlines()) if len(text) else 0
-
         def get_column_width(row: Sequence[SupportsStr], column: int) -> int:
             """Get the width of a cell in a column"""
             value = row[column]
             next_value = row[column + 1] if column < self.__columns - 1 else None
             if value is Merge.LEFT or next_value is Merge.LEFT:
                 return 0
-            return widest_line(value)
+            return self.__widest_line(value)
 
         column_widths = []
         # get the width necessary for each column
@@ -306,7 +306,12 @@ class TableToAscii:
                 if row[other_col_index] is not Merge.LEFT:
                     break
                 merged_width += self.__column_widths[other_col_index] + len(column_separator)
-            cell = textwrap.fill(str(cell), merged_width - self.__cell_padding * 2)
+            cell = str(cell)
+            # if the text is too wide, wrap it
+            inner_cell_width = merged_width - self.__cell_padding * 2
+            if self.__widest_line(cell) > inner_cell_width:
+                cell = textwrap.fill(cell, inner_cell_width)
+            # add the wrapped cell to the row
             wrapped_row.append(cell)
         return wrapped_row
 
