@@ -305,3 +305,22 @@ def test_east_asian_wide_characters_and_zero_width_no_wcwidth():
         "╚════╩═══════════════╝"
     )
     assert text == expected
+
+
+def test_multiline_cells_with_wrappable_lines():
+    text = t2a(
+        header=["Test"],
+        body=[["Line One...\nSecond Line...\nLineNumThree\nLineFour\nFive FinalLine"]],
+    )
+    expected = (
+        "╔════════════════╗\n"
+        "║      Test      ║\n"
+        "╟────────────────╢\n"
+        "║  Line One...   ║\n"
+        "║ Second Line... ║\n"
+        "║  LineNumThree  ║\n"
+        "║    LineFour    ║\n"
+        "║ Five FinalLine ║\n"
+        "╚════════════════╝"
+    )
+    assert text == expected
