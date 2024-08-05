@@ -1,6 +1,7 @@
 """
 table2ascii - Library for converting 2D Python lists to fancy ASCII/Unicode tables
 """
+
 import sys
 from typing import TYPE_CHECKING
 
