@@ -46,12 +46,17 @@ dependencies = [
 [project.optional-dependencies]
 docs = [
     "enum-tools",
-    "sphinx",
+    "sphinx>=4.0.0,<5",
     "sphinx-autobuild",
     "sphinx-toolbox",
     "sphinxcontrib_trio",
     "sphinxext-opengraph",
     "sphinx-book-theme==0.3.3",
+    "sphinxcontrib-applehelp==1.0.4",
+    "sphinxcontrib-devhelp==1.0.2",
+    "sphinxcontrib-htmlhelp==2.0.1",
+    "sphinxcontrib-qthelp==1.0.3",
+    "sphinxcontrib-serializinghtml==1.1.5",
 ]
 dev = [
     "mypy>=0.982,<2",
