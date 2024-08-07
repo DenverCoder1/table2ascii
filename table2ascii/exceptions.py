@@ -40,7 +40,7 @@ class FooterColumnCountMismatchError(ColumnCountMismatchError):
     This class is a subclass of :class:`ColumnCountMismatchError`.
 
     Attributes:
-        footer (:class:`Sequence <collections.abc.Sequence>`\ [:class:`SupportsStr`]):
+        footer (:class:`Sequence <collections.abc.Sequence>` [:class:`SupportsStr`]):
             The footer that caused the error
         expected_columns (:class:`int`): The number of columns that were expected
     """
@@ -64,10 +64,10 @@ class BodyColumnCountMismatchError(ColumnCountMismatchError):
     This class is a subclass of :class:`ColumnCountMismatchError`.
 
     Attributes:
-        body (:class:`Sequence <collections.abc.Sequence>`\ [\ :class:`Sequence <collections.abc.Sequence>`\ [:class:`SupportsStr`]]):
+        body (:class:`Sequence <collections.abc.Sequence>` [ :class:`Sequence <collections.abc.Sequence>` [:class:`SupportsStr`]]):
             The body that caused the error
         expected_columns (:class:`int`): The number of columns that were expected
-        first_invalid_row (:class:`Sequence <collections.abc.Sequence>`\ [:class:`SupportsStr`]):
+        first_invalid_row (:class:`Sequence <collections.abc.Sequence>` [:class:`SupportsStr`]):
             The first row with an invalid column count
     """
 
@@ -93,7 +93,7 @@ class AlignmentCountMismatchError(ColumnCountMismatchError):
     This class is a subclass of :class:`ColumnCountMismatchError`.
 
     Attributes:
-        alignments (:class:`Sequence <collections.abc.Sequence>`\ [:class:`Alignment`]):
+        alignments (:class:`Sequence <collections.abc.Sequence>` [:class:`Alignment`]):
             The alignments that caused the error
         expected_columns (:class:`int`): The number of columns that were expected
     """
@@ -117,7 +117,7 @@ class ColumnWidthsCountMismatchError(ColumnCountMismatchError):
     This class is a subclass of :class:`ColumnCountMismatchError`.
 
     Attributes:
-        column_widths (:class:`Sequence <collections.abc.Sequence>`\ [:data:`Optional <typing.Optional>`\ [:class:`int`]]):
+        column_widths (:class:`Sequence <collections.abc.Sequence>` [:data:`Optional <typing.Optional>` [:class:`int`]]):
             The column widths that caused the error
         expected_columns (:class:`int`): The number of columns that were expected
     """
