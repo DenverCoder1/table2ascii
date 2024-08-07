@@ -52,7 +52,7 @@ docs = [
     "sphinxcontrib_trio",
     "sphinxext-opengraph",
     "sphinx-book-theme==0.3.3",
-    "sphinxcontrib-applehelp==1.0.4",
+    "sphinxcontrib-applehelp==2.0.0",
     "sphinxcontrib-devhelp==1.0.2",
     "sphinxcontrib-htmlhelp==2.0.1",
     "sphinxcontrib-qthelp==1.0.3",
