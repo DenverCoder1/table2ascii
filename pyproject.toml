@@ -60,7 +60,7 @@ docs = [
 ]
 dev = [
     "mypy>=0.982,<2",
-    "pre-commit>=2.0.0,<4",
+    "pre-commit>=2.0.0,<5",
     "pyright>=1.0.0,<2",
     "pytest>=6.0.0,<9",
     "slotscheck>=0.1.0,<1",
