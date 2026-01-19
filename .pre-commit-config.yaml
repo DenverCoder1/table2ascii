@@ -5,21 +5,21 @@ ci:
     style: auto fixes from pre-commit hooks
 
 repos:
-  - repo: https://github.com/psf/black
-    rev: 24.8.0
+  - repo: https://github.com/psf/black-pre-commit-mirror
+    rev: 26.1.0
     hooks:
       - id: black
         name: Running black in all files.
 
   - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
+    rev: 7.0.0
     hooks:
       - id: isort
         args: ["--profile", "black", "--extend-skip", "table2ascii"]
         name: Running isort in all files.
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v6.0.0
     hooks:
       - id: check-ast
         name: Check if python files are valid syntax for the ast parser
