@@ -288,9 +288,9 @@ def test_east_asian_wide_characters_and_zero_width_wcwidth():
 
 def test_terminal_sequences_width_wcwidth():
     text = t2a(
-        header=['\x1b[38;2;255;0;0mX', "Foo", None],
+        header=["\x1b[38;2;255;0;0mX", "Foo", None],
         body=[[1, "Foo", None]],
-        footer=['\x1b]8;;https://example.com\x07X\x1b]8;;\x07', "Foo", None],
+        footer=["\x1b]8;;https://example.com\x07X\x1b]8;;\x07", "Foo", None],
         first_col_heading=True,
     )
     expected = (
