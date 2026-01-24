@@ -4,7 +4,7 @@ import textwrap
 from math import ceil, floor
 from collections.abc import Sequence
 
-from wcwidth import wcswidth
+from wcwidth import width
 
 from .alignment import Alignment
 from .annotations import SupportsStr
@@ -609,7 +609,8 @@ class TableToAscii:
         Returns the width of the string in characters for the purposes of monospace
         formatting. This is usually the same as the length of the string, but can be
         different for double-width characters (East Asian Wide and East Asian Fullwidth)
-        or zero-width characters (combining characters, zero-width space, etc.)
+        or zero-width characters (combining characters, zero-width space, etc.),
+        some kinds of emoji sequences, and terminal attributes (color, etc).
 
         Args:
             text: The text to measure
@@ -617,9 +618,7 @@ class TableToAscii:
         Returns:
             The width of the string in characters
         """
-        width = wcswidth(text) if self.__use_wcwidth else -1
-        # if use_wcwidth is False or wcswidth fails, fall back to len
-        return width if width >= 0 else len(text)
+        return width(text) if self.__use_wcwidth else len(text)
 
     @staticmethod
     def __is_number(text: str) -> bool:
@@ -721,10 +720,11 @@ def table2ascii(
             Defaults to ``1``.
         style: Table style to use for styling (preset styles can be imported).
             Defaults to :ref:`PresetStyle.double_thin_compact`.
-        use_wcwidth: Whether to use :func:`wcwidth.wcswidth` to determine the width of each cell instead of
-            :func:`len`. The :func:`~wcwidth.wcswidth` function takes into account double-width characters
+        use_wcwidth: Whether to use :func:`wcwidth.swidth` to determine the width of each cell instead of
+            :func:`len`. The :func:`~wcwidth.width` function takes into account double-width characters
             (East Asian Wide and East Asian Fullwidth) and zero-width characters (combining characters,
-            zero-width space, etc.), whereas :func:`len` determines the width solely based on the number of
+            zero-width space, etc.), emoji sequences, and terminal control codes and escape
+            sequences, whereas :func:`len` determines the width solely based on the number of
             characters in the string. Defaults to :py:obj:`True`.
 
             .. versionadded:: 1.0.0
