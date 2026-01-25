@@ -720,7 +720,7 @@ def table2ascii(
             Defaults to ``1``.
         style: Table style to use for styling (preset styles can be imported).
             Defaults to :ref:`PresetStyle.double_thin_compact`.
-        use_wcwidth: Whether to use :func:`wcwidth.swidth` to determine the width of each cell instead of
+        use_wcwidth: Whether to use :func:`wcwidth.width` to determine the width of each cell instead of
             :func:`len`. The :func:`~wcwidth.width` function takes into account double-width characters
             (East Asian Wide and East Asian Fullwidth) and zero-width characters (combining characters,
             zero-width space, etc.), emoji sequences, and terminal control codes and escape
