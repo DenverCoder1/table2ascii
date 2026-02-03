@@ -727,6 +727,10 @@ def table2ascii(
             zero-width space, etc.), whereas :func:`len` determines the width solely based on the number of
             characters in the string. Defaults to :py:obj:`True`.
 
+            .. versionchanged:: 1.2.0
+                ``use_wcwidth`` now uses the :func:`wcwidth.width` function from the ``wcwidth`` package
+                instead of :func:`wcwidth.wcswidth` to better handle terminal control codes, escape sequences,
+                certain emoji sequences, and other strings with mixed-width characters.
             .. versionadded:: 1.0.0
 
     Returns:
