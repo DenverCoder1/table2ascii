@@ -286,6 +286,25 @@ def test_east_asian_wide_characters_and_zero_width_wcwidth():
     assert text2 == expected
 
 
+def test_terminal_sequences_width_wcwidth():
+    text = t2a(
+        header=["\x1b[38;2;255;0;0mX", "Foo", None],
+        body=[[1, "Foo", None]],
+        footer=["\x1b]8;;https://example.com\x07X\x1b]8;;\x07", "Foo", None],
+        first_col_heading=True,
+    )
+    expected = (
+        "╔═══╦════════════╗\n"
+        "║ \x1b[38;2;255;0;0mX ║ Foo   None ║\n"
+        "╟───╫────────────╢\n"
+        "║ 1 ║ Foo   None ║\n"
+        "╟───╫────────────╢\n"
+        "║ \x1b]8;;https://example.com\x07X\x1b]8;;\x07 ║ Foo   None ║\n"
+        "╚═══╩════════════╝"
+    )
+    assert text == expected
+
+
 def test_east_asian_wide_characters_and_zero_width_no_wcwidth():
     # using len() to count the number of characters
     text = t2a(

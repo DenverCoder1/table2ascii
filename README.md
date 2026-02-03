@@ -14,7 +14,7 @@ Documentation and examples are available at [table2ascii.rtfd.io](https://table2
 
 `pip install -U table2ascii`
 
-**Requirements:** `Python 3.7+`
+**Requirements:** `Python 3.8+`
 
 ## 🧑‍💻 Usage
 
@@ -236,6 +236,7 @@ See the [API Reference](https://table2ascii.readthedocs.io/en/latest/api.html) f
 
 -   Tables display nicely whenever monospace fonts are fully supported
 -   Tables make terminal outputs look more professional
+-   Tables may contain contain terminal sequences, like colors
 
 ![image](https://user-images.githubusercontent.com/20955511/207134452-a1eb1b9f-e63b-459b-8feb-fc6c234e902e.png)
 
