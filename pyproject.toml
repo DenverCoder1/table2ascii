@@ -66,6 +66,7 @@ dev = [
     "slotscheck>=0.1.0,<1",
     "taskipy>=1.0.0,<2",
     "tox>=3.0.0,<5",
+    "setuptools>=42; python_version>='3.12'",
 ]
 
 [project.urls]
