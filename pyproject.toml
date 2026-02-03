@@ -9,7 +9,7 @@ version = "1.2.0"
 authors = [{name = "Jonah Lawrence", email = "jonah@freshidea.com"}]
 description = "Convert 2D Python lists into Unicode/ASCII tables"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 license = {file = "LICENSE"}
 keywords = ["table", "ascii", "unicode", "formatter"]
 classifiers = [
@@ -25,7 +25,6 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -38,9 +37,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "typing-extensions>=3.7.4; python_version<'3.8'",
-    "importlib-metadata<5,>=1; python_version<'3.8'",
-    "wcwidth<1",
+    "wcwidth>=0.5.3,<1",
 ]
 
 [project.optional-dependencies]
@@ -76,7 +73,7 @@ repository = "https://github.com/DenverCoder1/table2ascii"
 
 [tool.black]
 line-length = 100
-target-version = ["py37", "py38", "py39", "py310", "py311"]
+target-version = ["py38", "py39", "py310", "py311"]
 
 
 [tool.isort]
@@ -111,7 +108,7 @@ include = [
     "tests",
     "*.py",
 ]
-pythonVersion = "3.7"
+pythonVersion = "3.8"
 
 # https://github.com/microsoft/pyright/blob/main/docs/configuration.md
 reportInvalidStringEscapeSequence = false
