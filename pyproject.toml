@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=42"]
+requires = ["setuptools>=66.1.0"]
 build-backend = "setuptools.build_meta"
 
 
@@ -66,7 +66,7 @@ dev = [
     "slotscheck>=0.1.0,<1",
     "taskipy>=1.0.0,<2",
     "tox>=3.0.0,<5",
-    "setuptools>=42; python_version>='3.12'",
+    "setuptools>=66.1.0; python_version>='3.12'",
 ]
 
 [project.urls]
@@ -77,7 +77,7 @@ repository = "https://github.com/DenverCoder1/table2ascii"
 
 [tool.black]
 line-length = 100
-target-version = ["py38", "py39", "py310", "py311", "py312", "py313", "py314"]
+target-version = ["py38", "py39", "py310", "py311", "py312", "py313"]
 
 
 [tool.isort]
