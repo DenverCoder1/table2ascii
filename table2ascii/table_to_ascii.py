@@ -681,20 +681,20 @@ def table2ascii(
     """Convert a 2D Python table to ASCII text
 
     Args:
-        header (:data:`Optional <typing.Optional>`\ [:class:`Sequence <collections.abc.Sequence>`\ [:class:`SupportsStr`]]):
+        header (:data:`Optional <typing.Optional>` [:class:`Sequence <collections.abc.Sequence>` [:class:`SupportsStr`]]):
             List of column values in the table's header row. All values should be :class:`str`
             or support :class:`str` conversion. If not specified, the table will not have a header row.
-        body (:data:`Optional <typing.Optional>`\ [:class:`Sequence <collections.abc.Sequence>`\ [:class:`Sequence <collections.abc.Sequence>`\ [:class:`SupportsStr`]]]):
+        body (:data:`Optional <typing.Optional>` [:class:`Sequence <collections.abc.Sequence>` [:class:`Sequence <collections.abc.Sequence>` [:class:`SupportsStr`]]]):
             2-dimensional list of values in the table's body. All values should be :class:`str`
             or support :class:`str` conversion. If not specified, the table will not have a body.
-        footer (:data:`Optional <typing.Optional>`\ [:class:`Sequence <collections.abc.Sequence>`\ [:class:`SupportsStr`]]):
+        footer (:data:`Optional <typing.Optional>` [:class:`Sequence <collections.abc.Sequence>` [:class:`SupportsStr`]]):
             List of column values in the table's footer row. All values should be :class:`str`
             or support :class:`str` conversion. If not specified, the table will not have a footer row.
         first_col_heading: Whether to add a header column separator after the first column.
             Defaults to :py:obj:`False`.
         last_col_heading: Whether to add a header column separator before the last column.
             Defaults to :py:obj:`False`.
-        column_widths (:data:`Optional <typing.Optional>`\ [:class:`Sequence <collections.abc.Sequence>`\ [:data:`Optional <typing.Optional>`\ [:class:`int`]]]):
+        column_widths (:data:`Optional <typing.Optional>` [:class:`Sequence <collections.abc.Sequence>` [:data:`Optional <typing.Optional>` [:class:`int`]]]):
             List of widths in characters for each column. Any value of :py:obj:`None`
             indicates that the column width should be determined automatically. If :py:obj:`None`
             is passed instead of a :class:`~collections.abc.Sequence`, all columns will be automatically

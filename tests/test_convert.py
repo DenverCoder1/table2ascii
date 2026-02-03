@@ -299,7 +299,7 @@ def test_terminal_sequences_width_wcwidth():
         "╟───╫────────────╢\n"
         "║ 1 ║ Foo   None ║\n"
         "╟───╫────────────╢\n"
-        "║ '\x1b]8;;https://example.com\x07X\x1b]8;;\x07 ║ Foo   None ║\n"
+        "║ \x1b]8;;https://example.com\x07X\x1b]8;;\x07 ║ Foo   None ║\n"
         "╚═══╩════════════╝"
     )
     assert text == expected
