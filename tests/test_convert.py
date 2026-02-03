@@ -302,6 +302,7 @@ def test_terminal_sequences_width_wcwidth():
         "║ '\x1b]8;;https://example.com\x07X\x1b]8;;\x07 ║ Foo   None ║\n"
         "╚═══╩════════════╝"
     )
+    assert text == expected
 
 
 def test_east_asian_wide_characters_and_zero_width_no_wcwidth():
