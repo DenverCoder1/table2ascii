@@ -14,7 +14,7 @@ Installation
 
 ``pip install -U table2ascii``
 
-**Requirements:** ``Python 3.7+``
+**Requirements:** ``Python 3.8+``
 
 Contents
 --------

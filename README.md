@@ -14,7 +14,7 @@ Documentation and examples are available at [table2ascii.rtfd.io](https://table2
 
 `pip install -U table2ascii`
 
-**Requirements:** `Python 3.7+`
+**Requirements:** `Python 3.8+`
 
 ## 🧑‍💻 Usage
 

@@ -25,7 +25,6 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -38,8 +37,6 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "typing-extensions>=3.7.4; python_version<'3.8'",
-    "importlib-metadata<5,>=1; python_version<'3.8'",
     "wcwidth>=0.5.3,<1",
 ]
 
@@ -76,7 +73,7 @@ repository = "https://github.com/DenverCoder1/table2ascii"
 
 [tool.black]
 line-length = 100
-target-version = ["py37", "py38", "py39", "py310", "py311"]
+target-version = ["py38", "py39", "py310", "py311"]
 
 
 [tool.isort]
