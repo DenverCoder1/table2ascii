@@ -29,6 +29,9 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Multimedia :: Graphics :: Presentation",
     "Topic :: Utilities",
     "Topic :: Text Processing :: General",
@@ -73,7 +76,7 @@ repository = "https://github.com/DenverCoder1/table2ascii"
 
 [tool.black]
 line-length = 100
-target-version = ["py38", "py39", "py310", "py311"]
+target-version = ["py38", "py39", "py310", "py311", "py312", "py313", "py314"]
 
 
 [tool.isort]
@@ -129,7 +132,7 @@ reportUnnecessaryTypeIgnoreComment = true
 
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.14"
 namespace_packages = true
 
 
