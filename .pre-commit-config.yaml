@@ -12,7 +12,7 @@ repos:
         name: Running black in all files.
 
   - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
+    rev: 10.0.0b1
     hooks:
       - id: isort
         args: ["--profile", "black", "--extend-skip", "table2ascii"]
