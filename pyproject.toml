@@ -46,7 +46,7 @@ dependencies = [
 [project.optional-dependencies]
 docs = [
     "enum-tools",
-    "sphinx>=4.0.0,<5",
+    "sphinx>=4.0.0,<10",
     "sphinx-autobuild",
     "sphinx-toolbox",
     "sphinxcontrib_trio",
